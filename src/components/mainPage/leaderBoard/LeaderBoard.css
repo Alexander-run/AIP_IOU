@@ -1,0 +1,10 @@
+ol{
+    margin: 10px 20px;
+    text-align: center;
+}
+ol li .leftspan{
+    float: left;
+}
+ol li .rightspan{
+    float: right;
+}
