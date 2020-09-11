@@ -6,3 +6,8 @@
     4. home page Ajax ... ...
 
     // React-redux global state mornitoring for login status authentication
+
+
+    //layout change
+    index page  refer to twiter index page, just include signup and login functions
+    

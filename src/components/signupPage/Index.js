@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import './SignupPage.css';
 
 
 class SignupPage extends React.Component{

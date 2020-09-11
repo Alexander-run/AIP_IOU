@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import './LoginPage.css';
 import { Button, message } from 'antd';
 
 
@@ -57,7 +56,6 @@ class LoginPage extends React.Component{
                     value={this.state.password}
                     onChange={this.changePassword.bind(this)}/><br></br><br></br>
                 <Button type='primary' onClick={this.checkLogin.bind(this)}>Login</Button>
-                <Button type='primary'><Link to='/signupPage'>Sign Up</Link></Button>
             </Fragment>
         );
     }

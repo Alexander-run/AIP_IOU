@@ -1,0 +1,73 @@
+.start{
+    width: 100%;
+    height: 100%;  
+}
+
+.start-left{
+    background-image: url(../../assert/utslogo.png);
+    height: 100vh;
+    width: 50%;
+    padding-left: 10%;
+    position: relative;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.start-left ol{
+    list-style: none;
+    font-size: 20pt;
+}
+.start-left li{
+    margin-bottom: 5%;
+}
+
+.start-right-content{
+    height: 85vh;
+    width: 50%;
+    position: relative;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    text-align: center;
+    padding-top: 20vh;
+}
+
+.start-right-content Button {
+    align-self: center;
+    font-size: 14pt;
+    width: 40vh;
+    height: 5vh;
+    margin-bottom: 10px;
+}
+
+.start-right-header{
+    height: 15vh;
+    padding-top: 3vh;
+}
+
+.start-right-header table{
+    margin: auto;
+}
+
+.start-right-header td div{
+    width: 90%;
+}
+
+.start-right-header input{
+    border:none;
+}
+
+.start-right-header input:focus{
+    outline:none;
+}
+
+.start-right-header-inputborder{
+    border-bottom: solid 1px rgb(30, 144, 182);
+}
+
+.loginButton{
+    background: cornsilk;
+}
+

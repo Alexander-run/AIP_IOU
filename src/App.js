@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import MainPage from './components/mainPage/MainPage';
+import StartPage from './components/startPage/Index';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import SignupPage from './components/signupPage/SignupPage';
-import logo from './components/utslogo.png';
+import SignupPage from './components/signupPage/Index';
+import logo from './assert/utslogo.png';
 import { Button } from 'antd';
-import Home from './components/Home/Home';
+import Home from './components/Home/Index';
 import 'antd/dist/antd.css';
+import LoginPage from './components/loginPage/Index';
 
 
 class App extends React.Component{
@@ -29,53 +30,18 @@ class App extends React.Component{
   }
 
   render(){
-    if(this.state.login){
       return(
-        <BrowserRouter>
-          <div className='header'>
-              <Link to='/'>
-                  <img 
-                      class='main-header-logo' 
-                      src={logo}>                            
-                  </img>
-              </Link>
-              <Button 
-                type='primary'
-                className='signout'
-                onClick={this.handleSignOut.bind(this)}> Sign out
-              </Button>
-          </div>
+        <BrowserRouter>          
           <div className='body'>          
               <Switch>      
                 <Route path='/home/:id' component={Home}/>      
                 <Route path='/signupPage' component={SignupPage}/>
-                <Route path='/' component={MainPage}/>
+                <Route path='/login' component={LoginPage}/>
+                <Route path='/' component={StartPage}/>
               </Switch>           
           </div> 
         </BrowserRouter>    
-      ) 
-    }
-    else{
-        return(
-          <BrowserRouter>
-          <div className='header'>
-              <Link to='/'>
-                  <img 
-                      class='main-header-logo' 
-                      src={logo}>                            
-                  </img>
-              </Link>            
-          </div>
-          <div className='body'>          
-              <Switch>      
-                <Route path='/home/:id' component={Home}/>      
-                <Route path='/signupPage' component={SignupPage}/>
-                <Route path='/' component={MainPage}/>
-              </Switch>           
-          </div> 
-        </BrowserRouter>
-        ) 
-    }   
+      )     
   }
 }
 
