@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import "./index.css";
 import { Button, message } from 'antd';
 
 
@@ -10,22 +11,28 @@ class LoginPage extends React.Component{
         this.state={
             login:false,
             userName: '',
-            password:''
+            password:'',
+            hintMessage:''
         }
     }
 
     changeUserName(e){
         this.setState({
-            userName:e.target.value
+            userName:e.target.value,
+            hintMessage:''
         });
     }
     changePassword(e){
         this.setState({
-            password:e.target.value
+            password:e.target.value,
+            hintMessage:''
         })
     }
     
     checkLogin(){
+        this.setState({
+            hintMessage:"The username or password you entered does not match any account, please try agian or sign up for an account"
+        });
         const login=false;
         // Ajax request for user account validation
         // API needed for validation
@@ -43,20 +50,28 @@ class LoginPage extends React.Component{
 
     render(){
         return(
-            <Fragment>                
-                <input 
-                    type='text' 
-                    placeholder="Enter User name" 
-                    autoFocus='autofocus'
-                    value={this.state.userName}
-                    onChange={this.changeUserName.bind(this)}/><br></br><br></br>
-                <input 
-                    type='password' 
-                    placeholder="Password"
-                    value={this.state.password}
-                    onChange={this.changePassword.bind(this)}/><br></br><br></br>
+            <div class="loginPage">
+                <div className="loginPage-inputarea">
+                    <input 
+                        type='text' 
+                        placeholder="Enter User name" 
+                        autoFocus='autofocus'
+                        value={this.state.userName}
+                        onChange={this.changeUserName.bind(this)}/>
+                </div>  
+                <p>{this.state.hintMessage}</p> 
+                <div className="loginPage-inputarea">
+                    <input 
+                        type='password' 
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={this.changePassword.bind(this)}/>
+                </div>                        
                 <Button type='primary' onClick={this.checkLogin.bind(this)}>Login</Button>
-            </Fragment>
+                <div className="loginPage-fogetPassword"> 
+                    Forgotten password?
+                </div>
+            </div>
         );
     }
 

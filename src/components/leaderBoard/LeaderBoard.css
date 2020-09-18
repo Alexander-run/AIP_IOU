@@ -1,10 +1,18 @@
-ol{
-    margin: 10px 20px;
+.leaderBoard{
     text-align: center;
 }
-ol li .leftspan{
-    float: left;
+.leaderBoard-item{
+    height: 160px;
+    line-height: 60px;
+    color: #fff;
+    margin: auto;
+    background: #364d79;
 }
-ol li .rightspan{
-    float: right;
+.leaderBoard-item div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.leaderBoard-item div span{
+    margin: 0 50px;
 }

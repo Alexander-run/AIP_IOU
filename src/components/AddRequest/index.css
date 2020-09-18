@@ -1,0 +1,46 @@
+.addRequest{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.addRequest-title input{
+    width: 350px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+}
+.addRequest-description textarea{
+    width: 350px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+}
+.addRequest-title, .addRequest-description, .addRequest-rewardsOption, .addRequest-rewards{
+    width: 350px;
+}
+.addRequest ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addRequest-rewardsOption li:hover{
+    cursor: pointer;
+}
+.addRequest button{
+    height: 50px;
+    width: 300px;
+    font-size: 16pt;
+    border-radius: 20px;
+}
+.addRequest-rewards div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addRequest-rewards-clear:hover{
+    cursor: pointer;
+}

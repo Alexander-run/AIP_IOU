@@ -32,7 +32,7 @@ class App extends React.Component{
   render(){
       return(
         <BrowserRouter>          
-          <div className='body'>          
+          <div>          
               <Switch>      
                 <Route path='/home/:id' component={Home}/>      
                 <Route path='/signupPage' component={SignupPage}/>

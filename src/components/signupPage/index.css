@@ -1,0 +1,74 @@
+            /* <div className='signup'>
+                <div className="signup-fullname">
+                    <div className="signup-firstname">
+                        <input type="text" placeholder="First name"></input>
+                    </div>
+                    <div className="signup-surname">
+                        <input type="text" placeholder="Surname"></input>
+                    </div>
+                </div> 
+                <div className="signup-emailaddress">
+                    <input type="text" placeholder="Email Address"></input>
+                </div> 
+                <div className="signup-username">
+                    <input type="text" placeholder="User name"></input>
+                </div>
+                <div className="signup-password">
+                    <input type="text" placeholder="Password"></input>
+                </div> 
+                <div className="signup-surname">
+                
+                </div>     
+            </div>   */
+.signup{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+            
+.signup-emailaddress, .signup-username, .signup-password{
+    margin: 1vh;
+    width: 400px;
+    height: 50px;
+    border: 1px solid #DDDFE2;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+.signup-fullname div{
+    margin: 1vh;
+    width: 190px;
+    height: 50px;
+    border: 1px solid #DDDFE2;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+.signup-fullname{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start ;
+}
+.signup input{
+    font-size: 16pt;
+    margin: 5px;
+    border: none;
+    outline-style: none;
+    width: 350px;
+}
+.signup-fullname div input{
+    width: 100px;
+}
+.signup button{
+    width: 400px;
+    height: 50px;
+    border-radius: 20px;
+    font-size: 16pt;
+    background-color: #00A400;
+    color: white;
+    outline-style: none;
+    border: none;
+}
+.signup button:hover{
+    cursor: pointer;
+    background-color: #01C80A;
+}

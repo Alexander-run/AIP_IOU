@@ -1,0 +1,40 @@
+.loginPage{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.loginPage button{
+    height: 50px;
+    width: 400px;
+    font-size: 16pt;
+    border-radius: 20px;
+}
+.loginPage-fogetPassword{
+    margin-top: 10px;
+    text-align: center;
+    border: none;
+    color: royalblue;
+}
+.loginPage-fogetPassword:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.loginPage-inputarea{
+    margin: 1vh;
+    width: 400px;
+    height: 50px;
+    border: 1px solid #DDDFE2;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+.loginPage div input{
+    font-size: 16pt;
+    margin: 5px;
+    border-style: none;
+    outline-style: none;
+}
+.loginPage p{
+    width: 400px;
+    color: red;
+}

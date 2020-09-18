@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import './LeaderBoard.css';
-import {Progress} from 'antd';
+import {Progress, Carousel } from 'antd';
 
 class LeaderBoard extends React.Component{
 
@@ -42,25 +42,25 @@ class LeaderBoard extends React.Component{
 
     render(){
         return(
-            <Fragment> 
+            <div className="leaderBoard"> 
                 <h2>Today's Leader Board</h2>
-                <ol>
-                    {this.state.leaderBoardItems.map((item) => {
+                <Carousel autoplay>
+                    {this.state.leaderBoardItems.map((item,index) => {
                         return (
-                            <li>
-                                <Progress
-                                    percent={100*item.profit/this.state.leaderBoardItems[0].profit} 
-                                    showInfo={false} 
-                                    // set trailColor == {mainpage.content} background color
-                                    strokeColor='#E27D60'
-                                    trailColor=''
-                                />
-                                <span className='leftspan'>{item.name}</span><span className='rightspan'>{item.profit}</span>
-                            </li>
+                            <div className="leaderBoard-item">
+                                <div className="leaderBoard-item-header">
+                                    <span>No.{index+1}</span>
+                                    <span>{item.name}</span>
+                                </div>
+                                <div className="leaderBoard-item-body">
+                                    <span>Profit:{item.profit}</span>
+                                    <span>Debt:{item.debt}</span>
+                                </div>
+                            </div>
                         )
                     })}
-                </ol>
-            </Fragment>
+                </Carousel>,
+            </div>
         );
     }
 }

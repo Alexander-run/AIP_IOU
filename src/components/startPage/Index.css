@@ -1,73 +1,57 @@
-.start{
-    width: 100%;
-    height: 100%;  
+.start-header{
+    border-bottom: 1px solid #E5E5E5;
 }
-
-.start-left{
-    background-image: url(../../assert/utslogo.png);
-    height: 100vh;
-    width: 50%;
-    padding-left: 10%;
-    position: relative;
-    float: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.start-body{
+    padding-top: 1vh;
+    overflow: hidden;
 }
-.start-left ol{
-    list-style: none;
-    font-size: 20pt;
-}
-.start-left li{
-    margin-bottom: 5%;
-}
-
-.start-right-content{
-    height: 85vh;
-    width: 50%;
-    position: relative;
-    float: right;
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    text-align: center;
-    padding-top: 20vh;
-}
-
-.start-right-content Button {
-    align-self: center;
-    font-size: 14pt;
-    width: 40vh;
-    height: 5vh;
-    margin-bottom: 10px;
-}
-
-.start-right-header{
-    height: 15vh;
-    padding-top: 3vh;
-}
-
-.start-right-header table{
+.start-header, .start-body{
+    width: 100vh;
     margin: auto;
 }
 
-.start-right-header td div{
-    width: 90%;
+.start-header, .start-header-navigation, .start-header-left{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fff;
 }
-
-.start-right-header input{
-    border:none;
+.start-header-navigation button{
+    margin: 1vh;
+    border: 0px;
+    transition: 0.35s;
+    outline: none;
 }
-
-.start-right-header input:focus{
-    outline:none;
+.start-header-navigation button:hover{
+    margin-top: 2px;
+    border-bottom: 2px solid #008FB4;
+    cursor: pointer;
+    color: #008FB4;
 }
+.start-header img{
+    height: 7vh;
 
-.start-right-header-inputborder{
-    border-bottom: solid 1px rgb(30, 144, 182);
 }
-
-.loginButton{
-    background: cornsilk;
+.start-header-addRequestButton{
+    margin: auto 2vh;
+    padding: 0 2vh;
+    line-height: 3vh;
+    height:3vh;
+    background-color:#E0446D;
+    border-radius:3vh;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, .7);
 }
-
+.start-header-addRequestButton:hover{
+    cursor: pointer;
+    text-shadow: 1px -1px 0 rgba(0, 0, 0, .7);
+}
+.start-header-right{
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-right: 5vh;
+}
+.start-header-right button{
+    margin: 1vh;
+    border-radius: 15px;
+}
