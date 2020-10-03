@@ -27,9 +27,6 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.addRequest-rewardsOption li:hover{
-    cursor: pointer;
-}
 .addRequest button{
     height: 50px;
     width: 300px;
@@ -41,6 +38,24 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.addRequest-rewards-clear:hover{
+.addRequest-rewardsOption ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.addRequest-rewardsOption ul li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addRequest-rewardsOption-count{
+    margin: 0 5px;
+    border: 1px solid gray;
+    font-size: 14pt;
+}
+.addRequest-rewardsOption-countButton:hover{
     cursor: pointer;
+}
+.addRequest-rewardsOption-countButton{
+    border: 1px solid gray;
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import "./index.css";
 import { FaCoffee } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { GiChocolateBar } from 'react-icons/gi';
 
 
@@ -14,8 +14,11 @@ class AddRequest extends React.Component{
         this.state={
             title:'',
             description:'',
-            rewards: ["",""]
-        }
+            rewards: {
+                coffee:0,
+                chocolate:0
+            }
+        };
     }
 
     changeTitle(e){
@@ -29,23 +32,56 @@ class AddRequest extends React.Component{
         })
     }
 
-    handleAddCoffee(){
-        let rewards=this.state.rewards;
-        this.setState({
-            rewards:rewards.concat("coffee")
-        });
-    }
-    handleAddChocolate(){
-        let rewards=this.state.rewards;
-        this.setState({
-            rewards:rewards.concat("chocolate")
-        });
-    }
-
-    handleClearRewards(){
-        this.setState({
-            rewards:[]
-        });
+    onChangeRewards(ev,action,rewardType){
+        let newCount = 0;
+        if(action=="add"){
+            switch(rewardType){
+                case "coffee":
+                    newCount = this.state.rewards.coffee + 1;
+                    this.setState({
+                        rewards:{
+                            coffee:newCount,
+                            chocolate:this.state.rewards.chocolate
+                        }
+                    });
+                    break;
+                case "chocolate":
+                    newCount = this.state.rewards.chocolate + 1;
+                    this.setState({
+                        rewards:{
+                            coffee:this.state.rewards.coffee,
+                            chocolate:newCount
+                        }
+                    })
+                    break;
+            }
+        }
+        else{
+            switch(rewardType){
+                case "coffee":
+                    newCount = this.state.rewards.coffee - 1;
+                    if(newCount>=0){
+                        this.setState({
+                            rewards:{
+                                coffee:newCount,
+                                chocolate:this.state.rewards.chocolate
+                            }
+                        });
+                        break;
+                    }                  
+                case "chocolate":
+                    newCount = this.state.rewards.chocolate - 1;
+                    if(newCount>=0){
+                        this.setState({
+                            rewards:{
+                                coffee:this.state.rewards.coffee,
+                                chocolate:newCount
+                            }
+                        })
+                        break;
+                    }
+            }
+        }   
     }
 
     handlePost(){
@@ -72,22 +108,37 @@ class AddRequest extends React.Component{
                 <div className="addRequest-rewardsOption">
                     Please click the icon to add the corresponding rewards 
                     <ul>
-                        <li onClick={this.handleAddCoffee.bind(this)}><FaCoffee /> coffee</li>
-                        <li onClick={this.handleAddChocolate.bind(this)}><GiChocolateBar /> chocolate</li>
+                        <li>
+                            <span><FaCoffee /> coffee</span>
+                            <span>
+                                <span 
+                                    className="addRequest-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"minus","coffee")}}
+                                >-</span>
+                                <span className="addRequest-rewardsOption-count">{this.state.rewards.coffee}</span>
+                                <span 
+                                    className="addRequest-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"add","coffee")}}
+                                >+</span>
+                            </span>                            
+                        </li>
+                        <li>
+                            <span>
+                                <GiChocolateBar /> chocolate
+                            </span>
+                            <span>
+                                <span 
+                                    className="addRequest-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"minus","chocolate")}}
+                                >-</span>
+                                <span className="addRequest-rewardsOption-count">{this.state.rewards.chocolate}</span>
+                                <span 
+                                    className="addRequest-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"add","chocolate")}}
+                                >+</span>
+                            </span>
+                        </li>
                     </ul>        
-                </div>
-                <div className="addRequest-rewards">            
-                    <div>
-                        <span>Total rewards:</span><span className="addRequest-rewards-clear" onClick={this.handleClearRewards.bind(this)}><ImCross /></span>
-                    </div>
-                        {this.state.rewards.map(function(item){
-                            switch(item){
-                                case "coffee":
-                                    return(<span><FaCoffee /> </span>);
-                                case "chocolate":
-                                    return(<span><GiChocolateBar /> </span>);
-                            }
-                        })}
                 </div>
                 <Button type="primary" onClick={this.handlePost.bind(this)}>Post</Button>
             </div>

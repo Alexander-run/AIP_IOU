@@ -14,28 +14,65 @@ class AddRewards extends React.Component{
         this.state={
             title:'',
             description:'',
-            rewards: ["",""]
+            rewards: {
+                coffee:0,
+                chocolate:0
+            }
         }
     }
 
-    handleAddCoffee(){
-        let rewards=this.state.rewards;
-        this.setState({
-            rewards:rewards.concat("coffee")
-        });
-    }
-    handleAddChocolate(){
-        let rewards=this.state.rewards;
-        this.setState({
-            rewards:rewards.concat("chocolate")
-        });
+    onChangeRewards(ev,action,rewardType){
+        let newCount = 0;
+        if(action=="add"){
+            switch(rewardType){
+                case "coffee":
+                    newCount = this.state.rewards.coffee + 1;
+                    this.setState({
+                        rewards:{
+                            coffee:newCount,
+                            chocolate:this.state.rewards.chocolate
+                        }
+                    });
+                    break;
+                case "chocolate":
+                    newCount = this.state.rewards.chocolate + 1;
+                    this.setState({
+                        rewards:{
+                            coffee:this.state.rewards.coffee,
+                            chocolate:newCount
+                        }
+                    })
+                    break;
+            }
+        }
+        else{
+            switch(rewardType){
+                case "coffee":
+                    newCount = this.state.rewards.coffee - 1;
+                    if(newCount>=0){
+                        this.setState({
+                            rewards:{
+                                coffee:newCount,
+                                chocolate:this.state.rewards.chocolate
+                            }
+                        });
+                        break;
+                    }                  
+                case "chocolate":
+                    newCount = this.state.rewards.chocolate - 1;
+                    if(newCount>=0){
+                        this.setState({
+                            rewards:{
+                                coffee:this.state.rewards.coffee,
+                                chocolate:newCount
+                            }
+                        })
+                        break;
+                    }
+            }
+        }   
     }
 
-    handleClearRewards(){
-        this.setState({
-            rewards:[]
-        });
-    }
 
     handleAddRewards(){
 
@@ -47,22 +84,37 @@ class AddRewards extends React.Component{
                 <div className="addRewards-rewardsOption">
                     Please click the icon to add the corresponding rewards 
                     <ul>
-                        <li onClick={this.handleAddCoffee.bind(this)}><FaCoffee /> coffee</li>
-                        <li onClick={this.handleAddChocolate.bind(this)}><GiChocolateBar /> chocolate</li>
-                    </ul>        
-                </div>
-                <div className="addRewards-rewards">            
-                    <div>
-                        <span>Total added rewards:</span><span className="addRequest-rewards-clear" onClick={this.handleClearRewards.bind(this)}><ImCross /></span>
-                    </div>
-                        {this.state.rewards.map(function(item){
-                            switch(item){
-                                case "coffee":
-                                    return(<span><FaCoffee /> </span>);
-                                case "chocolate":
-                                    return(<span><GiChocolateBar /> </span>);
-                            }
-                        })}
+                        <li>
+                            <span><FaCoffee /> coffee</span>
+                            <span>
+                                <span 
+                                    className="addRewards-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"minus","coffee")}}
+                                >-</span>
+                                <span className="addRewards-rewardsOption-count">{this.state.rewards.coffee}</span>
+                                <span 
+                                    className="addRewards-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"add","coffee")}}
+                                >+</span>
+                            </span>                            
+                        </li>
+                        <li>
+                            <span>
+                                <GiChocolateBar /> chocolate
+                            </span>
+                            <span>
+                                <span 
+                                    className="addRewards-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"minus","chocolate")}}
+                                >-</span>
+                                <span className="addRewards-rewardsOption-count">{this.state.rewards.chocolate}</span>
+                                <span 
+                                    className="addRewards-rewardsOption-countButton"
+                                    onClick={(ev)=>{this.onChangeRewards(ev,"add","chocolate")}}
+                                >+</span>
+                            </span>
+                        </li>
+                    </ul>      
                 </div>
                 <Button type="primary" onClick={this.handleAddRewards.bind(this)}>Add</Button>
             </div>

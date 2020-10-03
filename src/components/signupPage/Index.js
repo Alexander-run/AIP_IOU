@@ -11,31 +11,31 @@ class SignupPage extends React.Component{
             surname:'',
             emailaddress:'',
             username:'',
-            password:null
+            password:''
         }
     }
 
-    changeFirstname(e){
+    onchangeFirstname(e){
         this.setState({
             firstname:e.target.value,
         })
     }
-    changeSurname(e){
+    onchangeSurname(e){
         this.setState({
             surname:e.target.value,
         })
     }
-    changeEmailaddress(e){
+    onchangeEmailaddress(e){
         this.setState({
             emailaddress:e.target.value,
         })
     }
-    changeUsername(e){
+    onchangeUsername(e){
         this.setState({
             username:e.target.value,
         })
     }
-    changePassword(e){
+    onchangePassword(e){
         this.setState({
             password:e.target.value,
         })
@@ -55,14 +55,14 @@ class SignupPage extends React.Component{
                             placeholder="First name"
                             autoFocus='autofocus'
                             value={this.state.firstname}
-                            onChange={this.changeFirstname.bind(this)}/>
+                            onChange={this.onchangeFirstname.bind(this)}/>
                     </div>
                     <div className="signup-surname">
                         <input 
                             type="text" 
                             placeholder="Surname"
                             value={this.state.surname}
-                            onChange={this.changeSurname.bind(this)}/>
+                            onChange={this.onchangeSurname.bind(this)}/>
                     </div>
                 </div> 
                 <div className="signup-emailaddress">
@@ -70,21 +70,21 @@ class SignupPage extends React.Component{
                         type="text" 
                         placeholder="Email Address"
                         value={this.state.emailaddress}
-                        onChange={this.changeEmailaddress.bind(this)}/>
+                        onChange={this.onchangeEmailaddress.bind(this)}/>
                 </div> 
                 <div className="signup-username">
                     <input 
                         type="text" 
                         placeholder="User name"
                         value={this.state.username}
-                        onChange={this.changeUsername.bind(this)}/>
+                        onChange={this.onchangeUsername.bind(this)}/>
                 </div>
                 <div className="signup-password">
                     <input 
                         type="password" 
                         placeholder="Password"
                         value={this.state.password}
-                        onChange={this.changePassword.bind(this)}/>
+                        onChange={this.onchangePassword.bind(this)}/>
                 </div>    
                 <button type="primary" onClick={this.handleSignup.bind(this)}>Sign up</button>
             </div>            

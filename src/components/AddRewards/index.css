@@ -29,6 +29,24 @@
     flex-direction: row;
     justify-content: space-between;
 }
-.addRewards-rewards-clear:hover{
+.addRewards-rewardsOption ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.addRewards-rewardsOption ul li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addRewards-rewardsOption-countButton:hover{
     cursor: pointer;
+}
+.addRewards-rewardsOption-count{
+    margin: 0 5px;
+    border: 1px solid gray;
+    font-size: 14pt;
+}
+.addRewards-rewardsOption-countButton{
+    border: 1px solid gray;
 }

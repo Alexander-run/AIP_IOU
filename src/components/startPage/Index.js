@@ -2,12 +2,14 @@ import React from 'react';
 import { Link, Router, Route } from 'react-router';
 import './Index.css';
 import logo from '../../assert/utslogo.png'
-import { Button, Modal } from 'antd';
+import { Button, Layout, Modal } from 'antd';
 import SignupPage from '../signupPage/Index';
 import LoginPage from '../loginPage/Index';
 import LeaderBoard from "../leaderBoard/LeaderBoard";
 import RequestList from "../requestList/RequestList";
 import AddRequest from "../AddRequest/Index";
+import Sider from 'antd/lib/layout/Sider';
+import axios from 'axios';
 
 
 class StartPage extends React.Component{
@@ -18,6 +20,7 @@ class StartPage extends React.Component{
             loginModalVisible:false,
             signupModalVisible:false,
             addRequestVisible:false,
+            showLoginButtons:"block",
             showRequestList:"block",
             showLeaderBoard:"none",
             loginStatus: false,
@@ -30,12 +33,23 @@ class StartPage extends React.Component{
 
     componentDidMount(){
         // check whether is logged in or not
- 
+        // API for check_login
+        
+        // axios.get('API_checkloginstatus')
+        //     .then(res => {
+        //         const loginStatus = res.data.data.login;
+        //         this.setState({
+        //             loginStatus:`${loginStatus}`
+        //         })
+        //     })
+        // // API end
+        if(this.state.loginStatus){
+            // hide login button and sign up button, show personal home button
+            
+        }
+            
     }
 
-    componentDidUpdate(){
-        // check whether is logged in or not
-    }
     handleSignUpClick(){
          this.setState({
                 signupModalVisible:true
@@ -109,7 +123,7 @@ class StartPage extends React.Component{
                             >See who are in lead</button>
                         </div>
                     </div>
-                    <div className="start-header-right">
+                    <div className="start-header-right" style={{display:this.state.showLoginButtons}}>
                         <Button 
                             type="default"
                             onClick={this.handleLoginClick.bind(this)}
@@ -139,7 +153,7 @@ class StartPage extends React.Component{
                     visible={this.state.signupModalVisible}
                     onOk={this.handleSignupSubmit}
                     onCancel={this.handleCancel.bind(this)}>
-                        <SignupPage />
+                        <SignupPage/>
                 </Modal>                    
                 <Modal
                     title="Log in to IOU"
@@ -155,3 +169,4 @@ class StartPage extends React.Component{
 }
 
 export default StartPage;
+
