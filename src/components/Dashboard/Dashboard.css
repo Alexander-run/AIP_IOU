@@ -1,0 +1,57 @@
+.start-header{
+    border-bottom: 1px solid #E5E5E5;
+}
+.start-body{
+    padding-top: 1vh;
+    overflow: hidden;
+}
+.start-header, .start-body{
+    width: 100vh;
+    margin: auto;
+}
+
+.start-header, .start-header-navigation, .start-header-left{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fff;
+}
+.start-header-navigation button{
+    margin: 1vh;
+    border: 0px;
+    transition: 0.35s;
+    outline: none;
+}
+.start-header-navigation button:hover{
+    margin-top: 2px;
+    border-bottom: 2px solid #008FB4;
+    cursor: pointer;
+    color: #008FB4;
+}
+.start-header img{
+    height: 7vh;
+
+}
+.start-header-addRequestButton{
+    margin: auto 2vh;
+    padding: 0 2vh;
+    line-height: 3vh;
+    height:3vh;
+    background-color:#E0446D;
+    border-radius:3vh;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, .7);
+}
+.start-header-addRequestButton:hover{
+    cursor: pointer;
+    text-shadow: 1px -1px 0 rgba(0, 0, 0, .7);
+}
+.start-header-right{
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-right: 5vh;
+}
+.start-header-right button{
+    margin: 1vh;
+    border-radius: 15px;
+}
