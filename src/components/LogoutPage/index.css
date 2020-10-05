@@ -1,0 +1,12 @@
+.logoutPage{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.logoutPage button{
+    height: 50px;
+    width: 400px;
+    font-size: 16pt;
+    border-radius: 20px;
+}
