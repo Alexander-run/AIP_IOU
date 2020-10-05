@@ -9,6 +9,7 @@ import AddRequest from "../AddRequest/Index";
 import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
 import LogoutPage from '../LogoutPage/Index';
+import { GiBlockHouse } from 'react-icons/gi';
 
 
 class Dashboard extends React.Component{
@@ -20,11 +21,13 @@ class Dashboard extends React.Component{
             logoutModalVisible:false,
             showLogoutButtons:"block",
             showRequestList:"block",
+            showDashboard:"block",
             showLeaderBoard:"none",
-            loginStatus: false,
+            log: false,
             userID: null,
 
             browseButtonStyle:{},
+            browseButtonStyle1:{},
             leaderBoardButtonStyle:{}
         };
     }
@@ -76,10 +79,27 @@ class Dashboard extends React.Component{
                 color: "#008FB4",
             },
             showRequestList:"block",
+            dashboardButtonStyle:{},
             leaderBoardButtonStyle:{},
-            showLeaderBoard:"none"
+            showLeaderBoard:"none",
+            showDashboard:"none"
        });
    }
+   displayDashboardList(){
+    this.setState({
+         dashboardButtonStyle:{
+             marginTop: "2px",
+             borderBottom: "2px solid #008FB4",
+             cursor: "pointer",
+             color: "#008FB4",
+         },
+         showDashboard:"block",
+         leaderBoardButtonStyle:{},
+         browseButtonStyle:{},
+         showLeaderBoard:"none",
+         showRequestList:"none"
+    });
+}
    displayLeaderBoard(){
     this.setState({
         leaderBoardButtonStyle:{
@@ -90,7 +110,9 @@ class Dashboard extends React.Component{
          },
          showLeaderBoard:"block",
          browseButtonStyle:{},
-         showRequestList:"none"
+         dashboardButtonStyle:{},
+         showRequestList:"none",
+         showDashboard:"none"
     });
 }
 
@@ -106,6 +128,10 @@ class Dashboard extends React.Component{
                         >Add new Request
                         </div>
                         <div className="start-header-navigation">
+                        <button
+                                style={this.state.dashboardButtonStyle}
+                                onClick={this.displayDashboardList.bind(this)}
+                            >Transanction History</button>
                             <button
                                 style={this.state.browseButtonStyle}
                                 onClick={this.displayRequestsList.bind(this)}
