@@ -3,14 +3,12 @@ import { Button, Modal, Input } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
-import './RequestList.css';
+import './MyPosts.css';
 import { UserOutlined, UsergroupAddOutlined, CalendarOutlined } from '@ant-design/icons'
 import AddRewards from "../AddRewards/Index";
 import axios from 'axios';
 
-const { Search } = Input;
-
-class RequestList extends React.Component{
+class MyPosts extends React.Component{
     
     constructor(props){
         super(props);
@@ -27,7 +25,6 @@ class RequestList extends React.Component{
                 "proof": false
             }],
             particularPost_Rewards:[],
-            searchKey:'',
             particularPost_Poster:"",
             particularPost_adders:[],
             RewardsEnumnation:[],
@@ -38,21 +35,23 @@ class RequestList extends React.Component{
 
     componentDidMount(){
 
-        // get all posts
+        // get all posts related to the logged in user(with user_id parameter)
         let responseData = [];
-        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
-        .then(response => {
-            // receive response Data
-            responseData=response.data.post;
+        setTimeout(() => {
+            axios.get('https://aip-v1.ts.r.appspot.com/api/posts?user_id=1ddc17c8-f8b9-11ea-bc3a-70e015c59fcc')
+            .then(response => {
+                // receive response Data
+                responseData=response.data.post;
 
-            // Parse Data into local states
-            this.setState({
-                allPosts:responseData
+                // Parse Data into local states
+                this.setState({
+                    allPosts:responseData
+                })
             })
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+            .catch((e) => {
+                console.log(e)
+            })
+        },2000);            
 
         // get the reward enumation
         let rewards = [];
@@ -171,27 +170,10 @@ class RequestList extends React.Component{
         });
     }
 
-    onSearchKeyChange(e){
-        this.setState({
-            searchKey:e.target.value
-        })
-    }
-    handleSearch(){
-
-    }
-
     render(){
         let self = this;
         return(
             <div classNam="requestList">
-                <div className="requestList-header">
-                    <Search
-                        placeholder="Search"
-                        onChange={this.onSearchKeyChange.bind(this)}
-                        onSearch={this.handleSearch.bind(this)}
-                        style={{ width: "30vh" }}
-                    />
-                </div>
                 <div className="requestList-body">
                     <div className="requestList-body-left">
                         {this.state.allPosts.map(function(item){
@@ -272,7 +254,7 @@ class RequestList extends React.Component{
                         </div>
                         <div className="requestList-body-right-footer"> 
                         <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add Rewards</Button>
-                        <Button type="primary">Make an Offer</Button>
+                        <Button type="primary">Upload proof</Button>
                         </div>
                     </div>
                 </div>
@@ -289,4 +271,4 @@ class RequestList extends React.Component{
 
 }
 
-export default RequestList;
+export default MyPosts;

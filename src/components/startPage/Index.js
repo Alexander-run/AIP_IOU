@@ -10,6 +10,7 @@ import RequestList from "../requestList/RequestList";
 import AddRequest from "../AddRequest/Index";
 import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
+import MyPosts from '../MyPosts/MyPosts';
 
 
 class StartPage extends React.Component{
@@ -23,11 +24,13 @@ class StartPage extends React.Component{
             showLoginButtons:"block",
             showRequestList:"block",
             showLeaderBoard:"none",
+            showMyPosts:"none",
             loginStatus: false,
             userID: null,
 
             browseButtonStyle:{},
-            leaderBoardButtonStyle:{}
+            leaderBoardButtonStyle:{},
+            myPostsButtonStyle:{}
         };
     }
 
@@ -84,22 +87,41 @@ class StartPage extends React.Component{
             },
             showRequestList:"block",
             leaderBoardButtonStyle:{},
-            showLeaderBoard:"none"
+            myPostsButtonStyle:{},
+            showLeaderBoard:"none",
+            showMyPosts:"none"
        });
    }
    displayLeaderBoard(){
-    this.setState({
-        leaderBoardButtonStyle:{
-             marginTop: "2px",
-             borderBottom: "2px solid #008FB4",
-             cursor: "pointer",
-             color: "#008FB4",
-         },
-         showLeaderBoard:"block",
-         browseButtonStyle:{},
-         showRequestList:"none"
-    });
-}
+        this.setState({
+            leaderBoardButtonStyle:{
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showLeaderBoard:"block",
+            browseButtonStyle:{},
+            myPostsButtonStyle:{},
+            showRequestList:"none",
+            showMyPosts:"none"
+        });    
+    }
+    displayMyPosts(){
+        this.setState({
+            myPostsButtonStyle:{
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showMyPosts:"block",
+            browseButtonStyle:{},
+            leaderBoardButtonStyle:{},
+            showRequestList:"none",
+            showLeaderBoard:"none"
+        });   
+    }
 
     render(){
         return( 
@@ -116,11 +138,15 @@ class StartPage extends React.Component{
                             <button
                                 style={this.state.browseButtonStyle}
                                 onClick={this.displayRequestsList.bind(this)}
-                            >Browse all Requests</button>
+                            >All Posts</button>
                             <button
                                 style={this.state.leaderBoardButtonStyle}
                                 onClick={this.displayLeaderBoard.bind(this)}
-                            >See who are in lead</button>
+                            >Leader Board</button>
+                            <button
+                                style={this.state.myPostsButtonStyle}
+                                onClick={this.displayMyPosts.bind(this)}
+                            >My Posts</button>
                         </div>
                     </div>
                     <div className="start-header-right" style={{display:this.state.showLoginButtons}}>
@@ -137,6 +163,7 @@ class StartPage extends React.Component{
                 <div className="start-body">
                     <div style={{display:this.state.showRequestList}}><RequestList /></div>
                     <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>                    
+                    <div style={{display:this.state.showMyPosts}}><MyPosts /></div> 
                 </div>
 
                 <Modal
