@@ -32,33 +32,34 @@ class LoginPage extends React.Component{
     login(){        
         const username = this.state.userName;
         const password = this.state.password;
-        // Ajax request for user account validation
-        // API needed for validation
-        // axios.post('API_login', {
-        //     username: `${username}`,
-        //     password: `${password}`
-        //   })
-        //   .then(res => {
-        //     const loginSuccess = res.data.data.login;
-        //     if(loginSuccess){
-        //          message.success("Login success");
-        //          this.setState({login:true});
-        //          setTimeout(() => {
-        //              window.location.reload();
-        //          },2000);
-        //     }
-        //     else{
-        //         this.setState({
-        //              hintMessage:"The username or password you entered does not match any account, please try agian or sign up for an account"
-        //          });
-        //     }
-        //   })
-        // Ajax end  
-        message.success("Login success");
-        this.setState({login:true});
-        setTimeout(() => {
-            window.location.reload();
-        },2000);
+        let data = {
+            "user":{
+                "username": username,
+                "password": password
+            }
+        }
+        if(username == ""){
+            message.error("Username can not be null");
+        }else if(password == ""){
+            message.error("Password can not be null");
+        }else{
+            // http request for user account validation
+            axios.post('https://aip-v1.ts.r.appspot.com/api/users/login',data)
+            .then(res => {
+                const resMessage = res.data.message;
+                message.success(resMessage);
+                this.setState({login:true});
+                setTimeout(() => {
+                    window.location.reload();
+                },2000);            
+            })
+            .catch((e) => {
+                console.log(e);
+                this.setState({
+                    hintMessage:"The username or password you entered does not match any account, please try agian or sign up for an account"
+                });
+            })
+        }        
     }
 
 
