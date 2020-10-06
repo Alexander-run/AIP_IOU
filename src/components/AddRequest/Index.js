@@ -118,18 +118,27 @@ class AddRequest extends React.Component{
             },
             "reward" : newRewardsEnum
         };
-        // HTTP request
-        axios.post('https://aip-v1.ts.r.appspot.com/api/posts',data)
-        .then(response => {
-            resMessage = response.data.message;
-            message.success(resMessage);
-            setTimeout(() => {
-                window.location.reload();
-            },2000);
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+        if(data.post.title == ""){
+            message.error("Title can not be null");
+        }else if(data.post.description == ""){
+            message.error("description can not be null");
+        }else if(data.reward == []){
+            message.error("you have to add at least one reward");
+        }else{
+            // HTTP request
+            axios.post('https://aip-v1.ts.r.appspot.com/api/posts',data)
+            .then(response => {
+                resMessage = response.data.message;
+                message.success(resMessage);
+                setTimeout(() => {
+                    window.location.reload();
+                },2000);
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+        }
+        
     }
 
     render(){

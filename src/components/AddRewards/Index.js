@@ -104,18 +104,23 @@ class AddRewards extends React.Component{
             "user_id":"8eff921e-cd56-4146-b902-d8d0438b0ae0",
             "reward":newRewardsEnum
         };
-        // HTTP request
-        axios.post('https://aip-v1.ts.r.appspot.com/api/posts/add_rewards',data)
-        .then(response => {
-            resMessage = response.data.message;
-            message.success(resMessage);
-            setTimeout(() => {
-                window.location.reload();
-            },2000);
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+        if(data.reward == []){
+            message.error("You have to add at least one reward first");
+        }else{
+            // HTTP request
+            axios.post('https://aip-v1.ts.r.appspot.com/api/posts/add_rewards',data)
+            .then(response => {
+                resMessage = response.data.message;
+                message.success(resMessage);
+                setTimeout(() => {
+                    window.location.reload();
+                },2000);
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+        }
+        
     }
 
     render(){
