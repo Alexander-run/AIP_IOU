@@ -122,7 +122,7 @@ class AddRequest extends React.Component{
             message.error("Title can not be null");
         }else if(data.post.description == ""){
             message.error("description can not be null");
-        }else if(data.reward == []){
+        }else if(data.reward.length == 0){
             message.error("you have to add at least one reward");
         }else{
             // HTTP request

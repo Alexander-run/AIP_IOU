@@ -104,7 +104,7 @@ class AddRewards extends React.Component{
             "user_id":"8eff921e-cd56-4146-b902-d8d0438b0ae0",
             "reward":newRewardsEnum
         };
-        if(data.reward == []){
+        if(data.reward.length == 0){
             message.error("You have to add at least one reward first");
         }else{
             // HTTP request
