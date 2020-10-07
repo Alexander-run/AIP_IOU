@@ -8,6 +8,8 @@ import RequestList from "../requestList/RequestList";
 import AddRequest from "../AddRequest/Index";
 import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
+import MyPosts from '../MyPosts/MyPosts';
+import Transaction from '../Transaction/Transaction';
 import LogoutPage from '../LogoutPage/Index';
 import { GiBlockHouse } from 'react-icons/gi';
 
@@ -23,7 +25,8 @@ class Dashboard extends React.Component{
             showRequestList:"block",
             showDashboard:"block",
             showLeaderBoard:"none",
-            log: false,
+            showMyPosts:"none",
+            logoutStatus: false,
             userID: null,
 
             browseButtonStyle:{},
@@ -81,8 +84,10 @@ class Dashboard extends React.Component{
             showRequestList:"block",
             dashboardButtonStyle:{},
             leaderBoardButtonStyle:{},
+            myPostsButtonStyle:{},
             showLeaderBoard:"none",
-            showDashboard:"none"
+            showDashboard:"none",
+            showMyPosts:"none"
        });
    }
    displayDashboardList(){
@@ -95,9 +100,11 @@ class Dashboard extends React.Component{
          },
          showDashboard:"block",
          leaderBoardButtonStyle:{},
+         myPostsButtonStyle:{},
          browseButtonStyle:{},
          showLeaderBoard:"none",
-         showRequestList:"none"
+         showRequestList:"none",
+         showMyPosts:"none"
     });
 }
    displayLeaderBoard(){
@@ -110,10 +117,30 @@ class Dashboard extends React.Component{
          },
          showLeaderBoard:"block",
          browseButtonStyle:{},
+         myPostsButtonStyle:{},
          dashboardButtonStyle:{},
          showRequestList:"none",
-         showDashboard:"none"
+         showDashboard:"none",
+         showMyPosts:"none"
     });
+   
+}
+displayMyPosts(){
+    this.setState({
+        myPostsButtonStyle:{
+            marginTop: "2px",
+            borderBottom: "2px solid #008FB4",
+            cursor: "pointer",
+            color: "#008FB4",
+        },
+        showMyPosts:"block",
+        browseButtonStyle:{},
+        leaderBoardButtonStyle:{},
+        dashboardButtonStyle:{},
+        showRequestList:"none",
+        showLeaderBoard:"none",
+        showDashboard:"none"
+    });   
 }
 
     render(){
@@ -131,7 +158,7 @@ class Dashboard extends React.Component{
                         <button
                                 style={this.state.dashboardButtonStyle}
                                 onClick={this.displayDashboardList.bind(this)}
-                            >Transanction History</button>
+                            >My Transaction</button>
                             <button
                                 style={this.state.browseButtonStyle}
                                 onClick={this.displayRequestsList.bind(this)}
@@ -140,7 +167,12 @@ class Dashboard extends React.Component{
                                 style={this.state.leaderBoardButtonStyle}
                                 onClick={this.displayLeaderBoard.bind(this)}
                             >See who are in lead</button>
+                             <button
+                                style={this.state.myPostsButtonStyle}
+                                onClick={this.displayMyPosts.bind(this)}
+                            >My Posts</button>
                         </div>
+                        
                     </div>
                     <div className="start-header-right" style={{display:this.state.showLogoutButtons}}>
                         <Button 
@@ -151,7 +183,9 @@ class Dashboard extends React.Component{
                 </div>
                 <div className="start-body">
                     <div style={{display:this.state.showRequestList}}><RequestList /></div>
-                    <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>                    
+                    <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>    
+                    <div style={{display:this.state.showMyPosts}}><MyPosts /></div>  
+                    <div style={{display:this.state.showDashboard}}><Transaction /></div>                
                 </div>
 
                 <Modal

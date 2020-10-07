@@ -3,8 +3,6 @@ import './App.css';
 import StartPage from './components/startPage/Index';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import SignupPage from './components/signupPage/Index';
-import logo from './assert/utslogo.png';
-import { Button } from 'antd';
 import Home from './components/Home/Index';
 import 'antd/dist/antd.css';
 import LoginPage from './components/loginPage/Index';
@@ -38,7 +36,7 @@ class App extends React.Component{
                 <Route path='/home/:id' component={Home}/>      
                 <Route path='/signupPage' component={SignupPage}/>
                 <Route path='/login' component={LoginPage}/>
-                <Route path='/Dashboard' component={Dashboard}/>
+                <Route path='/Transaction' component={Dashboard}/>
                 <Route path='/' component={StartPage}/>
               </Switch>           
           </div> 

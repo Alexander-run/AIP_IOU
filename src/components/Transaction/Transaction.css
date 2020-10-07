@@ -1,0 +1,184 @@
+  
+ 
+  .middle-dash {
+    width: 558px;
+    min-height: 800px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  }
+  
+  .left-nav {
+    width: 200px;
+    height: 800px;
+  }
+  
+  .right-panel {
+    width: 200px;
+    height: 800px;
+  }
+  
+  .dashboard {
+    display: flex;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .middle-dash-header {
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .middle-dash-header .upper-header {
+    border-bottom: 1px solid #ddd;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    height: 50px;
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 10px;
+    font-family: 'Lato', sans-serif;
+    justify-content: space-between;
+  }
+  
+  .middle-dash-header .aggregates {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 47px;
+  }
+  
+  .aggregate-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    color: #999;
+    width: 33%;
+    /* padding: 7px 0 2px;*/
+  }
+  
+  .aggregate-type.border {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+  
+  .aggregate-type h4 {
+    color: orange;
+  }
+  
+  .aggregate-type.green h4 {
+    color: green;
+  }
+  
+  .round-icon {
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    margin-right: 10px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    border: 1px solid #eee;
+  }
+  
+  .middle-dash-body {
+    display: flex;
+  }
+  
+  .owe-index {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 15px
+  }
+  
+  .owed-index {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-left: 1px solid #eee;
+    margin-top: 15px
+  }
+  
+  .owe-index h2, .owed-index h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: black;
+    font-family: 'Lato', sans-serif;
+    margin-left: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .owed-index h2 {
+    margin-left: 150px;
+  }
+  
+  .owed-index-item, .owe-index-item {
+    display: flex;
+    margin-left: 15px;
+    box-sizing: border-box;
+    padding: 5px;
+  }
+  
+  .owed-index-item .name, .owe-index-item .name {
+    font-size: 16px;
+  }
+  
+  .owed-index-item .amount, .owe-index-item .amount {
+    font-size: 13px;
+  }
+  
+  .owe-index-item .amount {
+    color: #ff652f;
+  }
+  
+  .owed-index-item .amount {
+    color: green;
+  }
+
+  .friends-index {
+    color: #999;
+    width: 152px;
+  }
+  
+  .friends-index header {
+    display: flex;
+    background: #f6f6f6;
+    color: #ccc;
+    font-size: 11px;
+    margin-top: 5px;
+    text-align: center;
+  }
+ 
+  
+  .friends-index-item {
+    color: black;
+    height: 20px;
+    font-size: 12px;
+    padding: 3px 0px 0px 0px;
+    border-left: 0px ridge #fff;
+    list-style: none;
+  }
+  
+  .friends-index-item:hover {
+    background: lightpink;
+  }
+  
+  
+  .add-friend:hover {
+    color: #5bc5a7;
+  }
+
+
+  .eachfriend {
+    color: black;
+    font-size: 14px;
+    height: 24px;
+    cursor: pointer;
+    width: 172px;
+}
+.eachfriend:hover {
+    color:black;
+}
