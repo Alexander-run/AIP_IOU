@@ -188,6 +188,25 @@ class RequestList extends React.Component{
             console.log(e)
         })    
     }
+    handleSearchReward(ev,rewardType){
+        // switch(rewardType){
+        //     case "chocolate":
+                
+        //         break;
+        //     case "coffee":
+            
+        //         break;
+        //     case "cupcake":
+            
+        //         break;
+        //     case "mint":
+            
+        //         break;
+        //     case "pizza":
+            
+        //         break;
+        // }
+    }
 
     render(){
         let self = this;
@@ -200,6 +219,19 @@ class RequestList extends React.Component{
                         onSearch={this.handleSearch.bind(this)}
                         style={{ width: "30vh" }}
                     />
+                    <div className="requestList-header-rewardList"> 
+                        Search by rewards:                       
+                        <GiChocolateBar  className="requestList-header-rewardList-item"
+                                         onClick={(ev)=>{self.handleSearchReward(ev,"chocolate")}}/>
+                        <FaCoffee   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"coffee")}}/>
+                        <GiCupcake   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"cupcake")}}/>
+                        <FaLeaf   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"mint")}}/>
+                        <FaPizzaSlice   className="requestList-header-rewardList-item"
+                                        onClick={(ev)=>{self.handleSearchReward(ev,"pizza")}}/>
+                    </div>
                 </div>
                 <div className="requestList-body">
                     <div className="requestList-body-left">
