@@ -177,7 +177,16 @@ class RequestList extends React.Component{
         })
     }
     handleSearch(){
-
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?keyword=${this.state.searchKey}`)
+        .then(response =>{
+            let posts = response.data.post;                             
+            this.setState({
+                allPosts:posts
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+        })    
     }
 
     render(){
