@@ -50,3 +50,11 @@
 .addRewards-rewardsOption-countButton{
     border: 1px solid gray;
 }
+.addRewards-submitButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addRewards-submitButton button{
+    margin: 0 1vh;
+}

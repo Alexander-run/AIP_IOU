@@ -29,6 +29,7 @@ class RequestList extends React.Component{
             particularPost_Rewards:[],
             searchKey:'',
             particularPost_Poster:"",
+            particularPost_Signer:"",
             particularPost_adders:[],
             RewardsEnumnation:[],
             particularPost_Reward_Qty:[],
@@ -82,6 +83,26 @@ class RequestList extends React.Component{
                 particularPost_Post:particularPost_Post,
                 particularPost_Rewards:particularPost_Rewards
             });
+        })
+        // find the man who signed this 
+        .then(() =>{
+            this.setState({
+                particularPost_Signer:""
+            });
+            let signerID = this.state.particularPost_Post[0].offer_by
+            if(signerID != ""){
+                axios.get(`https://aip-v1.ts.r.appspot.com/api/users/${signerID}`)
+                .then(response =>{
+                    let signerName = response.data.users[0].first_name
+                                + " " +response.data.users[0].last_name;
+                    this.setState({                
+                        particularPost_Signer:signerName
+                    })
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+            }
         })
         .then( () => {
             // find the post man
@@ -304,6 +325,10 @@ class RequestList extends React.Component{
                                 </span>
                             </div>   
                             <div>
+                                <span><UserOutlined />Who is working on this:</span>
+                                <span className="requestList-body-right-body-favoricon">{this.state.particularPost_Signer}</span>
+                            </div>
+                            <div>
                                 <span>Description:</span>
                                 <span> </span>
                             </div>     
@@ -312,7 +337,7 @@ class RequestList extends React.Component{
                             </div>                    
                         </div>
                         <div className="requestList-body-right-footer"> 
-                        <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add Rewards</Button>
+                        <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add or Reduce Rewards</Button>
                         <Button type="primary">Make an Offer</Button>
                         </div>
                     </div>
@@ -322,7 +347,9 @@ class RequestList extends React.Component{
                     footer={[]}
                     visible={this.state.addRewardsVisible}
                     onCancel={this.handleCancel.bind(this)}>
-                        <AddRewards postID={this.state.particularPost_Post[0].post_id}/>
+                        <AddRewards 
+                            postID={this.state.particularPost_Post[0].post_id}
+                            rewards={this.state.particularPost_Reward_Qty}/>
                 </Modal>       
             </div>
         );

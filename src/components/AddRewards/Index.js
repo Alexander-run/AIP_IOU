@@ -15,6 +15,7 @@ class AddRewards extends React.Component{
         super(props);
         this.state={
             postID:this.props.postID,
+            rewards:this.props.rewards,
             rewardsEnum:[]
         }        
     }
@@ -45,7 +46,6 @@ class AddRewards extends React.Component{
     }
 
     onChangeRewards(ev,action,rewardType){
-        let newCount = 0;
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
             if(item.name == rewardType){
@@ -65,12 +65,19 @@ class AddRewards extends React.Component{
     }
 
 
-    handleAddRewards(){
-        let resMessage;
+    handleAddRewards(ev, operationType){
         // API parameters
         // save rewards whose count is more than 0
         let rewardsEnum = this.state.rewardsEnum;
         let newRewardsEnum = [];
+        let originalRewards = this.state.rewards;
+        let rewards = [];
+        originalRewards.forEach(item => {
+            rewards = rewards.concat({
+                "name":item.reward_name,
+                "qty":item.qty
+            });
+        });
         rewardsEnum.forEach(item => {
             if(item.qty > 0){
                 newRewardsEnum = newRewardsEnum.concat({
@@ -79,46 +86,89 @@ class AddRewards extends React.Component{
                 })
             }
         });
-        newRewardsEnum.forEach(item => {
-            switch(item.name){
-                case "chocolate":
-                    item.name = "Chocolate";
-                    break;
-                case "coffee":
-                    item.name = "Coffee"
-                    break;
-                case "mint":
-                    item.name = "Mint"
-                    break;
-                case "cupcake":
-                    item.name = "Cupcake"
-                    break;
-                case "pizza":
-                    item.name = "Pizza"   
-                    break;         
-            }
-        });
-        let data = {
-            "post_id":`${this.state.postID}`,
-            // get logged userID from cookie JWT
-            "user_id":"8eff921e-cd56-4146-b902-d8d0438b0ae0",
-            "reward":newRewardsEnum
-        };
-        if(data.reward.length == 0){
+        // check if the addList is null
+        if(newRewardsEnum.length == 0){
             message.error("You have to add at least one reward first");
         }else{
-            // HTTP request
-            axios.post('https://aip-v1.ts.r.appspot.com/api/posts/add_rewards',data)
-            .then(response => {
-                resMessage = response.data.message;
-                message.success(resMessage);
-                setTimeout(() => {
-                    window.location.reload();
-                },2000);
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+
+            newRewardsEnum.forEach(item => {
+                switch(item.name){
+                    case "chocolate":
+                        item.name = "Chocolate";
+                        break;
+                    case "coffee":
+                        item.name = "Coffee"
+                        break;
+                    case "mint":
+                        item.name = "Mint"
+                        break;
+                    case "cupcake":
+                        item.name = "Cupcake"
+                        break;
+                    case "pizza":
+                        item.name = "Pizza"   
+                        break;         
+                }
+            });
+            
+            // update rewards            
+            let validation = true;
+            if(operationType == "add"){
+                newRewardsEnum.forEach(gapReward => {
+                    let existItem = false;
+                    rewards.forEach(oldReward =>{
+                        if(gapReward.name == oldReward.name){
+                            oldReward.qty +=gapReward.qty
+                            existItem = true;
+                        }
+                    });
+                    if(existItem == false){
+                        rewards = rewards.concat(gapReward);
+                    }
+                });
+            }
+            else if(operationType == "reduce"){
+                newRewardsEnum.forEach(gapReward => {
+                    let existItem = false;
+                    rewards.forEach(oldReward =>{
+                        if(gapReward.name == oldReward.name){
+                            oldReward.qty -=gapReward.qty
+                            if(oldReward.qty<0){
+                                oldReward.qty = 0;
+                            }
+                            existItem = true;
+                        }
+                    });
+                    if(existItem == false){
+                        message.error("This post has no "+gapReward.name+" reward currently")
+                        validation = false;
+                    }
+                });
+            }
+            
+
+            let data = {
+                "post_id":`${this.state.postID}`,
+                // get logged userID from cookie JWT
+                "user_id":"8eff921e-cd56-4146-b902-d8d0438b0ae0",
+                "reward":rewards
+            };
+            console.log(data.reward);
+            // if(validation){
+            //     let resMessage;
+            //     // HTTP request
+            //     axios.post('https://aip-v1.ts.r.appspot.com/api/posts/add_rewards',data)
+            //     .then(response => {
+            //         resMessage = response.data.message;
+            //         message.success(resMessage);
+            //         setTimeout(() => {
+            //             window.location.reload();
+            //         },2000);
+            //     })
+            //     .catch((e) => {
+            //         console.log(e)
+            //     })
+            // }
         }
         
     }
@@ -233,7 +283,10 @@ class AddRewards extends React.Component{
                         })}                        
                     </ul>      
                 </div>
-                <Button type="primary" onClick={this.handleAddRewards.bind(this)}>Add</Button>
+                <div className="addRewards-submitButton" >
+                    <Button type="primary" onClick={(ev) => {self.handleAddRewards(ev,"add")}}>Add</Button>
+                    <Button type="primary" onClick={(ev) => {self.handleAddRewards(ev,"reduce")}}>Reduce</Button>
+                </div>
             </div>
         );
     }
