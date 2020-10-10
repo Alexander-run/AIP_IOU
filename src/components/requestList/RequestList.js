@@ -15,6 +15,9 @@ class RequestList extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            login:false,
+            displayButton:false,
+
             allPosts: [],
             particularPost_Post:[{
                 "post_id": "",
@@ -38,6 +41,18 @@ class RequestList extends React.Component{
     }
 
     componentDidMount(){
+
+        // get login status from cookie
+
+        if(this.state.login){
+            this.setState({
+                displayButton:"block"
+            });
+        }else{
+            this.setState({
+                displayButton:"none"
+            });
+        }
 
         // get all posts
         let responseData = [];
@@ -336,9 +351,10 @@ class RequestList extends React.Component{
                                 <p>{this.state.particularPost_Post[0].description}</p>
                             </div>                    
                         </div>
-                        <div className="requestList-body-right-footer"> 
-                        <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add or Reduce Rewards</Button>
-                        <Button type="primary">Make an Offer</Button>
+                        <div className="requestList-body-right-footer" 
+                            style={{display:this.state.displayButton}}> 
+                            <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add or Reduce Rewards</Button>
+                            <Button type="primary">Make an Offer</Button>
                         </div>
                     </div>
                 </div>

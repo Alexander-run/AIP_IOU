@@ -27,15 +27,18 @@ class StartPage extends React.Component{
             showLoginButtons:"block",
             showLogoutButtons:"none",
             showRequestList:"block",
+            showMypostButton:"none",
             showDashboard:"none",
             showLeaderBoard:"none",
             showMyPosts:"none",
             loginStatus: false,
             userID: null,
 
+            
             browseButtonStyle:{},
             leaderBoardButtonStyle:{},
-            myPostsButtonStyle:{}
+            dashboardButtonStyle:{display:"none"},
+            myPostsButtonStyle:{display:"none"}
         };
     }
 
@@ -44,8 +47,20 @@ class StartPage extends React.Component{
 
         // hide login button and sign up button, show personal home button
         if(this.state.loginStatus){
-            
-            
+            this.setState({                
+                dashboardButtonStyle:{display:"block"},
+                myPostsButtonStyle:{display:"block"},
+                showLoginButtons:"none",
+                showLogoutButtons:"block"
+            })            
+        }
+        else{
+            this.setState({
+                dashboardButtonStyle:{display:"none"},
+                myPostsButtonStyle:{display:"none"},
+                showLoginButtons:"block",
+                showLogoutButtons:"none"
+            })    
         }
             
     }
@@ -90,9 +105,9 @@ class StartPage extends React.Component{
                 color: "#008FB4",
             },
             showRequestList:"block",
-            dashboardButtonStyle:{},
+            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
             leaderBoardButtonStyle:{},
-            myPostsButtonStyle:{},
+            myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
             showLeaderBoard:"none",
             showDashboard:"none",
             showMyPosts:"none"
@@ -108,8 +123,8 @@ class StartPage extends React.Component{
             },
             showLeaderBoard:"block",
             browseButtonStyle:{},
-            myPostsButtonStyle:{},
-            dashboardButtonStyle:{},
+            myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
+            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
             showRequestList:"none",
             showDashboard:"none",
             showMyPosts:"none"
@@ -126,7 +141,7 @@ class StartPage extends React.Component{
             showMyPosts:"block",
             browseButtonStyle:{},
             leaderBoardButtonStyle:{},
-            dashboardButtonStyle:{},
+            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
             showRequestList:"none",
             showLeaderBoard:"none",
             showDashboard:"none"
@@ -142,7 +157,7 @@ class StartPage extends React.Component{
              },
              showDashboard:"block",
              leaderBoardButtonStyle:{},
-             myPostsButtonStyle:{},
+             myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
              browseButtonStyle:{},
              showLeaderBoard:"none",
              showRequestList:"none",
@@ -198,9 +213,9 @@ class StartPage extends React.Component{
                     </div>                    
                 </div>
                 <div className="start-body">
-                    <div style={{display:this.state.showRequestList}}><RequestList /></div>
+                    <div style={{display:this.state.showRequestList}}><RequestList  userID = {this.state.userID}/></div>
                     <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>                    
-                    <div style={{display:this.state.showMyPosts}}><MyPosts /></div> 
+                    <div style={{display:this.state.showMyPosts}}><MyPosts userID = {this.state.userID}/></div> 
                     <div style={{display:this.state.showDashboard}}><Transaction /></div>
                 </div>
 
@@ -210,7 +225,7 @@ class StartPage extends React.Component{
                     visible={this.state.addRequestVisible}
                     onOk={this.handleAddRequestSubmit}
                     onCancel={this.handleCancel.bind(this)}>
-                        <AddRequest />
+                        <AddRequest  userID = {this.state.userID}/>
                 </Modal>                
                 <Modal
                     title="Create a new account"
@@ -218,7 +233,7 @@ class StartPage extends React.Component{
                     visible={this.state.signupModalVisible}
                     onOk={this.handleSignupSubmit}
                     onCancel={this.handleCancel.bind(this)}>
-                        <SignupPage/>
+                        <SignupPage />
                 </Modal>                    
                 <Modal
                     title="Log in to IOU"
