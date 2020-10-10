@@ -17,10 +17,10 @@
     background-color: #fff;
 }
 .start-header-navigation button{
-    margin: 1vh;
     border: 0px;
     transition: 0.35s;
     outline: none;
+    padding: 0px;
 }
 .start-header-navigation button:hover{
     margin-top: 2px;

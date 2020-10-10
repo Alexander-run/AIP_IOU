@@ -8,6 +8,8 @@ import LoginPage from '../loginPage/Index';
 import LeaderBoard from "../leaderBoard/LeaderBoard";
 import RequestList from "../requestList/RequestList";
 import AddRequest from "../AddRequest/Index";
+import Transaction from '../Transaction/Transaction';
+import LogoutPage from '../LogoutPage/Index';
 import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
 import MyPosts from '../MyPosts/MyPosts';
@@ -21,8 +23,11 @@ class StartPage extends React.Component{
             loginModalVisible:false,
             signupModalVisible:false,
             addRequestVisible:false,
+            logoutModalVisible:false,
             showLoginButtons:"block",
+            showLogoutButtons:"none",
             showRequestList:"block",
+            showDashboard:"none",
             showLeaderBoard:"none",
             showMyPosts:"none",
             loginStatus: false,
@@ -35,19 +40,11 @@ class StartPage extends React.Component{
     }
 
     componentDidMount(){
-        // check whether is logged in or not
-        // API for check_login
-        
-        // axios.get('API_checkloginstatus')
-        //     .then(res => {
-        //         const loginStatus = res.data.data.login;
-        //         this.setState({
-        //             loginStatus:`${loginStatus}`
-        //         })
-        //     })
-        // // API end
+        // get login status from cookie
+
+        // hide login button and sign up button, show personal home button
         if(this.state.loginStatus){
-            // hide login button and sign up button, show personal home button
+            
             
         }
             
@@ -63,10 +60,17 @@ class StartPage extends React.Component{
                loginModalVisible:true
        })
    }
+   handleLogoutClick(){
+    this.setState({
+          logoutModalVisible:true
+
+   })
+}
    handleCancel(){
         this.setState({
             signupModalVisible:false,
             loginModalVisible:false,
+            logoutModalVisible:false,
             addRequestVisible:false
         })
         this.forceUpdate();
@@ -86,9 +90,11 @@ class StartPage extends React.Component{
                 color: "#008FB4",
             },
             showRequestList:"block",
+            dashboardButtonStyle:{},
             leaderBoardButtonStyle:{},
             myPostsButtonStyle:{},
             showLeaderBoard:"none",
+            showDashboard:"none",
             showMyPosts:"none"
        });
    }
@@ -103,7 +109,9 @@ class StartPage extends React.Component{
             showLeaderBoard:"block",
             browseButtonStyle:{},
             myPostsButtonStyle:{},
+            dashboardButtonStyle:{},
             showRequestList:"none",
+            showDashboard:"none",
             showMyPosts:"none"
         });    
     }
@@ -118,9 +126,28 @@ class StartPage extends React.Component{
             showMyPosts:"block",
             browseButtonStyle:{},
             leaderBoardButtonStyle:{},
+            dashboardButtonStyle:{},
             showRequestList:"none",
-            showLeaderBoard:"none"
+            showLeaderBoard:"none",
+            showDashboard:"none"
         });   
+    }
+    displayDashboardList(){
+        this.setState({
+             dashboardButtonStyle:{
+                 marginTop: "2px",
+                 borderBottom: "2px solid #008FB4",
+                 cursor: "pointer",
+                 color: "#008FB4",
+             },
+             showDashboard:"block",
+             leaderBoardButtonStyle:{},
+             myPostsButtonStyle:{},
+             browseButtonStyle:{},
+             showLeaderBoard:"none",
+             showRequestList:"none",
+             showMyPosts:"none"
+        });
     }
 
     render(){
@@ -142,11 +169,15 @@ class StartPage extends React.Component{
                             <button
                                 style={this.state.leaderBoardButtonStyle}
                                 onClick={this.displayLeaderBoard.bind(this)}
-                            >Leader Board</button>
+                            >Leader-Board</button>
                             <button
                                 style={this.state.myPostsButtonStyle}
                                 onClick={this.displayMyPosts.bind(this)}
                             >My Posts</button>
+                            <button
+                                style={this.state.dashboardButtonStyle}
+                                onClick={this.displayDashboardList.bind(this)}
+                            >My Owes</button>
                         </div>
                     </div>
                     <div className="start-header-right" style={{display:this.state.showLoginButtons}}>
@@ -157,13 +188,20 @@ class StartPage extends React.Component{
                         <Button
                             type="primary"
                             onClick={this.handleSignUpClick.bind(this)}
-                        >Join now</Button>
+                        >Join now</Button>                        
                     </div>
+                    <div className="start-header-right" style={{display:this.state.showLogoutButtons}}>
+                        <Button 
+                            type="default"
+                            onClick={this.handleLogoutClick.bind(this)}
+                        >Log Out</Button>                            
+                    </div>                    
                 </div>
                 <div className="start-body">
                     <div style={{display:this.state.showRequestList}}><RequestList /></div>
                     <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>                    
                     <div style={{display:this.state.showMyPosts}}><MyPosts /></div> 
+                    <div style={{display:this.state.showDashboard}}><Transaction /></div>
                 </div>
 
                 <Modal
@@ -189,6 +227,14 @@ class StartPage extends React.Component{
                     onOk={this.handleLoginSubmit}
                     onCancel={this.handleCancel.bind(this)}>
                         <LoginPage />
+                </Modal>    
+                <Modal
+                    title="Are Your Sure Want to logout?"
+                    footer={[]}
+                    visible={this.state.logoutModalVisible}
+                    onOk={this.handleLoginSubmit}
+                    onCancel={this.handleCancel.bind(this)}>
+                        <LogoutPage />
                 </Modal>                             
             </div>  
         );        

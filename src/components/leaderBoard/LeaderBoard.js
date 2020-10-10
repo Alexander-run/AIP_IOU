@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import './LeaderBoard.css';
 import {Progress, Carousel } from 'antd';
+import axios from 'axios';
 
 class LeaderBoard extends React.Component{
 
@@ -8,35 +9,28 @@ class LeaderBoard extends React.Component{
         super(props);
         this.state={
             leaderBoardItems: [
-                {name:'Alex',profit:113,debt:60},
-                {name:'Mia',profit:86,debt:60},
-                {name:'Greg',profit:65,debt:70},
-                {name:'Bob',profit:63,debt:30},
-                {name:'Alice',profit:52,debt:15},
-                {name:'Hunter',profit:32,debt:15},
-                {name:'Warrior',profit:27,debt:15},
-                {name:'Wizard',profit:26,debt:15},
-                {name:'Paladin',profit:16,debt:15},
-                {name:'Priest',profit:3,debt:15}
+                {
+                "user_id": "8eff921e-cd56-4146-b902-d8d0438b0ae0",
+                "username": "Vraj Mehta",
+                "favour_qty": 18
+                }
             ]
         };
     }
 
     // API used to retrieve the leaders
-    async componentDidMount(){
-        const res = await fetch('API_Name');
-        const result = await res.json();
-        this.setState({
-            leaderBoardItems:result
+    componentDidMount(){
+        axios.get('https://aip-v1.ts.r.appspot.com/api/favours/leaderboard?high_favours=1&order=DESC')
+        .then(response => {
+            let allUsers = response.data.users;
+            this.setState({
+                leaderBoardItems:allUsers
+            });
         })
-    }
-    // API used to retrieve the leaders
-    async componentDidUpdate(){
-        const res = await fetch('API_Name');
-        const result = await res.json();
-        this.setState({
-            leaderBoardItems:result
+        .catch((e) => {
+            console.log(e);
         })
+        
     }
 
 
@@ -50,11 +44,11 @@ class LeaderBoard extends React.Component{
                             <div className="leaderBoard-item">
                                 <div className="leaderBoard-item-header">
                                     <span>No.{index+1}</span>
-                                    <span>{item.name}</span>
+                                    <span>{item.username}</span>
                                 </div>
                                 <div className="leaderBoard-item-body">
-                                    <span>Profit:{item.profit}</span>
-                                    <span>Debt:{item.debt}</span>
+                                    <span>Profit:</span>
+                                    <span>{item.favour_qty}</span>
                                 </div>
                             </div>
                         )

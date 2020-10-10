@@ -2,6 +2,7 @@ import React from 'react';
 import "./index.css";
 import { Button, message } from 'antd';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 
 class LoginPage extends React.Component{
