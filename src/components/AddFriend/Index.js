@@ -1,64 +1,65 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, message } from 'antd';
+import { Button, message, Input } from 'antd';
+import { UserOutlined, PlusOutlined  } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+
+const { Search } = Input;
 
 class AddFriend extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            username:''
+            user_id:'',
+            searchKey:'',
         };
     }
 
-    changeTitle(e)
-    {
-        this.setState({
-            username:e.target.value,
-        });
-    }
 
-    handlePost(){
-        let resMessage;
-        let data = {
-            "users" : {
-                "first_name":``,
-                "username":`${this.state.username}`,
-                "last_name":``,
-                "email":``,
-                "password":``
-            }
-        }
 
-        axios.post('https://aip-v1.ts.r.appspot.com/api/users',data)
-        .then(response => {
-            resMessage = response.data.message;
-            message.success(resMessage);
-            setTimeout(() => {
-                window.location.reload();
-            },2000);
+       handleSearch(){
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/users/?username=${this.state.searchKey}`)
+        .then(response =>{
+            let userid = response.data.users[0].user_id;
+            console.log(userid);                             
+            this.setState({
+                user_id:userid
+            })
         })
         .catch((e) => {
-            message.error("please recheck your input and change a new user name");
+            message.error("User Doesn't Exist! Please Try again!");
             console.log(e)
-        })
-
+        })    
     }
+
+    onSearchKeyChange(e){
+        this.setState({
+            searchKey:e.target.value
+        })
+    }
+
 
     render() {
         return (
             <div>
-                <p>Enter the Username</p>
-                <input
-                    type='text' 
-                    autoFocus='autofocus'
-                    value={this.state.username}
-                    onChange={this.changeTitle.bind(this)} />
+                <p>Search the Username</p>
+                <Search
+                        placeholder="Search"
+                        onChange={this.onSearchKeyChange.bind(this)}
+                        onSearch={this.handleSearch.bind(this)}
+                        style={{ width: "30vh" }}
+                />
+                <hr/>
+            
 
-    <Button type="primary" onClick={this.handlePost.bind(this)}>Post</Button>
-      </div>
-          
+             
+             
+
+            </div>          
+                       
+      
+
 
 
         )

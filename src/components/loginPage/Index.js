@@ -59,7 +59,7 @@ class LoginPage extends React.Component{
             .catch((e) => {
                 console.log(e);
                 this.setState({
-                    hintMessage:"The username or password you entered does not match any account, please try agian or sign up for an account"
+                    hintMessage:"The username or password you entered does not match any account, please try again or sign up for an account"
                 });
             })
         }        

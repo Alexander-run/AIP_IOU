@@ -73,23 +73,6 @@ class Dashboard extends React.Component{
         })
    }
 
-   displayRequestsList(){
-       this.setState({
-            browseButtonStyle:{
-                marginTop: "2px",
-                borderBottom: "2px solid #008FB4",
-                cursor: "pointer",
-                color: "#008FB4",
-            },
-            showRequestList:"block",
-            dashboardButtonStyle:{},
-            leaderBoardButtonStyle:{},
-            myPostsButtonStyle:{},
-            showLeaderBoard:"none",
-            showDashboard:"none",
-            showMyPosts:"none"
-       });
-   }
    displayDashboardList(){
     this.setState({
          dashboardButtonStyle:{
@@ -107,6 +90,25 @@ class Dashboard extends React.Component{
          showMyPosts:"none"
     });
 }
+
+   displayRequestsList(){
+       this.setState({
+            browseButtonStyle:{
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showRequestList:"block",
+            dashboardButtonStyle:{},
+            leaderBoardButtonStyle:{},
+            myPostsButtonStyle:{},
+            showLeaderBoard:"none",
+            showDashboard:"none",
+            showMyPosts:"none"
+       });
+   }
+
    displayLeaderBoard(){
     this.setState({
         leaderBoardButtonStyle:{
@@ -158,7 +160,7 @@ displayMyPosts(){
                         <button
                                 style={this.state.dashboardButtonStyle}
                                 onClick={this.displayDashboardList.bind(this)}
-                            >My Transaction</button>
+                            >Transactions</button>
                             <button
                                 style={this.state.browseButtonStyle}
                                 onClick={this.displayRequestsList.bind(this)}
@@ -182,10 +184,10 @@ displayMyPosts(){
                     </div>
                 </div>
                 <div className="start-body">
+                    <div style={{display:this.state.showDashboard}}><Transaction /></div> 
                     <div style={{display:this.state.showRequestList}}><RequestList /></div>
                     <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>    
-                    <div style={{display:this.state.showMyPosts}}><MyPosts /></div>  
-                    <div style={{display:this.state.showDashboard}}><Transaction /></div>                
+                    <div style={{display:this.state.showMyPosts}}><MyPosts /></div>             
                 </div>
 
                 <Modal
