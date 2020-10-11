@@ -47,8 +47,10 @@ class LoginPage extends React.Component{
             // http request for user account validation
             axios.post('https://aip-v1.ts.r.appspot.com/api/users/login',data)
             .then(res => {
-                const resMessage = res.data.message;
-                message.success(resMessage);
+                let userInfo = res.data.users; 
+                // set cookie to store logged userID for use in other component
+                cookie.save("user_id",userInfo.user_id,{path:"/"});
+                message.success("Login Success, will return to main page in 2 seconds");
                 this.setState({login:true});
                 setTimeout(() => {
                     window.location.reload();

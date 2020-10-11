@@ -13,6 +13,7 @@ import LogoutPage from '../LogoutPage/Index';
 import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
 import MyPosts from '../MyPosts/MyPosts';
+import cookie from 'react-cookies';
 
 
 class StartPage extends React.Component{
@@ -43,10 +44,11 @@ class StartPage extends React.Component{
     }
 
     componentDidMount(){
+        
         // get login status from cookie
-
+        let userID = cookie.load("user_id");
         // hide login button and sign up button, show personal home button
-        if(this.state.loginStatus){
+        if(userID){
             this.setState({                
                 dashboardButtonStyle:{display:"block"},
                 myPostsButtonStyle:{display:"block"},
