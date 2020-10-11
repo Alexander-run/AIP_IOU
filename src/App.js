@@ -37,7 +37,6 @@ class App extends React.Component{
                 <Route path='/home/:id' component={Home}/>      
                 <Route path='/signupPage' component={SignupPage}/>
                 <Route path='/login' component={LoginPage}/>
-                <Route path='/Dashboard' component={Dashboard}/>
                 <Route path='/Transaction' component={Transaction}/>
                 <Route path='/' component={StartPage}/>
               </Switch>           
