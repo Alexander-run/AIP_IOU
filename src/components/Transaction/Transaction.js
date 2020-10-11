@@ -65,7 +65,7 @@ class Transaction extends React.Component
             <div className="left-nav">
                 <div className="friends-index">
                     <header>
-                        <h2>Friends List 
+                        <h2>All Users
                         <div onClick={this.handleAddFrend.bind(this)} className="add-friend" ><PlusOutlined/> add</div>
                         </h2>
                     </header>
@@ -79,7 +79,7 @@ class Transaction extends React.Component
                     })}
                 </div>
                 <Modal
-                    title="Add Frend"
+                    title="Add A Bill"
                     footer={[]}
                     visible={this.state.addFrendVisible}
                     onOk={this.handleAddFrendSubmit}

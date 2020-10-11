@@ -7,6 +7,7 @@ import Home from './components/Home/Index';
 import 'antd/dist/antd.css';
 import LoginPage from './components/loginPage/Index';
 import Dashboard from './components/Dashboard/Dashboard';
+import Transaction from './components/Transaction/Transaction';
 
 
 class App extends React.Component{
@@ -36,7 +37,7 @@ class App extends React.Component{
                 <Route path='/home/:id' component={Home}/>      
                 <Route path='/signupPage' component={SignupPage}/>
                 <Route path='/login' component={LoginPage}/>
-                <Route path='/Transaction' component={Dashboard}/>
+                <Route path='/Transaction' component={Transaction}/>
                 <Route path='/' component={StartPage}/>
               </Switch>           
           </div> 

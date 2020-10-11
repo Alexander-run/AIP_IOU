@@ -2,6 +2,7 @@ import React from 'react';
 import "./index.css";
 import { Button, message } from 'antd';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 
 class LogoutPage extends React.Component{
@@ -14,7 +15,7 @@ class LogoutPage extends React.Component{
     }
     
     logout(){        
-
+        cookie.remove("user_id");
         message.success("Logout Success");
         this.setState({logout:true});
         setTimeout(() => {
