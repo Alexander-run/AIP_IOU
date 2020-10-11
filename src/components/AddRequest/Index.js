@@ -6,6 +6,7 @@ import { Button, message } from 'antd';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaCoffee, FaLeaf, FaPizzaSlice } from 'react-icons/fa';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 
 class AddRequest extends React.Component{
@@ -109,10 +110,11 @@ class AddRequest extends React.Component{
             }
         });
         // HTTP post request to API (create a new post)
+        let userID = cookie.load("user_id");
         let data = {
             "post" : {
-                // get logged in userID from cookie JWT
-                "added_by": "1ddc17c8-f8b9-11ea-bc3a-70e015c59fcc",
+                // get logged in userID from cookie 
+                "added_by": userID,
                 "title": `${this.state.title}`,
                 "description": `${this.state.description}`
             },

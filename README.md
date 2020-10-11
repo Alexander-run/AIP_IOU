@@ -1,3 +1,7 @@
+## author identification
+
+for react application, there are two authors, Jay and Alex(yu), you may see a root editor, that is also done by Alex.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

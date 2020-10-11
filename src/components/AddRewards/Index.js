@@ -7,6 +7,7 @@ import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
 import { ImCross } from 'react-icons/im';
 import { Button, message } from 'antd';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 
 class AddRewards extends React.Component{
@@ -146,29 +147,13 @@ class AddRewards extends React.Component{
                 });
             }
             
-
+            let userID = cookie.load("user_id");
             let data = {
                 "post_id":`${this.state.postID}`,
                 // get logged userID from cookie JWT
-                "user_id":"8eff921e-cd56-4146-b902-d8d0438b0ae0",
+                "user_id":userID,
                 "reward":rewards
             };
-            console.log(data.reward);
-            // if(validation){
-            //     let resMessage;
-            //     // HTTP request
-            //     axios.post('https://aip-v1.ts.r.appspot.com/api/posts/add_rewards',data)
-            //     .then(response => {
-            //         resMessage = response.data.message;
-            //         message.success(resMessage);
-            //         setTimeout(() => {
-            //             window.location.reload();
-            //         },2000);
-            //     })
-            //     .catch((e) => {
-            //         console.log(e)
-            //     })
-            // }
         }
         
     }

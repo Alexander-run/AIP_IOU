@@ -7,6 +7,7 @@ import './RequestList.css';
 import { UserOutlined, UsergroupAddOutlined, CalendarOutlined } from '@ant-design/icons'
 import AddRewards from "../AddRewards/Index";
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 const { Search } = Input;
 
@@ -43,8 +44,8 @@ class RequestList extends React.Component{
     componentDidMount(){
 
         // get login status from cookie
-
-        if(this.state.login){
+        let userID = cookie.load("user_id");
+        if(userID){
             this.setState({
                 displayButton:"block"
             });

@@ -7,6 +7,7 @@ import './MyPosts.css';
 import { UserOutlined, UsergroupAddOutlined, CalendarOutlined } from '@ant-design/icons'
 import AddRewards from "../AddRewards/Index";
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 class MyPosts extends React.Component{
     
@@ -34,11 +35,11 @@ class MyPosts extends React.Component{
     }
 
     componentDidMount(){
-
+        let userID = cookie.load("user_id");
         // get all posts related to the logged in user(with user_id parameter)
         let responseData = [];
         setTimeout(() => {
-            axios.get('https://aip-v1.ts.r.appspot.com/api/posts?user_id=1ddc17c8-f8b9-11ea-bc3a-70e015c59fcc')
+            axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?user_id=${userID}`)
             .then(response => {
                 // receive response Data
                 responseData=response.data.post;
