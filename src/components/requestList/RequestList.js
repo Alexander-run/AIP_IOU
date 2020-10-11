@@ -273,35 +273,72 @@ class RequestList extends React.Component{
                 <div className="requestList-body">
                     <div className="requestList-body-left">
                         {this.state.allPosts.map(function(item){
-                            return(
-                                <div 
-                                    className="requestList-item"
-                                    onClick={self.handleItemSelect.bind(self,item)}>      
-                                    <div className="requestList-item-header">{item.title}</div>
-                                    <div className="requestList-item-body">
-                                        <ul>
-                                            <li><UserOutlined />Poster:{item.username}</li>
-                                            {/* <li><UsergroupAddOutlined />Adder:
-                                                {item.adder.map(function(adder){
-                                                    return(<span>{adder}</span>)
-                                                })}
-                                            </li> */}
-                                            <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            )
+                            switch (item.status) {
+                                case "Open":
+                                    return(
+                                        <div 
+                                            className="requestList-item"
+                                            onClick={self.handleItemSelect.bind(self,item)}>      
+                                            <div className="requestList-item-header">{item.title}</div>
+                                            <div className="requestList-item-body">
+                                                <ul>
+                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                </ul>
+                                            </div>
+                                            <div className="requestList-item-status-open">{item.status}</div>
+                                        </div>
+                                    )
+                                    break;
+                                case "Closed":
+                                    return(
+                                        <div 
+                                            className="requestList-item"
+                                            onClick={self.handleItemSelect.bind(self,item)}>      
+                                            <div className="requestList-item-header">{item.title}</div>
+                                            <div className="requestList-item-body">
+                                                <ul>
+                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                </ul>
+                                            </div>
+                                            <div className="requestList-item-status-closed">{item.status}</div>
+                                        </div>
+                                    )
+                                    break;
+                                case "Assigned":
+                                    return(
+                                        <div 
+                                            className="requestList-item"
+                                            onClick={self.handleItemSelect.bind(self,item)}>      
+                                            <div className="requestList-item-header">{item.title}</div>
+                                            <div className="requestList-item-body">
+                                                <ul>
+                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                </ul>
+                                            </div>
+                                            <div className="requestList-item-status-assigned">{item.status}</div>
+                                        </div>
+                                    )
+                                    break;
+                                
+                            }
                         })}
                     </div>
                     <div className="requestList-body-right">
                         <div className="requestList-body-right-header">
-                            {this.state.particularPost_Post[0].title}
+                            {this.state.particularPost_Post[0].title}                            
                         </div>
                         <div className="requestList-body-right-body">
                             <div>
                                 <span><UserOutlined />Posted BY:</span>
                                 <span className="requestList-body-right-body-favoricon">{this.state.particularPost_Poster}</span>
                             </div>
+                            <div>
+                                <span>Status:</span>
+                                <span>{this.state.particularPost_Post[0].status}</span>
+                            </div>                          
                             <div>
                                 <span><UsergroupAddOutlined />Added BY:</span>                                
                                     {this.state.particularPost_adders.map(function(item){
@@ -314,7 +351,7 @@ class RequestList extends React.Component{
                                 <span><CalendarOutlined />Post Date:</span>
                                 <span>{this.state.particularPost_Post[0].added_datetime.split("T")[0]}</span>
                             </div>
-                            <div>
+                            {/* <div>
                                 <span>Total Reward:</span>
                                 <span className="requestList-body-right-body-favoricon">
                                     {this.state.particularPost_Reward_Qty.map(function (item) {
@@ -339,7 +376,7 @@ class RequestList extends React.Component{
                                         }
                                     })} 
                                 </span>
-                            </div>   
+                            </div>    */}
                             <div>
                                 <span><UserOutlined />Who is working on this:</span>
                                 <span className="requestList-body-right-body-favoricon">{this.state.particularPost_Signer}</span>

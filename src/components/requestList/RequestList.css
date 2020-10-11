@@ -63,3 +63,27 @@
 .requestList-header-rewardList-item:hover{
     cursor: pointer;
 }
+.requestList-item-status-open{
+    color: #7DB343;
+    margin: 30px auto;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #7DB343;
+    border-radius: 30px;
+}
+.requestList-item-status-closed{
+    color: crimson;
+    margin: 30px auto;
+    text-align: center;
+    width: 100px;
+    border: 1px solid crimson;
+    border-radius: 30px;
+}
+.requestList-item-status-assigned{
+    color: rgb(20, 113, 220);
+    margin: 30px auto;
+    text-align: center;
+    width: 100px;
+    border: 1px solid rgb(20, 113, 220);
+    border-radius: 30px;
+}
