@@ -37,7 +37,12 @@ class RequestList extends React.Component{
             particularPost_adders:[],
             RewardsEnumnation:[],
             particularPost_Reward_Qty:[],
-            addRewardsVisible:false
+            addRewardsVisible:false,
+
+            displayAddRewardButton:"none",
+            displaySignPost:"none",
+            displayUploadProof:"none"
+
         }
     }
 
@@ -99,6 +104,33 @@ class RequestList extends React.Component{
                 particularPost_Post:particularPost_Post,
                 particularPost_Rewards:particularPost_Rewards
             });
+            
+            // decide which button to show in the detail page
+            this.setState({
+                displayAddRewardButton:"none",
+                displaySignPost:"none",
+                displayUploadProof:"none"
+            });
+            let loggedUserID=cookie.load("user_id");
+            if(this.state.particularPost_Post.offer_by == null){
+                this.setState({
+                    displaySignPost:"block",
+                    displayAddRewardButton:"block"
+                });
+            }else if(this.state.particularPost_Post.offer_by == loggedUserID
+                    & this.state.particularPost_Post.status != "Closed"){
+                this.setState({
+                    displayUploadProof:"block",
+                    displayAddRewardButton:"none"
+                });
+            }else if(this.state.particularPost_Post.status == "Closed"){
+                this.setState({
+                    displayAddRewardButton:"none",
+                    displaySignPost:"none",
+                    displayUploadProof:"none"
+                });
+            }
+
         })
         // find the man who signed this 
         .then(() =>{
@@ -391,8 +423,9 @@ class RequestList extends React.Component{
                         </div>
                         <div className="requestList-body-right-footer" 
                             style={{display:this.state.displayButton}}> 
-                            <Button type="primary" onClick={this.showAddRewardsModal.bind(this)}>Add or Reduce Rewards</Button>
-                            <Button type="primary">Make an Offer</Button>
+                            <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayAddRewardButton}}>Add or Reduce Rewards</Button>
+                            <Button type="primary" style={{display:this.state.displaySignPost}}>Make an Offer</Button>
+                            <Button type="primary" style={{display:this.state.displayUploadProof}}>Complete it</Button>
                         </div>
                     </div>
                 </div>
