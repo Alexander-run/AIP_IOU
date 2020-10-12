@@ -1,3 +1,8 @@
 [1010/210257.963:ERROR:settings.cc(430)] Settings version is not 5
 [1010/211257.990:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
+<<<<<<< Updated upstream
 [1011/222620.005:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
+=======
+[1011/002736.000:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+>>>>>>> Stashed changes
+[1012/042537.580:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
