@@ -49,6 +49,7 @@ class AddRewards extends React.Component{
     onChangeRewards(ev,action,rewardType){
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
+            console.log(rewardType);
             if(item.name == rewardType){
                 if(action =='add'){
                     item.qty += 1;

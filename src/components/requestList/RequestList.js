@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal, Input } from 'antd';
+import { Button, Modal, Input, message } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
@@ -8,6 +8,7 @@ import { UserOutlined, UsergroupAddOutlined, CalendarOutlined } from '@ant-desig
 import AddRewards from "../AddRewards/Index";
 import axios from 'axios';
 import cookie from 'react-cookies';
+import CompletePost from '../CompletePost/CompletePost';
 
 const { Search } = Input;
 
@@ -38,6 +39,7 @@ class RequestList extends React.Component{
             RewardsEnumnation:[],
             particularPost_Reward_Qty:[],
             addRewardsVisible:false,
+            uploadVisible:false,
 
             displayAddRewardButton:"none",
             displaySignPost:"none",
@@ -112,18 +114,18 @@ class RequestList extends React.Component{
                 displayUploadProof:"none"
             });
             let loggedUserID=cookie.load("user_id");
-            if(this.state.particularPost_Post.offer_by == null){
+            if(this.state.particularPost_Post[0].offer_by == null){
                 this.setState({
                     displaySignPost:"block",
                     displayAddRewardButton:"block"
                 });
-            }else if(this.state.particularPost_Post.offer_by == loggedUserID
-                    & this.state.particularPost_Post.status != "Closed"){
+            }else if(this.state.particularPost_Post[0].offer_by == loggedUserID
+                    && this.state.particularPost_Post[0].status != "Closed"){
                 this.setState({
                     displayUploadProof:"block",
                     displayAddRewardButton:"none"
                 });
-            }else if(this.state.particularPost_Post.status == "Closed"){
+            }else if(this.state.particularPost_Post[0].status == "Closed"){
                 this.setState({
                     displayAddRewardButton:"none",
                     displaySignPost:"none",
@@ -236,7 +238,8 @@ class RequestList extends React.Component{
     }
     handleCancel(){
         this.setState({
-            addRewardsVisible:false
+            addRewardsVisible:false,
+            uploadVisible:false
         });
     }
 
@@ -258,23 +261,33 @@ class RequestList extends React.Component{
         })    
     }
     handleSearchReward(ev,rewardType){
-        // switch(rewardType){
-        //     case "chocolate":
-                
-        //         break;
-        //     case "coffee":
-            
-        //         break;
-        //     case "cupcake":
-            
-        //         break;
-        //     case "mint":
-            
-        //         break;
-        //     case "pizza":
-            
-        //         break;
-        // }
+
+    }
+
+    handleSignAPost(){        
+        let post_id = this.state.particularPost_Post[0].post_id;
+        let user_id = cookie.load("user_id");
+        let data = {   
+            "post_id": post_id,
+            "user_id": user_id,
+            "proof": 0
+        }
+        axios.put("https://aip-v1.ts.r.appspot.com/api/posts/apply_rewards",data)
+        .then(response =>{
+            let resMessage = response.data.message;
+            message.success(resMessage);
+            setTimeout(() => {
+                window.location.reload();
+            },2000);     
+        })
+        .catch((e) => {
+            console.log(e)
+        })
+    }
+    showUploadModal(){
+        this.setState({
+            uploadVisible:true
+        });
     }
 
     render(){
@@ -424,8 +437,8 @@ class RequestList extends React.Component{
                         <div className="requestList-body-right-footer" 
                             style={{display:this.state.displayButton}}> 
                             <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayAddRewardButton}}>Add or Reduce Rewards</Button>
-                            <Button type="primary" style={{display:this.state.displaySignPost}}>Make an Offer</Button>
-                            <Button type="primary" style={{display:this.state.displayUploadProof}}>Complete it</Button>
+                            <Button type="primary" onClick={this.handleSignAPost.bind(this)} style={{display:this.state.displaySignPost}}>Make an Offer</Button>
+                            <Button type="primary" onClick={this.showUploadModal.bind(this)} style={{display:this.state.displayUploadProof}}>Complete it</Button>
                         </div>
                     </div>
                 </div>
@@ -437,7 +450,15 @@ class RequestList extends React.Component{
                         <AddRewards 
                             postID={this.state.particularPost_Post[0].post_id}
                             rewards={this.state.particularPost_Reward_Qty}/>
-                </Modal>       
+                </Modal>                 
+                <Modal
+                    title="Select and upload the proof image"
+                    footer={[]}
+                    visible={this.state.uploadVisible}
+                    onCancel={this.handleCancel.bind(this)}>
+                        <CompletePost 
+                            postID={this.state.particularPost_Post[0].post_id}/>
+                </Modal>          
             </div>
         );
     }
