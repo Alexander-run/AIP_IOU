@@ -1,4 +1,3 @@
-  
  
   .middle-dash {
     width: 558px;
@@ -31,14 +30,15 @@
   
   .middle-dash-header .upper-header {
     border-bottom: 1px solid #ddd;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     height: 50px;
     padding-left: 5px;
     display: flex;
     align-items: center;
-    padding: 10px 10px 10px;
+    text-align: center;
+    padding: 20px 120px 5px;
     font-family: 'Lato', sans-serif;
     justify-content: space-between;
   }
@@ -63,6 +63,9 @@
   .aggregate-type.border {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
+  }
+  .aggregate-type.red h4{
+    color:red;
   }
   
   .aggregate-type h4 {
@@ -144,26 +147,35 @@
   }
   
   .friends-index header {
-    display: flex;
+    display: inline-table;
     background: #f6f6f6;
     color: #ccc;
     font-size: 11px;
     margin-top: 5px;
     text-align: center;
   }
- 
-  
+
+  .friends-index-body-left{
+    overflow-y: scroll;
+    height: 85vh;
+  }
+   
   .friends-index-item {
     color: black;
-    height: 20px;
+    height: 25px;
     font-size: 12px;
-    padding: 3px 0px 0px 0px;
     border-left: 0px ridge #fff;
+    list-style: none;
+  }
+  .friends-index-item ul{
     list-style: none;
   }
   
   .friends-index-item:hover {
-    background: lightpink;
+    transition: 0.35s;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #ff652f;
+    background-color: aqua;
   }
   
   

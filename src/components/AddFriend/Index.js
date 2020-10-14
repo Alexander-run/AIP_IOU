@@ -4,8 +4,6 @@ import { Button, message, Input,InputNumber } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
-import { UserOutlined, PlusOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import cookie from 'react-cookies';
 
 const { Search } = Input;
@@ -84,9 +82,21 @@ class AddFriend extends React.Component {
     }
 
     onChangeRadio(e) {
-        this.setState({
-            user_owes: e.target.value
-        })
+
+        if(e.target.value == "Owes")
+        {
+            this.setState({
+                user_owes:this.state.user_owes,
+                user_owned:this.state.user_owned
+            })
+        }
+        else if(e.target.value == "Owned")
+        {
+            this.setState({
+                user_owes:this.state.user_owned,
+                user_owned:this.state.user_owes
+            })
+        }
     }
 
     onChangeProof(e) {
@@ -210,8 +220,8 @@ class AddFriend extends React.Component {
                 <hr />
                 <p>Choose Favour?</p>
                 <div onChange={this.onChangeRadio.bind(this)}>
-                    <input type="radio" value={this.state.user_owes} name="Favour" /> Owes <br />
-                    <input type="radio" value={this.state.user_owned} name="Favour" /> Owned
+                    <input type="radio" value="Owes" name="Favour" /> Owes <br />
+                    <input type="radio" value="Owned" name="Favour" /> Owned
                 </div>
                 <hr />
 
