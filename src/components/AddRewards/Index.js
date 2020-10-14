@@ -16,8 +16,19 @@ class AddRewards extends React.Component{
         super(props);
         this.state={
             postID:this.props.postID,
-            rewards:this.props.rewards,
-            rewardsEnum:[]
+            rewards: {},            
+            // [{
+            //     user_id: ""
+            //     rewards:[
+            //         {
+            //             reward_name:"",qty:int
+            //         },
+            //         {
+            //             reward_name:"",qty:int
+            //         }
+            //     ]
+            // }]
+            rewardsEnum:[],
         }        
     }
 
@@ -29,27 +40,82 @@ class AddRewards extends React.Component{
 
         // pull rewardsEnum
         let responseData;
-        axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards`)
-        .then(response =>{
-            responseData = response.data;
-            responseData.forEach(item => {
-                this.setState({
-                    rewardsEnum:this.state.rewardsEnum.concat({
-                        "name":item.reward_name,
-                        "qty":0
-                    })
-                })
+        let selectedPostID = this.state.postID;
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/posts/${selectedPostID}`)
+        .then( response => {
+            let particularPost_Rewards = response.data.rewards;
+            // parse data into local states
+            this.setState({
+                rewards:particularPost_Rewards
             });
+
+            axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards`)
+            .then(response =>{
+                responseData = response.data;
+                responseData.forEach(item => {
+                    this.setState({
+                        rewardsEnum:this.state.rewardsEnum.concat({
+                            "name":item.reward_name,
+                            "qty":0
+                        })
+                    });
+                });
+                let newRewards = this.state.rewardsEnum;
+                newRewards.forEach(item => {
+                    switch(item.name){
+                        case "chocolate":
+                            item.name = "Chocolate";
+                            break;
+                        case "coffee":
+                            item.name = "Coffee"
+                            break;
+                        case "mint":
+                            item.name = "Mint"
+                            break;
+                        case "cupcake":
+                            item.name = "Cupcake"
+                            break;
+                        case "pizza":
+                            item.name = "Pizza"   
+                            break;         
+                    }
+                });
+                this.setState({
+                    rewardsEnum:newRewards
+                });
+            })        
+            .then(() => {
+                let rewards = this.state.rewards;
+                let user_id = cookie.load("user_id");
+                rewards.forEach(item => {
+                    if(item.user_id == user_id){
+                        let currentRewards = item.rewards;
+                        let rewardsEnum = this.state.rewardsEnum;
+                        currentRewards.forEach(element => {
+                            rewardsEnum.forEach(i => {
+                                if(i.name==element.reward_name){
+                                    i.qty = element.qty;
+                                }
+                            });
+                        });
+                        this.setState({
+                            rewardsEnum:rewardsEnum
+                        });
+                    }
+                });
+            })
+            .catch((e) => {
+                console.log(e);
+            })                
         })
         .catch((e) => {
-            console.log(e)
-        })
+            console.log(e);
+        }) 
     }
 
     onChangeRewards(ev,action,rewardType){
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
-            console.log(rewardType);
             if(item.name == rewardType){
                 if(action =='add'){
                     item.qty += 1;
@@ -68,93 +134,37 @@ class AddRewards extends React.Component{
 
 
     handleAddRewards(ev, operationType){
-        // API parameters
-        // save rewards whose count is more than 0
         let rewardsEnum = this.state.rewardsEnum;
-        let newRewardsEnum = [];
-        let originalRewards = this.state.rewards;
-        let rewards = [];
-        originalRewards.forEach(item => {
-            rewards = rewards.concat({
-                "name":item.reward_name,
-                "qty":item.qty
-            });
-        });
+        let newRewards=[];
         rewardsEnum.forEach(item => {
             if(item.qty > 0){
-                newRewardsEnum = newRewardsEnum.concat({
-                    "name":item.name,
-                    "qty":item.qty
-                })
+                newRewards = newRewards.concat(item);
             }
         });
         // check if the addList is null
-        if(newRewardsEnum.length == 0){
+        if(newRewards.length == 0){
             message.error("You have to add at least one reward first");
-        }else{
-
-            newRewardsEnum.forEach(item => {
-                switch(item.name){
-                    case "chocolate":
-                        item.name = "Chocolate";
-                        break;
-                    case "coffee":
-                        item.name = "Coffee"
-                        break;
-                    case "mint":
-                        item.name = "Mint"
-                        break;
-                    case "cupcake":
-                        item.name = "Cupcake"
-                        break;
-                    case "pizza":
-                        item.name = "Pizza"   
-                        break;         
-                }
-            });
-            
-            // update rewards            
-            let validation = true;
-            if(operationType == "add"){
-                newRewardsEnum.forEach(gapReward => {
-                    let existItem = false;
-                    rewards.forEach(oldReward =>{
-                        if(gapReward.name == oldReward.name){
-                            oldReward.qty +=gapReward.qty
-                            existItem = true;
-                        }
-                    });
-                    if(existItem == false){
-                        rewards = rewards.concat(gapReward);
-                    }
-                });
-            }
-            else if(operationType == "reduce"){
-                newRewardsEnum.forEach(gapReward => {
-                    let existItem = false;
-                    rewards.forEach(oldReward =>{
-                        if(gapReward.name == oldReward.name){
-                            oldReward.qty -=gapReward.qty
-                            if(oldReward.qty<0){
-                                oldReward.qty = 0;
-                            }
-                            existItem = true;
-                        }
-                    });
-                    if(existItem == false){
-                        message.error("This post has no "+gapReward.name+" reward currently")
-                        validation = false;
-                    }
-                });
-            }
-            
+        }else{      
             let userID = cookie.load("user_id");
             let data = {
                 "post_id":`${this.state.postID}`,
                 // get logged userID from cookie JWT
                 "user_id":userID,
-                "reward":rewards
+                "reward":newRewards
             };
+            console.log(data);
+            // axios.post("https://aip-v1.ts.r.appspot.com/api/posts/add_rewards",data)
+            // .then( res => {
+            //     let resMessage = res.data.message;
+            //     message.success(resMessage);
+            //     setTimeout(() => {
+            //         window.location.reload();
+            //     },2000);  
+            // })
+            // .catch((e) => {
+            //     console.log(e);
+            //     message.error("Error from server,Please try again");
+            // })
         }
         
     }
@@ -179,12 +189,12 @@ class AddRewards extends React.Component{
                                             <span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","chocolate")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","Chocolate")}}
                                                 >-</span>
                                                 <span className="addRewards-rewardsOption-count">{qty}</span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","chocolate")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","Chocolate")}}
                                                 >+</span>
                                             </span>
                                         </li>
@@ -198,12 +208,12 @@ class AddRewards extends React.Component{
                                             <span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","coffee")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","Coffee")}}
                                                 >-</span>
                                                 <span className="addRewards-rewardsOption-count">{qty}</span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","coffee")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","Coffee")}}
                                                 >+</span>
                                             </span>
                                         </li>
@@ -217,12 +227,12 @@ class AddRewards extends React.Component{
                                             <span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","cupcake")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","Cupcake")}}
                                                 >-</span>
                                                 <span className="addRewards-rewardsOption-count">{qty}</span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","cupcake")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","Cupcake")}}
                                                 >+</span>
                                             </span>
                                         </li>
@@ -236,12 +246,12 @@ class AddRewards extends React.Component{
                                             <span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","mint")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","Mint")}}
                                                 >-</span>
                                                 <span className="addRewards-rewardsOption-count">{qty}</span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","mint")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","Mint")}}
                                                 >+</span>
                                             </span>
                                         </li>
@@ -255,12 +265,12 @@ class AddRewards extends React.Component{
                                             <span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","pizza")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"minus","Pizza")}}
                                                 >-</span>
                                                 <span className="addRewards-rewardsOption-count">{qty}</span>
                                                 <span 
                                                     className="addRewards-rewardsOption-countButton"
-                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","pizza")}}
+                                                    onClick={(ev)=>{self.onChangeRewards(ev,"add","Pizza")}}
                                                 >+</span>
                                             </span>
                                         </li>
@@ -270,8 +280,7 @@ class AddRewards extends React.Component{
                     </ul>      
                 </div>
                 <div className="addRewards-submitButton" >
-                    <Button type="primary" onClick={(ev) => {self.handleAddRewards(ev,"add")}}>Add</Button>
-                    <Button type="primary" onClick={(ev) => {self.handleAddRewards(ev,"reduce")}}>Reduce</Button>
+                    <Button type="primary" onClick={this.handleAddRewards.bind(this)}>Edit</Button>
                 </div>
             </div>
         );

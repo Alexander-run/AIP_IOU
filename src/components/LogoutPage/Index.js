@@ -19,7 +19,7 @@ class LogoutPage extends React.Component{
         message.success("Logout Success");
         this.setState({logout:true});
         setTimeout(() => {
-          this.props.logout();
+          window.location.reload();
         },2000);
     }
 
