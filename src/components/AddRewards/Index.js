@@ -152,19 +152,18 @@ class AddRewards extends React.Component{
                 "user_id":userID,
                 "reward":newRewards
             };
-            console.log(data);
-            // axios.post("https://aip-v1.ts.r.appspot.com/api/posts/add_rewards",data)
-            // .then( res => {
-            //     let resMessage = res.data.message;
-            //     message.success(resMessage);
-            //     setTimeout(() => {
-            //         window.location.reload();
-            //     },2000);  
-            // })
-            // .catch((e) => {
-            //     console.log(e);
-            //     message.error("Error from server,Please try again");
-            // })
+            axios.post("https://aip-v1.ts.r.appspot.com/api/posts/add_rewards",data)
+            .then( res => {
+                let resMessage = res.data.message;
+                message.success(resMessage);
+                setTimeout(() => {
+                    window.location.reload();
+                },2000);  
+            })
+            .catch((e) => {
+                console.log(e);
+                message.error("Error from server,Please try again");
+            })
         }
         
     }
