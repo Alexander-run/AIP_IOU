@@ -12,6 +12,7 @@ import CompletePost from '../CompletePost/CompletePost';
 
 const { Search } = Input;
 let timer = undefined;
+
 class RequestList extends React.Component{
     
     constructor(props){
@@ -46,6 +47,7 @@ class RequestList extends React.Component{
 
         }
     }
+    // Timer for refresh the post list
     timerStart = () =>  {
         timer = setInterval(() => {
             let responseData = [];
@@ -61,7 +63,7 @@ class RequestList extends React.Component{
             })
             .catch((e) => {
                 console.log(e)
-            })
+            });
         },2000);  
     }
 
@@ -271,7 +273,18 @@ class RequestList extends React.Component{
         })    
     }
     handleSearchReward(ev,rewardType){
-
+        let reward = rewardType;
+        clearInterval(timer);
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?reward=${reward}`)
+        .then(response =>{
+            let posts = response.data.post;                             
+            this.setState({
+                allPosts:posts
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+        })    
     }
 
     handleSignAPost(){        
@@ -315,16 +328,16 @@ class RequestList extends React.Component{
                     />
                     <div className="requestList-header-rewardList"> 
                         Search by rewards:                       
-                        <GiChocolateBar  className="requestList-header-rewardList-item"
-                                         onClick={(ev)=>{self.handleSearchReward(ev,"chocolate")}}/>
-                        <FaCoffee   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"coffee")}}/>
-                        <GiCupcake   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"cupcake")}}/>
-                        <FaLeaf   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"mint")}}/>
-                        <FaPizzaSlice   className="requestList-header-rewardList-item"
-                                        onClick={(ev)=>{self.handleSearchReward(ev,"pizza")}}/>
+                        <Popover content={"Chocolate"}><GiChocolateBar  className="requestList-header-rewardList-item"
+                                         onClick={(ev)=>{self.handleSearchReward(ev,"Chocolate")}}/></Popover>
+                        <Popover content={"Coffee"}><FaCoffee   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Coffee")}}/></Popover>
+                        <Popover content={"Cupcake"}><GiCupcake   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Cupcake")}}/></Popover>
+                        <Popover content={"Mint"}><FaLeaf   className="requestList-header-rewardList-item"
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Mint")}}/></Popover>
+                        <Popover content={"Pizza"}><FaPizzaSlice   className="requestList-header-rewardList-item"
+                                        onClick={(ev)=>{self.handleSearchReward(ev,"Pizza")}}/></Popover>
                     </div>
                 </div>
                 <div className="requestList-body">
