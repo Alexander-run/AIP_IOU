@@ -1,5 +1,6 @@
 import React from 'react';
-import { Popover, Button, Modal, Input, message } from 'antd';
+import { Popover, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
@@ -413,19 +414,19 @@ class RequestList extends React.Component{
                                 <span><UsergroupAddOutlined />Reward BY:</span>                                
                                     {this.state.particularPost_adders.map(function(item){
                                         popContent = popContent.concat(
-                                            <div>
+                                            <Menu>
                                                 {item.rewards.map(function(element){
                                                     return(
-                                                        <p>{element.qty}      {element.reward_name} </p>
+                                                        <Menu.Item>{element.qty}      {element.reward_name} </Menu.Item>
                                                     )
                                                 })}
-                                            </div>
+                                            </Menu>
                                         );
                                         popContentIndex++;
                                         return(
-                                            <Popover content = {popContent[popContentIndex-1]}>
-                                                <span>{item.name}</span>
-                                            </Popover>                                            
+                                            <Dropdown overlay = {popContent[popContentIndex-1]} trigger={['click']}>
+                                                <a>{item.name} <DownOutlined /></a>
+                                            </Dropdown>                                            
                                         )
                                     })}
                             </div>
