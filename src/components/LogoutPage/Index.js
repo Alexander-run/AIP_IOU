@@ -16,11 +16,14 @@ class LogoutPage extends React.Component{
     
     logout(){        
         cookie.remove("user_id");
-        message.success("Logout Success");
+
+            message
+            .loading('Logout in progress..', 2.5);
+      
         this.setState({logout:true});
         setTimeout(() => {
           window.location.reload();
-        },2000);
+        },1000);
     }
 
 

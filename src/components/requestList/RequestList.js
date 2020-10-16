@@ -54,6 +54,8 @@ class RequestList extends React.Component{
             let responseData = [];
             axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
             .then(response => {
+                message
+                .loading('Loading.....', 0.5);
                 // receive response Data
                 responseData=response.data.post;
 
@@ -65,7 +67,7 @@ class RequestList extends React.Component{
             .catch((e) => {
                 console.log(e)
             });
-        },2000);  
+        },5000);  
     }
 
     componentDidMount(){

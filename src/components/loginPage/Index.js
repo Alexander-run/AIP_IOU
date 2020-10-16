@@ -1,6 +1,6 @@
 import React from 'react';
 import "./index.css";
-import { Button, message } from 'antd';
+import { Button, message,Spin } from 'antd';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
@@ -50,11 +50,13 @@ class LoginPage extends React.Component{
                 let userInfo = res.data.users; 
                 // set cookie to store logged userID for use in other component
                 cookie.save("user_id",userInfo.user_id,{path:"/"});
-                message.success("Login Success, will return to main page in 2 seconds");
+                message
+                    .loading('Details Verification', 1)
+                    .then(() => message.success('Login Details Success Verified, will return to main page in 2 seconds', 2));
                 this.setState({login:true});
                 setTimeout(() => {
                     window.location.reload();
-                },2000);            
+                },2500);            
             })
             .catch((e) => {
                 console.log(e);
@@ -85,7 +87,8 @@ class LoginPage extends React.Component{
                         value={this.state.password}
                         onChange={this.changePassword.bind(this)}/>
                 </div>                        
-                <Button type='primary' onClick={this.login.bind(this)}>Login</Button>
+                <Button type='primary' onClick={this.login.bind(this)}>Login
+                </Button>  
                 <div className="loginPage-fogetPassword"> 
                     Forgotten password?
                 </div>

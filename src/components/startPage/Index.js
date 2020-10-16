@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Router, Route } from 'react-router';
 import './Index.css';
 import logo from '../../assert/utslogo.png'
-import { Button, Layout, Modal } from 'antd';
+import { Button, Layout, Modal, Avatar } from 'antd';
 import SignupPage from '../signupPage/Index';
 import LoginPage from '../loginPage/Index';
 import LeaderBoard from "../leaderBoard/LeaderBoard";
@@ -16,245 +16,265 @@ import MyPosts from '../MyPosts/MyPosts';
 import cookie from 'react-cookies';
 
 
-class StartPage extends React.Component{
+class StartPage extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            loginModalVisible:false,
-            signupModalVisible:false,
-            addRequestVisible:false,
-            logoutModalVisible:false,
-            showLoginButtons:"block",
-            showLogoutButtons:"none",
-            showRequestList:"block",
-            showMypostButton:"none",
-            showDashboard:"none",
-            showLeaderBoard:"none",
-            showMyPosts:"none",
+        this.state = {
+            loginModalVisible: false,
+            signupModalVisible: false,
+            addRequestVisible: false,
+            logoutModalVisible: false,
+            showLoginButtons: "block",
+            showLogoutButtons: "none",
+            showRequestList: "block",
+            showMypostButton: "none",
+            showDashboard: "none",
+            showLeaderBoard: "none",
+            showMyPosts: "none",
             loginStatus: false,
             userID: null,
+            username:"",
 
-            
-            browseButtonStyle:{},
-            leaderBoardButtonStyle:{},
-            dashboardButtonStyle:{display:"none"},
-            myPostsButtonStyle:{display:"none"}
+            browseButtonStyle: {},
+            leaderBoardButtonStyle: {},
+            dashboardButtonStyle: { display: "none" },
+            myPostsButtonStyle: { display: "none" }
         };
     }
 
-    componentDidMount(){
-        
+    componentDidMount() {
+
         // get login status from cookie
         let userID = cookie.load("user_id");
-        // hide login button and sign up button, show personal home button
-        if(userID){
-            this.setState({                
-                dashboardButtonStyle:{display:"block"},
-                myPostsButtonStyle:{display:"block"},
-                showLoginButtons:"none",
-                showLogoutButtons:"block"
-            })            
-        }
-        else{
+
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/users/${userID}`)
+        .then(response => {
+            let username = response.data.users[0].first_name+" "+response.data.users[0].last_name
             this.setState({
-                dashboardButtonStyle:{display:"none"},
-                myPostsButtonStyle:{display:"none"},
-                showLoginButtons:"block",
-                showLogoutButtons:"none"
-            })    
+                username: username
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+        })
+        // hide login button and sign up button, show personal home button
+        if (userID) {
+            this.setState({
+                dashboardButtonStyle: { display: "block" },
+                myPostsButtonStyle: { display: "block" },
+                showLoginButtons: "none",
+                showLogoutButtons: "block"
+            })
         }
-            
+        else {
+            this.setState({
+                dashboardButtonStyle: { display: "none" },
+                myPostsButtonStyle: { display: "none" },
+                showLoginButtons: "block",
+                showLogoutButtons: "none"
+            })
+        }
+
     }
 
-    handleSignUpClick(){
-         this.setState({
-                signupModalVisible:true
+    handleSignUpClick() {
+        this.setState({
+            signupModalVisible: true
         })
     }
-    handleLoginClick(){
+    handleLoginClick() {
         this.setState({
-               loginModalVisible:true
-       })
-   }
-   handleLogoutClick(){
-    this.setState({
-          logoutModalVisible:true
+            loginModalVisible: true
+        })
+    }
+    handleLogoutClick() {
+        this.setState({
+            logoutModalVisible: true
 
-   })
-}
-   handleCancel(){
+        })
+    }
+    handleCancel() {
         this.setState({
-            signupModalVisible:false,
-            loginModalVisible:false,
-            logoutModalVisible:false,
-            addRequestVisible:false
+            signupModalVisible: false,
+            loginModalVisible: false,
+            logoutModalVisible: false,
+            addRequestVisible: false
         })
         this.forceUpdate();
-   }
-   handleAddRequest(){
+    }
+    handleAddRequest() {
         this.setState({
-            addRequestVisible:true
+            addRequestVisible: true
         })
-   }
+    }
 
-   displayRequestsList(){
-       this.setState({
-            browseButtonStyle:{
-                marginTop: "2px",
-                borderBottom: "2px solid #008FB4",
-                cursor: "pointer",
-                color: "#008FB4",
-            },
-            showRequestList:"block",
-            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
-            leaderBoardButtonStyle:{},
-            myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
-            showLeaderBoard:"none",
-            showDashboard:"none",
-            showMyPosts:"none"
-       });
-   }
-   displayLeaderBoard(){
+    displayRequestsList() {
         this.setState({
-            leaderBoardButtonStyle:{
+            browseButtonStyle: {
                 marginTop: "2px",
                 borderBottom: "2px solid #008FB4",
                 cursor: "pointer",
                 color: "#008FB4",
             },
-            showLeaderBoard:"block",
-            browseButtonStyle:{},
-            myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
-            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
-            showRequestList:"none",
-            showDashboard:"none",
-            showMyPosts:"none"
-        });    
+            showRequestList: "block",
+            dashboardButtonStyle: { display: `${this.state.dashboardButtonStyle.display}` },
+            leaderBoardButtonStyle: {},
+            myPostsButtonStyle: { display: `${this.state.myPostsButtonStyle.display}` },
+            showLeaderBoard: "none",
+            showDashboard: "none",
+            showMyPosts: "none"
+        });
     }
-    displayMyPosts(){
+    displayLeaderBoard() {
         this.setState({
-            myPostsButtonStyle:{
+            leaderBoardButtonStyle: {
                 marginTop: "2px",
                 borderBottom: "2px solid #008FB4",
                 cursor: "pointer",
                 color: "#008FB4",
             },
-            showMyPosts:"block",
-            browseButtonStyle:{},
-            leaderBoardButtonStyle:{},
-            dashboardButtonStyle:{display:`${this.state.dashboardButtonStyle.display}`},
-            showRequestList:"none",
-            showLeaderBoard:"none",
-            showDashboard:"none"
-        });   
+            showLeaderBoard: "block",
+            browseButtonStyle: {},
+            myPostsButtonStyle: { display: `${this.state.myPostsButtonStyle.display}` },
+            dashboardButtonStyle: { display: `${this.state.dashboardButtonStyle.display}` },
+            showRequestList: "none",
+            showDashboard: "none",
+            showMyPosts: "none"
+        });
     }
-    displayDashboardList(){
+    displayMyPosts() {
         this.setState({
-             dashboardButtonStyle:{
-                 marginTop: "2px",
-                 borderBottom: "2px solid #008FB4",
-                 cursor: "pointer",
-                 color: "#008FB4",
-             },
-             showDashboard:"block",
-             leaderBoardButtonStyle:{},
-             myPostsButtonStyle:{display:`${this.state.myPostsButtonStyle.display}`},
-             browseButtonStyle:{},
-             showLeaderBoard:"none",
-             showRequestList:"none",
-             showMyPosts:"none"
+            myPostsButtonStyle: {
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showMyPosts: "block",
+            browseButtonStyle: {},
+            leaderBoardButtonStyle: {},
+            dashboardButtonStyle: { display: `${this.state.dashboardButtonStyle.display}` },
+            showRequestList: "none",
+            showLeaderBoard: "none",
+            showDashboard: "none"
+        });
+    }
+    displayDashboardList() {
+        this.setState({
+            dashboardButtonStyle: {
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showDashboard: "block",
+            leaderBoardButtonStyle: {},
+            myPostsButtonStyle: { display: `${this.state.myPostsButtonStyle.display}` },
+            browseButtonStyle: {},
+            showLeaderBoard: "none",
+            showRequestList: "none",
+            showMyPosts: "none"
         });
     }
 
-    render(){
-        return( 
-            <div className="start"> 
+    render() {
+        let self = this;
+        return (
+            <div className="start">
                 <div className="start-header">
                     <div className="start-header-left">
                         <img src={logo}></img>
-                        <div 
-                            className="start-header-addRequestButton"                        
-                            onClick={this.handleAddRequest.bind(this)}
+                        <div
+                            className="start-header-addRequestButton"
+                            onClick={self.handleAddRequest.bind(self)}
                         >Add new Request
                         </div>
                         <div className="start-header-navigation">
                             <button
-                                style={this.state.browseButtonStyle}
-                                onClick={this.displayRequestsList.bind(this)}
+                                style={self.state.browseButtonStyle}
+                                onClick={self.displayRequestsList.bind(self)}
                             >All Posts</button>
                             <button
-                                style={this.state.leaderBoardButtonStyle}
-                                onClick={this.displayLeaderBoard.bind(this)}
+                                style={self.state.leaderBoardButtonStyle}
+                                onClick={self.displayLeaderBoard.bind(self)}
                             >Leader-Board</button>
                             <button
-                                style={this.state.myPostsButtonStyle}
-                                onClick={this.displayMyPosts.bind(this)}
+                                style={self.state.myPostsButtonStyle}
+                                onClick={self.displayMyPosts.bind(self)}
                             >My Posts</button>
                             <button
-                                style={this.state.dashboardButtonStyle}
-                                onClick={this.displayDashboardList.bind(this)}
+                                style={self.state.dashboardButtonStyle}
+                                onClick={self.displayDashboardList.bind(self)}
                             >My Owes</button>
                         </div>
                     </div>
-                    <div className="start-header-right" style={{display:this.state.showLoginButtons}}>
-                        <Button 
+                    <div className="start-header-right" style={{ display: self.state.showLoginButtons }}>
+                        <Button
                             type="default"
-                            onClick={this.handleLoginClick.bind(this)}
+                            onClick={self.handleLoginClick.bind(self)}
                         >Log In</Button>
                         <Button
                             type="primary"
-                            onClick={this.handleSignUpClick.bind(this)}
-                        >Join now</Button>                        
+                            onClick={self.handleSignUpClick.bind(self)}
+                        >Join now</Button>
                     </div>
-                    <div className="start-header-right" style={{display:this.state.showLogoutButtons}}>
-                        <Button 
+                    <div className="start-header-right" style={{ display: self.state.showLogoutButtons }}>
+                        <Avatar style={{
+                            color: '#f56a00',
+                            backgroundColor: '#fde3cf',
+                            overflow:"true"
+                        }} size={75}>{this.state.username}</Avatar>
+                        <Button
                             type="default"
-                            onClick={this.handleLogoutClick.bind(this)}
-                        >Log Out</Button>                            
-                    </div>                    
+                            onClick={self.handleLogoutClick.bind(self)}
+                        >
+                            Log Out</Button>
+                           
+
+                    </div>
                 </div>
                 <div className="start-body">
-                    <div style={{display:this.state.showRequestList}}><RequestList  userID = {this.state.userID}/></div>
-                    <div style={{display:this.state.showLeaderBoard}}><LeaderBoard /></div>                    
-                    <div style={{display:this.state.showMyPosts}}><MyPosts userID = {this.state.userID}/></div> 
-                    <div style={{display:this.state.showDashboard}}><Transaction /></div>
+                    <div style={{ display: self.state.showRequestList }}><RequestList userID={self.state.userID} /></div>
+                    <div style={{ display: self.state.showLeaderBoard }}><LeaderBoard /></div>
+                    <div style={{ display: self.state.showMyPosts }}><MyPosts userID={self.state.userID} /></div>
+                    <div style={{ display: self.state.showDashboard }}><Transaction /></div>
                 </div>
 
                 <Modal
                     title="Create your Request"
                     footer={[]}
-                    visible={this.state.addRequestVisible}
-                    onOk={this.handleAddRequestSubmit}
-                    onCancel={this.handleCancel.bind(this)}>
-                        <AddRequest  userID = {this.state.userID}/>
-                </Modal>                
+                    visible={self.state.addRequestVisible}
+                    onOk={self.handleAddRequestSubmit}
+                    onCancel={self.handleCancel.bind(self)}>
+                    <AddRequest userID={self.state.userID} />
+                </Modal>
                 <Modal
                     title="Create a new account"
                     footer={[]}
-                    visible={this.state.signupModalVisible}
-                    onOk={this.handleSignupSubmit}
-                    onCancel={this.handleCancel.bind(this)}>
-                        <SignupPage />
-                </Modal>                    
+                    visible={self.state.signupModalVisible}
+                    onOk={self.handleSignupSubmit}
+                    onCancel={self.handleCancel.bind(self)}>
+                    <SignupPage />
+                </Modal>
                 <Modal
                     title="Log in to IOU"
                     footer={[]}
-                    visible={this.state.loginModalVisible}
-                    onOk={this.handleLoginSubmit}
-                    onCancel={this.handleCancel.bind(this)}>
-                        <LoginPage />
-                </Modal>    
+                    visible={self.state.loginModalVisible}
+                    onOk={self.handleLoginSubmit}
+                    onCancel={self.handleCancel.bind(self)}>
+                    <LoginPage />
+                </Modal>
                 <Modal
                     title="Are Your Sure Want to logout?"
                     footer={[]}
-                    visible={this.state.logoutModalVisible}
-                    onOk={this.handleLoginSubmit}
-                    onCancel={this.handleCancel.bind(this)}>
-                        <LogoutPage />
-                </Modal>                             
-            </div>  
-        );        
+                    visible={self.state.logoutModalVisible}
+                    onOk={self.handleLoginSubmit}
+                    onCancel={self.handleCancel.bind(self)}>
+                    <LogoutPage />
+                </Modal>
+            </div>
+        );
     }
 }
 

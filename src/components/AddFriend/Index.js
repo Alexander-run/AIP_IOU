@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, message, Input,InputNumber } from 'antd';
+import { Button, message, Input, InputNumber } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
@@ -18,8 +18,8 @@ class AddFriend extends React.Component {
             proof: '',
             user_owned: '',
             rewardsEnum: [],
-            rewardname:'',
-            rewardqty:1
+            rewardname: '',
+            rewardqty: 1
         };
     }
 
@@ -55,46 +55,63 @@ class AddFriend extends React.Component {
 
     handleSearch() {
         const searchkey = this.state.searchKey;
+
         if (searchkey == "") {
             message.error("Blank User cant be searched");
         }
         else {
             axios.get(`https://aip-v1.ts.r.appspot.com/api/users/?username=${searchkey}`)
                 .then(response => {
-                    let searcheduser = response.data.users[0].user_id;
-                    message.success("User Found!");
-                    this.setState({
-                        user_owes: searcheduser
+                    if (response.status == 200) {
 
-                    })
+                        let searcheduser = response.data.users[0].user_id;
+                        if (this.state.user_owned == searcheduser) {
+                            message.error("User Cannot Same as Login User");
+                        }
+                        else {
+
+                            message.success("User Found!");
+                            this.setState({
+                                user_owes: searcheduser
+
+                            })
+                        }
+                    }
+
                 })
                 .catch((e) => {
-                    message.error("User Doesn't Exist! Please Try again!");
+                    message.error("User Doesnot Exist! Please try again.....");
                     console.log(e)
                 })
         }
     }
 
     onSearchKeyChange(e) {
-        this.setState({
-            searchKey: e.target.value
-        })
+        if (e.target.value == "") {
+            this.setState({
+                searchKey: []
+            })
+        }
+        else {
+            this.setState({
+                searchKey: e.target.value
+            })
+        }
+
     }
 
     onChangeRadio(e) {
 
-        if(e.target.value == "Owes")
-        {
+        if (e.target.value == "Owned") {
             this.setState({
-                user_owes:this.state.user_owes,
-                user_owned:this.state.user_owned
+                user_owes: this.state.user_owes,
+                user_owned: this.state.user_owned
             })
         }
-        else if(e.target.value == "Owned")
-        {
+        else if (e.target.value == "Owes") {
             this.setState({
-                user_owes:this.state.user_owned,
-                user_owned:this.state.user_owes
+                user_owes: this.state.user_owned,
+                user_owned: this.state.user_owes
             })
         }
     }
@@ -105,18 +122,18 @@ class AddFriend extends React.Component {
         })
     }
 
-     onChangeQty(e,Itemname) {   
+    onChangeQty(e, Itemname) {
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
-            console.log(item.name);
-            if(item.name == Itemname){
-              item.qty=e;
+            if (item.name == Itemname) {
+                item.qty = e;
             }
         });
+      
         this.setState({
-            rewardsEnum:rewardsEnum
+            rewardsEnum: rewardsEnum
         });
-      }
+    }
 
     addFavour() {
         const user_owes = this.state.user_owes;
@@ -130,77 +147,75 @@ class AddFriend extends React.Component {
         let newRewardsEnum = [];
         let rewards = [];
         rewardsEnum.forEach(item => {
-            if(item.qty > 0){
+            if (item.qty > 0) {
                 newRewardsEnum = newRewardsEnum.concat({
-                    "name":item.name,
-                    "qty":item.qty
+                    "name": item.name,
+                    "qty": item.qty
                 })
             }
         });
 
-        if(newRewardsEnum.length == 0)
-        {
-            message.error("You have to choose at least one favour first");
-        }
-        else
-        {
-            newRewardsEnum.forEach(item => {
-                switch(item.name){
-                    case "chocolate":
-                        item.name = "Chocolate";
-                        break;
-                    case "coffee":
-                        item.name = "Coffee"
-                        break;
-                    case "mint":
-                        item.name = "Mint"
-                        break;
-                    case "cupcake":
-                        item.name = "Cupcake"
-                        break;
-                    case "pizza":
-                        item.name = "Pizza"   
-                        break;         
-                }
-            });
-            newRewardsEnum.forEach(currentfavor=>{
-                let ItemChanged = false;
-                rewards.forEach(oldFavour =>{
-                    if(currentfavor.name == oldFavour.name){
-                        oldFavour.qty+=currentfavor.qty
-                        ItemChanged = true;
+        if (user_owes == "") {
+            message.error("Please search the user before adding.!");
+        } else {
+            if (newRewardsEnum.length == 0) {
+                message.error("You have to choose at least one favour first");
+            } else {
+                newRewardsEnum.forEach(item => {
+                    switch (item.name) {
+                        case "chocolate":
+                            item.name = "Chocolate";
+                            break;
+                        case "coffee":
+                            item.name = "Coffee"
+                            break;
+                        case "mint":
+                            item.name = "Mint"
+                            break;
+                        case "cupcake":
+                            item.name = "Cupcake"
+                            break;
+                        case "pizza":
+                            item.name = "Pizza"
+                            break;
                     }
                 });
-                if(ItemChanged == false){
-                    rewards = rewards.concat(currentfavor);
+                newRewardsEnum.forEach(currentfavor => {
+                    let ItemChanged = false;
+                    rewards.forEach(oldFavour => {
+                        if (currentfavor.name == oldFavour.name) {
+                            oldFavour.qty += currentfavor.qty
+                            ItemChanged = true;
+                        }
+                    });
+                    if (ItemChanged == false) {
+                        rewards = rewards.concat(currentfavor);
+                    }
+                });
+
+                let data = {
+                    "user_owes": user_owes,
+                    "user_owed": user_owned,
+                    "proof": proof,
+                    "reward": rewards
                 }
-            });
+
+                axios.post('https://aip-v1.ts.r.appspot.com/api/favours/add_transaction', data)
+                    .then(response => {
+                        responseMessage = response.data.message;
+                        message
+                        .loading('Transaction is Getting Added...', 2.5)
+                        .then(() => message.success(responseMessage, 2));
+                        setTimeout(() => {
+                            window.location.reload();
+                        },2500);    
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                    })
+            }
         }
 
-        if(user_owes == "")
-        {
-            message.error("Please search the user before adding.!")
-        }
-        else
-        {
-            let data = {
-                "user_owes": user_owes,
-                "user_owed": user_owned,
-                "proof": proof,
-                "reward": rewards
-            }
-            
-            axios.post('https://aip-v1.ts.r.appspot.com/api/favours/add_transaction', data)
-                .then(response => {
-                    responseMessage = response.data.message;
-                    message.success(responseMessage);
-                   
-                })
-                .catch((e) => {
-                    console.log(e)
-                })
-        }
-       
 
     }
 
@@ -230,7 +245,7 @@ class AddFriend extends React.Component {
                     <input type="radio" value="1" name="Proof" /> Yes <br />
                     <input type="radio" value="0" name="Proof" /> No
             </div>
-            <hr/>
+                <hr />
                 <p>Select the Favour OWed or Owned</p>
                 <div className="addRewards">
                     <div className="addRewards-rewardsOption">
@@ -243,8 +258,8 @@ class AddFriend extends React.Component {
                                         return (
                                             <li>
                                                 <span><GiChocolateBar /> {itemName}</span>
-                                                 <InputNumber  defaultValue={0}  onChange={(e)=>self.onChangeQty(e,itemName)}/>
-                                           
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
+
                                             </li>
                                         )
                                     case "Coffee":
@@ -252,7 +267,7 @@ class AddFriend extends React.Component {
                                         return (
                                             <li>
                                                 <span><FaCoffee /> {itemName}</span>
-                                                <InputNumber defaultValue={0}  onChange={(e)=>self.onChangeQty(e,itemName)}/>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
                                             </li>
                                         )
                                     case "Cupcake":
@@ -260,7 +275,7 @@ class AddFriend extends React.Component {
                                         return (
                                             <li>
                                                 <span><GiCupcake /> {itemName}</span>
-                                                <InputNumber defaultValue={0}  onChange={(e)=>self.onChangeQty(e,itemName)}/>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
                                             </li>
                                         )
                                     case "Mint":
@@ -268,7 +283,7 @@ class AddFriend extends React.Component {
                                         return (
                                             <li>
                                                 <span><FaLeaf /> {itemName}</span>
-                                                <InputNumber defaultValue={0} onChange={(e)=>self.onChangeQty(e,itemName)}/>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
                                             </li>
                                         )
                                     case "Pizza":
@@ -276,7 +291,7 @@ class AddFriend extends React.Component {
                                         return (
                                             <li>
                                                 <span><FaPizzaSlice /> {itemName}</span>
-                                                <InputNumber defaultValue={0}  onChange={(e)=>self.onChangeQty(e,itemName)}/>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
                                             </li>
                                         )
                                 }
@@ -284,7 +299,7 @@ class AddFriend extends React.Component {
                         </ul>
                     </div>
                 </div>
-                
+
 
                 <Button type="primary" onClick={this.addFavour.bind(this)}>Add Favour</Button>
 

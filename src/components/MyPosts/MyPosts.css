@@ -16,7 +16,7 @@
     justify-content: left;
 }
 .requestList-body-left{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 85vh;
 }
 .requestList-body-right{
