@@ -145,7 +145,6 @@ class Transaction extends React.Component {
         let user1 = item.userid;
         let user2 = cookie.load("user_id");
         let type = item.FavourType;
-        let transactionID;
 
 
         let responseData = [];
@@ -185,7 +184,7 @@ class Transaction extends React.Component {
                             proof: true,
                             transactionID: response.data.transactions[0].transaction_id
                         })
-                        console.log("Uplod owes"+transactionID);
+                        console.log("Uplod owes"+this.state.transactionID);
                     }
 
                     this.setState({
@@ -208,7 +207,7 @@ class Transaction extends React.Component {
                             proof: true,
                             transactionID: response.data.transactions[0].transaction_id
                         })
-                        console.log("Uplod Owe"+transactionID);
+                        console.log("Uplod Owe"+this.state.transactionID);
                     }
 
                     this.setState({
@@ -244,15 +243,10 @@ class Transaction extends React.Component {
         this.forceUpdate();
     }
     showUploadModal(){
-        if(this.state.proof == true)
-        {
             this.setState({
                 uploadprof:true
             })
-        }
-        else{
-            console.log("Proof Please");
-        }
+     
         
     }
     handleAddFrend() {
@@ -348,7 +342,7 @@ class Transaction extends React.Component {
                                 {this.state.allOwesTransaction.map(function (item) {
 
                                     return (
-                                        
+                                      
                                         <div>
                                             <Collapse>
                                                 <Panel header={item.timestamp.split("T")[0]}>
