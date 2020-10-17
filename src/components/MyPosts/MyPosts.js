@@ -66,33 +66,35 @@ class MyPosts extends React.Component{
         },2000);  
     }
 
-    componentDidMount(){
-        let userID = cookie.load("user_id");
-        // get all posts related to the logged in user(with user_id parameter)
-        let responseData = [];
-        setTimeout(() => {
-            axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?user_id=${userID}`)
-            .then(response => {
-                // receive response Data
-                responseData=response.data.post;
-
-                // Parse Data into local states
-                this.setState({
-                    allPosts:responseData
-                })
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-        },1000);  
-        
-        this.timerStart();
+    componentDidMount(){        
 
         // get login status from cookie
-        if(userID){
+        if(cookie.load("user_id")){
             this.setState({
                 displayButton:"block"
             });
+            let userID = cookie.load("user_id");
+            // get all posts related to the logged in user(with user_id parameter)
+            let responseData = [];
+            setTimeout(() => {
+                axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?user_id=${userID}`)
+                .then(response => {
+                    message
+                    .loading('Loading.....', 0.5);
+                    // receive response Data
+                    responseData=response.data.post;
+
+                    // Parse Data into local states
+                    this.setState({
+                        allPosts:responseData
+                    })
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+            },1000);  
+        
+            this.timerStart();
         }else{
             this.setState({
                 displayButton:"none"

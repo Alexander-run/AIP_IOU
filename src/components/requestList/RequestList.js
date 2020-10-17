@@ -23,6 +23,8 @@ class RequestList extends React.Component{
             displayButton:false,
 
             allPosts: [],
+            displayPosts:[],
+            loadMoreIndex: 1,
             particularPost_Post:[{
                 "post_id": "",
                 "added_by": "",
@@ -54,8 +56,7 @@ class RequestList extends React.Component{
             let responseData = [];
             axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
             .then(response => {
-                message
-                .loading('Loading.....', 0.5);
+                
                 // receive response Data
                 responseData=response.data.post;
 
@@ -71,10 +72,20 @@ class RequestList extends React.Component{
     }
 
     componentDidMount(){
+        // get loadmoreIndex
+        let loadMoreIndex;
+        if(!cookie.load("loadMoreIndex")){
+            cookie.save("loadMoreIndex",3,{path:"/"});
+            loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+        }else{
+            loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+        }
         // get all posts 
         let responseData = [];
         axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
         .then(response => {
+            message
+            .loading('Loading.....', 0.5);
             // receive response Data
             responseData=response.data.post;
 
@@ -82,7 +93,14 @@ class RequestList extends React.Component{
             this.setState({
                 allPosts:responseData
             })
-            console.log("ping");
+            let i;
+            for (i=0;i<loadMoreIndex;i++){
+                if(responseData[i]){
+                    this.setState({
+                        displayPosts:this.state.displayPosts.concat(responseData[i])
+                    });
+                }
+            }
         })
         .catch((e) => {
             console.log(e)
@@ -239,6 +257,13 @@ class RequestList extends React.Component{
         
     }
     
+    onLoadMore(){       
+        let loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+        loadMoreIndex +=3;
+        cookie.save("loadMoreIndex",loadMoreIndex,{path:"/"});   
+        window.location.reload();     
+    }
+
     showAddRewardsModal(){
         this.setState({
             addRewardsVisible:true
@@ -345,7 +370,7 @@ class RequestList extends React.Component{
                 </div>
                 <div className="requestList-body">
                     <div className="requestList-body-left">
-                        {this.state.allPosts.map(function(item){
+                        {this.state.displayPosts.map(function(item){
                             switch (item.status) {
                                 case "Open":
                                     return(
@@ -398,6 +423,9 @@ class RequestList extends React.Component{
                                 
                             }
                         })}
+                        <Button shape="round" type="primary"
+                        className="requestList-body-left-loadMoreButton"
+                        onClick={this.onLoadMore.bind(this)}>Load More</Button>
                     </div>
                     <div className="requestList-body-right">
                         <div className="requestList-body-right-header">

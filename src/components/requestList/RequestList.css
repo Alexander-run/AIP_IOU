@@ -15,9 +15,14 @@
     flex-direction: row;
     justify-content: left;
 }
-.requestList-body-left{
+.requestList-body-left{    
     overflow-y: auto;
     height: 85vh;
+}
+.requestList-body-left-loadMoreButton{
+    width: 15vh;
+    align-self: center;
+    margin: 6vh;
 }
 .requestList-body-right{
     margin: 0 2vh;
