@@ -44,9 +44,11 @@ class RequestList extends React.Component{
             addRewardsVisible:false,
             uploadVisible:false,
 
+            displayBodyRight:"none",
             displayAddRewardButton:"none",
             displaySignPost:"none",
-            displayUploadProof:"none"
+            displayUploadProof:"none",
+            displayNewAddRewardButton:"none"
 
         }
     }
@@ -72,6 +74,7 @@ class RequestList extends React.Component{
     }
 
     componentDidMount(){
+
         // get loadmoreIndex
         let loadMoreIndex;
         if(!cookie.load("loadMoreIndex")){
@@ -153,28 +156,38 @@ class RequestList extends React.Component{
             this.setState({
                 displayAddRewardButton:"none",
                 displaySignPost:"none",
-                displayUploadProof:"none"
+                displayUploadProof:"none",
+                displayNewAddRewardButton:"none"
             });
             let loggedUserID=cookie.load("user_id");
-            if(this.state.particularPost_Post[0].offer_by == null){
+            if(this.state.particularPost_Post[0].added_by === loggedUserID){
                 this.setState({
-                    displaySignPost:"block",
                     displayAddRewardButton:"block"
                 });
-            }else if(this.state.particularPost_Post[0].offer_by == loggedUserID
+            }else if(this.state.particularPost_Post[0].offer_by == null){
+                let existAdder = false;
+                this.state.particularPost_Rewards.forEach(item => {
+                    let adderID = item.user_id;
+                    if(adderID === loggedUserID){
+                        this.setState({
+                            displaySignPost:"block",
+                            displayAddRewardButton:"block"
+                        });
+                        existAdder = true;
+                    }
+                });
+                if(!existAdder){
+                    this.setState({
+                        displaySignPost:"block",
+                        displayNewAddRewardButton:"block"
+                    });
+                }
+            }else if(this.state.particularPost_Post[0].offer_by === loggedUserID
                     && this.state.particularPost_Post[0].status != "Closed"){
                 this.setState({
                     displayUploadProof:"block",
-                    displayAddRewardButton:"none"
-                });
-            }else if(this.state.particularPost_Post[0].status == "Closed"){
-                this.setState({
-                    displayAddRewardButton:"none",
-                    displaySignPost:"none",
-                    displayUploadProof:"none"
                 });
             }
-
         })
         
         .then( () => {
@@ -239,6 +252,11 @@ class RequestList extends React.Component{
                     console.log(e)
                 })
             }
+        })
+        .then(() =>{
+            this.setState({
+                displayBodyRight:"block"
+            })
         })
         .catch((e) => {
             console.log(e)
@@ -421,7 +439,7 @@ class RequestList extends React.Component{
                         <div className="requestList-body-right-header">
                             {this.state.particularPost_Post[0].title}                            
                         </div>
-                        <div className="requestList-body-right-body">
+                        <div className="requestList-body-right-body" style={{display:this.state.displayBodyRight}}>
                             <div>
                                 <span><UserOutlined />Posted BY:</span>
                                 <span className="requestList-body-right-body-favoricon">{this.state.particularPost_Poster}</span>
@@ -468,6 +486,7 @@ class RequestList extends React.Component{
                         </div>
                         <div className="requestList-body-right-footer" 
                             style={{display:this.state.displayButton}}> 
+                            <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayNewAddRewardButton}}>Add Rewards</Button>
                             <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayAddRewardButton}}>Edit Rewards</Button>
                             <Button type="primary" onClick={this.handleSignAPost.bind(this)} style={{display:this.state.displaySignPost}}>Make an Offer</Button>
                             <Button type="primary" onClick={this.showUploadModal.bind(this)} style={{display:this.state.displayUploadProof}}>Complete it</Button>

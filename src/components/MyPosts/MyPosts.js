@@ -39,10 +39,8 @@ class MyPosts extends React.Component{
             addRewardsVisible:false,
             uploadVisible:false,
 
+            displayBodyRight:"none",
             displayAddRewardButton:"none",
-            displaySignPost:"none",
-            displayUploadProof:"none"
-
         }
     }
     // Timer for refresh the post list
@@ -133,29 +131,12 @@ class MyPosts extends React.Component{
             // decide which button to show in the detail page
             this.setState({
                 displayAddRewardButton:"none",
-                displaySignPost:"none",
-                displayUploadProof:"none"
             });
-            let loggedUserID=cookie.load("user_id");
-            if(this.state.particularPost_Post[0].offer_by == null){
+            if(this.state.particularPost_Post[0].status === "Open"){
                 this.setState({
-                    displaySignPost:"block",
                     displayAddRewardButton:"block"
                 });
-            }else if(this.state.particularPost_Post[0].offer_by == loggedUserID
-                    && this.state.particularPost_Post[0].status != "Closed"){
-                this.setState({
-                    displayUploadProof:"block",
-                    displayAddRewardButton:"none"
-                });
-            }else if(this.state.particularPost_Post[0].status == "Closed"){
-                this.setState({
-                    displayAddRewardButton:"none",
-                    displaySignPost:"none",
-                    displayUploadProof:"none"
-                });
             }
-
         })
         
         .then( () => {
@@ -231,6 +212,11 @@ class MyPosts extends React.Component{
                     console.log(e)
                 })
             }
+        })
+        .then(() =>{
+            this.setState({
+                displayBodyRight:"block"
+            })
         })
         .catch((e) => {
             console.log(e)
@@ -338,7 +324,7 @@ class MyPosts extends React.Component{
                             }
                         })}
                     </div>
-                    <div className="requestList-body-right">
+                    <div className="requestList-body-right" style={{display:this.state.displayBodyRight}}>
                         <div className="requestList-body-right-header">
                             {this.state.particularPost_Post[0].title}                            
                         </div>
@@ -390,8 +376,6 @@ class MyPosts extends React.Component{
                         <div className="requestList-body-right-footer" 
                             style={{display:this.state.displayButton}}> 
                             <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayAddRewardButton}}>Edit Rewards</Button>
-                            <Button type="primary" onClick={this.handleSignAPost.bind(this)} style={{display:this.state.displaySignPost}}>Make an Offer</Button>
-                            <Button type="primary" onClick={this.showUploadModal.bind(this)} style={{display:this.state.displayUploadProof}}>Complete it</Button>
                         </div>
                     </div>
                 </div>
