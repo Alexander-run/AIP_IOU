@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./index.css";
 import { ImCross } from 'react-icons/im';
-import { Button, message } from 'antd';
+import { Button, message, InputNumber } from 'antd';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaCoffee, FaLeaf, FaPizzaSlice } from 'react-icons/fa';
 import axios from 'axios';
@@ -56,24 +56,34 @@ class AddRequest extends React.Component{
         })
     }
 
-    onChangeRewards(ev,action,rewardType){
-        let newCount = 0;
+    onChangeRewards(e,Itemname){
+        // let newCount = 0;
+        // let rewardsEnum = this.state.rewardsEnum;
+        // rewardsEnum.forEach(item => {
+        //     if(item.name == rewardType){
+        //         if(action =='add'){
+        //             item.qty += 1;
+        //         }
+        //         else{
+        //             if(item.qty > 0){
+        //                 item.qty -= 1;
+        //             }                    
+        //         }
+        //     }
+        // });
+        // this.setState({
+        //     rewardsEnum:rewardsEnum
+        // });   
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
-            if(item.name == rewardType){
-                if(action =='add'){
-                    item.qty += 1;
-                }
-                else{
-                    if(item.qty > 0){
-                        item.qty -= 1;
-                    }                    
-                }
+            if (item.name == Itemname) {
+                item.qty = e;
             }
         });
+      
         this.setState({
-            rewardsEnum:rewardsEnum
-        });   
+            rewardsEnum: rewardsEnum
+        });
     }
 
     handlePost(){
@@ -164,7 +174,7 @@ class AddRequest extends React.Component{
                 <div className="addRequest-rewardsOption">
                     Please click the icon to add the corresponding rewards 
                     <ul>
-                        {this.state.rewardsEnum.map(function(item){
+                        {/* {this.state.rewardsEnum.map(function(item){
                             let itemName = item.name;
                             let qty;
                             switch(itemName){
@@ -264,7 +274,53 @@ class AddRequest extends React.Component{
                                         </li>
                                     )
                             }                            
-                        })}                        
+                        })}                         */}
+                        {this.state.rewardsEnum.map(function (item) {
+                                let itemName = item.name;
+                                switch (itemName) {
+                                    case "Chocolate":
+                                    case "chocolate":
+                                        return (
+                                            <li>
+                                                <span><GiChocolateBar /> {itemName}</span>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+
+                                            </li>
+                                        )
+                                    case "Coffee":
+                                    case "coffee":
+                                        return (
+                                            <li>
+                                                <span><FaCoffee /> {itemName}</span>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+                                            </li>
+                                        )
+                                    case "Cupcake":
+                                    case "cupcake":
+                                        return (
+                                            <li>
+                                                <span><GiCupcake /> {itemName}</span>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+                                            </li>
+                                        )
+                                    case "Mint":
+                                    case "mint":
+                                        return (
+                                            <li>
+                                                <span><FaLeaf /> {itemName}</span>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+                                            </li>
+                                        )
+                                    case "Pizza":
+                                    case "pizza":
+                                        return (
+                                            <li>
+                                                <span><FaPizzaSlice /> {itemName}</span>
+                                                <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+                                            </li>
+                                        )
+                                }
+                            })}
                     </ul>       
                 </div>
                 <Button type="primary" onClick={this.handlePost.bind(this)}>Post</Button>

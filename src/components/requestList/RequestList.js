@@ -170,7 +170,6 @@ class RequestList extends React.Component{
                     let adderID = item.user_id;
                     if(adderID === loggedUserID){
                         this.setState({
-                            displaySignPost:"block",
                             displayAddRewardButton:"block"
                         });
                         existAdder = true;
