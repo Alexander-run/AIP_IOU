@@ -338,7 +338,7 @@ class MyPosts extends React.Component{
                                 <span>{this.state.particularPost_Post[0].status}</span>
                             </div>                          
                             <div>
-                                <span><UsergroupAddOutlined />Reward BY:</span>                                
+                                <span><UsergroupAddOutlined />Rewards:</span>                                
                                     {this.state.particularPost_adders.map(function(item){
                                         popContent = popContent.concat(
                                             <div>
@@ -362,7 +362,7 @@ class MyPosts extends React.Component{
                                 <span>{this.state.particularPost_Post[0].added_datetime.split("T")[0]}</span>
                             </div>                           
                             <div>
-                                <span><UserOutlined />Who is working on this:</span>
+                                <span><UserOutlined />Applicant:</span>
                                 <span className="requestList-body-right-body-favoricon">{this.state.particularPost_Signer}</span>
                             </div>
                             <div>

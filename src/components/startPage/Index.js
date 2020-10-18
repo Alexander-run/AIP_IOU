@@ -192,7 +192,7 @@ class StartPage extends React.Component {
                             className="start-header-addRequestButton"
                             style={self.state.showAddRewardButton}
                             onClick={self.handleAddRequest.bind(self)}
-                        >Add new Request
+                        >Add Post
                         </div>
                         <div className="start-header-navigation">
                             <button
@@ -202,11 +202,11 @@ class StartPage extends React.Component {
                             <button
                                 style={self.state.leaderBoardButtonStyle}
                                 onClick={self.displayLeaderBoard.bind(self)}
-                            >Leader-Board</button>
+                            >Leader Board</button>
                             <button
                                 style={self.state.myPostsButtonStyle}
                                 onClick={self.displayMyPosts.bind(self)}
-                            >My Posts</button>
+                            >Posted</button>
                             <button
                                 style={self.state.dashboardButtonStyle}
                                 onClick={self.displayDashboardList.bind(self)}

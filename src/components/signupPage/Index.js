@@ -106,7 +106,7 @@ class SignupPage extends React.Component{
                 })
             })
             .catch((e) => {
-                message.error("please recheck your input and change a new user name");
+                message.error("Username exist, please try another one");
                 console.log(e)
             })
         }       
