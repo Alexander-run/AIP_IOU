@@ -75,7 +75,7 @@ class RequestList extends React.Component{
         // get loadmoreIndex
         let loadMoreIndex;
         if(!cookie.load("loadMoreIndex")){
-            cookie.save("loadMoreIndex",3,{path:"/"});
+            cookie.save("loadMoreIndex",5,{path:"/"});
             loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
         }else{
             loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
@@ -200,17 +200,6 @@ class RequestList extends React.Component{
                 particularPost_adders:[]
             });
             let rewards = this.state.particularPost_Rewards
-            // [{
-            //     user_id: ""
-            //     rewards:[
-            //         {
-            //             reward_name:"",qty:int
-            //         },
-            //         {
-            //             reward_name:"",qty:int
-            //         }
-            //     ]
-            // }]
             rewards.forEach(item => {
                 let adderID = item.user_id;
                 let adderRewards = item.rewards;
@@ -259,7 +248,7 @@ class RequestList extends React.Component{
     
     onLoadMore(){       
         let loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
-        loadMoreIndex +=3;
+        loadMoreIndex +=5;
         cookie.save("loadMoreIndex",loadMoreIndex,{path:"/"});   
         window.location.reload();     
     }
@@ -370,7 +359,8 @@ class RequestList extends React.Component{
                 </div>
                 <div className="requestList-body">
                     <div className="requestList-body-left">
-                        {this.state.displayPosts.map(function(item){
+                        {this.state.allPosts.map(function(item){
+                     // {this.state.displayPosts.map(function(item){
                             switch (item.status) {
                                 case "Open":
                                     return(
@@ -423,9 +413,9 @@ class RequestList extends React.Component{
                                 
                             }
                         })}
-                        <Button shape="round" type="primary"
+                        {/* <Button shape="round" type="primary"
                         className="requestList-body-left-loadMoreButton"
-                        onClick={this.onLoadMore.bind(this)}>Load More</Button>
+                        onClick={this.onLoadMore.bind(this)}>Load More</Button> */}
                     </div>
                     <div className="requestList-body-right">
                         <div className="requestList-body-right-header">

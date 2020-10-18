@@ -17,6 +17,12 @@ class LoginPage extends React.Component{
         }
     }
 
+    onKeyUp(e){
+        if(e.keyCode === 13) {
+            this.login();
+        }
+    }
+
     changeUserName(e){
         this.setState({
             userName:e.target.value,
@@ -31,7 +37,7 @@ class LoginPage extends React.Component{
     }
     
     login(){        
-        const username = this.state.userName;
+        let username = this.state.userName;
         const password = this.state.password;
         let data = {
             "user":{
@@ -73,6 +79,7 @@ class LoginPage extends React.Component{
             <div class="loginPage">
                 <div className="loginPage-inputarea">
                     <input 
+                        onKeyUp={this.onKeyUp.bind(this)}
                         type='text' 
                         placeholder="Enter User name" 
                         autoFocus='autofocus'
@@ -82,16 +89,14 @@ class LoginPage extends React.Component{
                 <p>{this.state.hintMessage}</p> 
                 <div className="loginPage-inputarea">
                     <input 
+                        onKeyUp={this.onKeyUp.bind(this)}
                         type='password' 
                         placeholder="Password"
                         value={this.state.password}
                         onChange={this.changePassword.bind(this)}/>
                 </div>                        
                 <Button type='primary' onClick={this.login.bind(this)}>Login
-                </Button>  
-                <div className="loginPage-fogetPassword"> 
-                    Forgotten password?
-                </div>
+                </Button>
             </div>
         );
     }

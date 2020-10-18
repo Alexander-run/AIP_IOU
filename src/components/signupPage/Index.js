@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import "./index.css";
 import {message} from 'antd';
 import axios from 'axios';
+import cookie from 'react-cookies';
 
 
 class SignupPage extends React.Component{
@@ -59,8 +60,8 @@ class SignupPage extends React.Component{
         if(!/^[0-9a-zA-Z]{1,12}$/.test(data.user.username)){
             message.error("Please check your Username. Username can only contain 1-12 number and letters");
         }
-        else if(!/^[0-9a-zA-Z]{1,12}$/.test(data.user.password)){
-            message.error("Please check your Password. Password can only contain 1-12 number and letters");
+        else if(!/^[0-9a-zA-Z]{1,100}$/.test(data.user.password)){
+            message.error("Please check your Password. Password can only containnumber and letters");
         }
         else if(!/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data.user.email)){
             message.error("Please check your Email Address");
@@ -77,9 +78,32 @@ class SignupPage extends React.Component{
             .then(response => {
                 resMessage = response.data.message;
                 message.success(resMessage);
-                setTimeout(() => {
-                    window.location.reload();
-                },2000);
+            })
+            .then(() =>{
+                const username = this.state.username;
+                const password = this.state.password;
+                let data = {
+                    "user":{
+                        "username": username,
+                        "password": password
+                    }
+                }
+                axios.post('https://aip-v1.ts.r.appspot.com/api/users/login',data)
+                .then(res => {
+                    let userInfo = res.data.users; 
+                    // set cookie to store logged userID for use in other component
+                    cookie.save("user_id",userInfo.user_id,{path:"/"});
+                    message
+                        .loading('Details Verification', 1)
+                        .then(() => message.success('Login Details Success Verified, will return to main page in 2 seconds', 2));
+                    this.setState({login:true});
+                    setTimeout(() => {
+                        window.location.reload();
+                    },2500);  
+                })                
+                .catch((e) => {
+                    console.log(e);                   
+                })
             })
             .catch((e) => {
                 message.error("please recheck your input and change a new user name");

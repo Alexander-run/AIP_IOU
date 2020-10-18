@@ -37,7 +37,8 @@ class StartPage extends React.Component {
             username:"",
 
             browseButtonStyle: {},
-            leaderBoardButtonStyle: {},
+            leaderBoardButtonStyle: {},            
+            showAddRewardButton:{display:"none"},
             dashboardButtonStyle: { display: "none" },
             myPostsButtonStyle: { display: "none" }
         };
@@ -63,6 +64,7 @@ class StartPage extends React.Component {
             this.setState({
                 dashboardButtonStyle: { display: "block" },
                 myPostsButtonStyle: { display: "block" },
+                showAddRewardButton:{display:"block"},
                 showLoginButtons: "none",
                 showLogoutButtons: "block"
             })
@@ -71,6 +73,7 @@ class StartPage extends React.Component {
             this.setState({
                 dashboardButtonStyle: { display: "none" },
                 myPostsButtonStyle: { display: "none" },
+                showAddRewardButton:{display:"none"},
                 showLoginButtons: "block",
                 showLogoutButtons: "none"
             })
@@ -187,6 +190,7 @@ class StartPage extends React.Component {
                         <img src={logo}></img>
                         <div
                             className="start-header-addRequestButton"
+                            style={self.state.showAddRewardButton}
                             onClick={self.handleAddRequest.bind(self)}
                         >Add new Request
                         </div>

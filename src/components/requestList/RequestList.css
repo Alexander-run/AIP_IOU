@@ -1,9 +1,8 @@
 .requestList-item{
     border: 1px solid #E5E5E5;
     width: 250px;
-    height: 150px;
-    margin: 1vh;
-    padding: 1vh;
+    margin: 0 1vh;
+    padding: 0 1vh;
 }
 .requestList-item:hover{
     transition: 0.35s;
@@ -74,7 +73,7 @@
 }
 .requestList-item-status-open{
     color: #7DB343;
-    margin: 30px auto;
+    margin: 0 auto;
     text-align: center;
     width: 100px;
     border: 1px solid #7DB343;
@@ -82,7 +81,7 @@
 }
 .requestList-item-status-closed{
     color: crimson;
-    margin: 30px auto;
+    margin: 0 auto;
     text-align: center;
     width: 100px;
     border: 1px solid crimson;
@@ -90,7 +89,7 @@
 }
 .requestList-item-status-assigned{
     color: rgb(20, 113, 220);
-    margin: 30px auto;
+    margin: 0 auto;
     text-align: center;
     width: 100px;
     border: 1px solid rgb(20, 113, 220);
