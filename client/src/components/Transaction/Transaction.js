@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, message } from 'antd';
-import "../Transaction/Transaction.css";
+import "./Transaction.css";
 import { MinusOutlined, UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
 import axios from 'axios';
