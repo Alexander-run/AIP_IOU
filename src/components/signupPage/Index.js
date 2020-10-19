@@ -76,8 +76,7 @@ class SignupPage extends React.Component{
             // HTTP request
             axios.post('https://aip-v1.ts.r.appspot.com/api/users',data)
             .then(response => {
-                resMessage = response.data.message;
-                message.success(resMessage);
+                message.success("Sign Up Success");
             })
             .then(() =>{
                 const username = this.state.username;
@@ -93,9 +92,7 @@ class SignupPage extends React.Component{
                     let userInfo = res.data.users; 
                     // set cookie to store logged userID for use in other component
                     cookie.save("user_id",userInfo.user_id,{path:"/"});
-                    message
-                        .loading('Details Verification', 1)
-                        .then(() => message.success('Login Details Success Verified, will return to main page in 2 seconds', 2));
+                    message.success("Welcome!");
                     this.setState({login:true});
                     setTimeout(() => {
                         window.location.reload();
@@ -106,7 +103,7 @@ class SignupPage extends React.Component{
                 })
             })
             .catch((e) => {
-                message.error("Username exist, please try another one");
+                message.error("Username has been used, please try another one");
                 console.log(e)
             })
         }       

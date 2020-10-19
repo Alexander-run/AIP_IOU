@@ -288,6 +288,7 @@ class RequestList extends React.Component{
             this.setState({
                 searchKey:e.target.value
             })
+            clearInterval(timer);
         }else{
             this.timerStart();
         }
