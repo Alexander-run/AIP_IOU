@@ -17,9 +17,7 @@ class AddFriend extends React.Component {
             searchKey: '',
             proof: '',
             user_owned: '',
-            rewardsEnum: [],
-            rewardname: '',
-            rewardqty: 1
+            rewardsEnum: []
         };
     }
 
@@ -117,6 +115,7 @@ class AddFriend extends React.Component {
     }
 
     onChangeProof(e) {
+        console.log("value"+e.target.value);
         this.setState({
             proof: e.target.value
         })
@@ -224,7 +223,7 @@ class AddFriend extends React.Component {
         let self = this;
         return (
             <div>
-                <p>Search the Username</p>
+                <p>Search User</p>
                 <Search
                     placeholder="Search"
                     onChange={this.onSearchKeyChange.bind(this)}
@@ -233,10 +232,10 @@ class AddFriend extends React.Component {
                 />
 
                 <hr />
-                <p>Choose Favour?</p>
+                <p>Add Favour?</p>
                 <div onChange={this.onChangeRadio.bind(this)}>
                     <input type="radio" value="Owes" name="Favour" /> Owes <br />
-                    <input type="radio" value="Owned" name="Favour" /> Owned
+                    <input type="radio" value="Owned" name="Favour" /> Owed
                 </div>
                 <hr />
 
@@ -246,7 +245,7 @@ class AddFriend extends React.Component {
                     <input type="radio" value="0" name="Proof" /> No
             </div>
                 <hr />
-                <p>Select the Favour OWed or Owned</p>
+                <p>Select the Favour</p>
                 <div className="addRewards">
                     <div className="addRewards-rewardsOption">
                         <ul>

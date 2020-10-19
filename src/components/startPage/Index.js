@@ -210,7 +210,7 @@ class StartPage extends React.Component {
                             <button
                                 style={self.state.dashboardButtonStyle}
                                 onClick={self.displayDashboardList.bind(self)}
-                            >My Owes</button>
+                            >Favours History</button>
                         </div>
                     </div>
                     <div className="start-header-right" style={{ display: self.state.showLoginButtons }}>
