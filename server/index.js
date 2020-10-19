@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 5000;
-app.use(express.static(path.join(__dirname, './uploads')))
+// app.use(express.static(path.join(__dirname, './uploads')))
 
 app.listen(PORT, () => {
     console.log('Server is up on port ' + PORT);
@@ -39,6 +39,12 @@ app.post('/upload', upload.single('file'), (req,res) => {
     debug(req.file);
     console.log('storage location is ', req.hostname +'/' + req.file.path);
     return res.send(req.file);
+});
+
+// retrieve the file
+app.get('/file/:fileName', function (req, res) {
+    const filePath = __dirname + '/uploads/' + req.params.fileName;
+    res.sendFile(filePath);
 });
 
 app.get('/check', (req,res) => {
