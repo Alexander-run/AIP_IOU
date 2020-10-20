@@ -1,93 +1,112 @@
 import React from 'react';
 import { Upload, Modal, Button, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import cookie from 'react-cookies';
+import Item from 'antd/lib/list/Item';
 
-      
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 }
 
 class CompletePost extends React.Component {
   state = {
-    loading: false,
-    photo:null,
-    post_id:this.props.postID
+    previewVisible: false,
+    previewImage: '',
+    previewTitle: '',
+    fileList: [],
+    post_id : this.props.postID
   };
 
-  handleChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
+  handleCancel = () => this.setState({ previewVisible: false });
+
+//   handlePreview = async file => {
+//     if (!file.url && !file.preview) {
+//       file.preview = await getBase64(file.originFileObj);
+//     }
+
+//     this.setState({
+//       previewImage: file.url || file.preview,
+//       previewVisible: true,
+//       previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+//     });
+//   };
+
+  handleChange = ({ fileList }) => this.setState({ fileList });
+
+  handleUploadAction(){
+    let fileList = this.state.fileList;  
+    let error = false;
+    if(fileList.length == 0){
+        error=true;
+    }else{
+        fileList.forEach(Item => {
+            if(Item.status == 'uploading'){
+                error = true;
+            }else if(Item.status == 'error'){
+                error = true;
+            }
+        });
+    }    
+    if(!error){
+        let post_id = this.state.post_id;
+        let user_id = cookie.load("user_id");
+        let data = {   
+            "post_id": post_id,
+            "user_id": user_id,
+            "proof": 1
+        }
+        axios.put("https://aip-v1.ts.r.appspot.com/api/posts/apply_rewards",data)
+        .then(response =>{
+            let resMessage = response.data.message;
+            message.success(resMessage);
+            setTimeout(() => {
+                window.location.reload();
+            },2000);     
+        })
+        .catch((e) => {
+            console.log(e);
+            message.error("Error, Please try again");
+        })
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          photo:info.file,
-          loading: false,
-        }),
-      );
-      message.success("Image has been uploaded! Press submit button to complete your work")
+    else{
+        message.error("Please select at least one image before upload");
     }
-  };
-  handleSubmit(){
-    let {photo, loading} = this.state;
-    if(photo!=null && !loading){
-      // Call API to finalise the post
-      let post_id = this.state.post_id;
-      let user_id = cookie.load("user_id");
-      let data = {   
-          "post_id": post_id,
-          "user_id": user_id,
-          "proof": 1
-      }
-      axios.put("https://aip-v1.ts.r.appspot.com/api/posts/apply_rewards",data)
-      .then(response =>{
-          let resMessage = response.data.message;
-          message.success(resMessage);
-          setTimeout(() => {
-              window.location.reload();
-          },2000);     
-      })
-      .catch((e) => {
-          console.log(e);
-          message.error("Submission Error, Please try again");
-      })
-    }else if(photo === null){
-      message.error("Please upload one image first");
-    }else if(loading === true){
-      message.error("Please wait for the image uploading");
-    }
-    
   }
 
   render() {
-    const header={"enctype":"multipart/form-data"};
-    const { loading, imageUrl } = this.state;
+    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <PlusOutlined />
         <div style={{ marginTop: 8 }}>Upload</div>
       </div>
     );
-    return (   
-      <div>   
+    return (
+      <div>
         <Upload
-          name="file"
-          method="POST"
-          headers={header}
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
-          showUploadList={false}
-          action="http://localhost:5000/upload"
+          fileList={fileList}
+          onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
-          {imageUrl ? <img src={imageUrl} alt="file" style={{ width: '100%' }} /> : uploadButton}
+          {fileList.length >= 8 ? null : uploadButton}
         </Upload>
-        <Button type="primary" onClick={this.handleSubmit.bind(this)}>Submit</Button>
+        <Button type="primary" onClick={this.handleUploadAction.bind(this)}>Upload</Button>
+        <Modal
+          visible={previewVisible}
+          title={previewTitle}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
       </div>
     );
   }
