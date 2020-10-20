@@ -133,7 +133,7 @@ class AddRequest extends React.Component{
         if(data.post.title == ""){
             message.error("Title can not be null");
         }else if(data.post.title.length >20){
-            message.error("Title are limited within 20 characters");
+            message.error("Title are limited within 24 characters");
         }else if(data.post.description == ""){
             message.error("description can not be null");
         }else if(data.reward.length == 0){

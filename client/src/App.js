@@ -3,7 +3,6 @@ import './App.css';
 import StartPage from './components/startPage/Index';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import SignupPage from './components/signupPage/Index';
-import Home from './components/Home/Index';
 import 'antd/dist/antd.css';
 import LoginPage from './components/loginPage/Index';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -34,9 +33,8 @@ class App extends React.Component{
         <BrowserRouter>          
           <div>          
               <Switch>      
-                <Route path='/home/:id' component={Home}/>      
-                <Route path='/signupPage' component={SignupPage}/>
-                <Route path='/login' component={LoginPage}/>
+                {/* <Route path='/signupPage' component={SignupPage}/>
+                <Route path='/login' component={LoginPage}/> */}
                 <Route path='/Transaction/' component={Transaction}/>
                 <Route path='/' component={StartPage}/>
               </Switch>           

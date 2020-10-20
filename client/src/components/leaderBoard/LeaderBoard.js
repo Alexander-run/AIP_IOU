@@ -40,7 +40,6 @@ class LeaderBoard extends React.Component{
             .catch((e) => {
                 console.log(e)
             });
-            console.log("ping");
         },5000); 
     }
 

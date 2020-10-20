@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, message, Input, InputNumber } from 'antd';
+import { Button, message, Input, InputNumber, Select } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
 import cookie from 'react-cookies';
 
+
 const { Search } = Input;
+const  userOption=[];
 
 class AddFriend extends React.Component {
 
@@ -15,15 +17,21 @@ class AddFriend extends React.Component {
         this.state = {
             user_owes: '',
             searchKey: '',
-            proof: '',
+            proof: 0,
             user_owned: '',
             rewardsEnum: [],
-            rewardname: '',
-            rewardqty: 1
+            options:[],
+            userSelectId:''
         };
     }
 
     componentDidMount() {
+        this.handleoptions();
+
+        this.setState({
+            options: []
+        });
+
         //get login status from cookie
         let loginID = cookie.load("user_id");
         if (loginID) {
@@ -49,77 +57,46 @@ class AddFriend extends React.Component {
             .catch((e) => {
                 console.log(e)
             })
+           
 
     }
 
+    async handleoptions() {
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/users/`)
+            .then(response => {
+                const data = response.data.users
+                const selectOptions = data.map(users => ({
+                    "value": users.user_id,
+                    "label": users.first_name + " " + users.last_name
+                }))
 
-    handleSearch() {
-        const searchkey = this.state.searchKey;
+                this.setState({options: selectOptions})
 
-        if (searchkey == "") {
-            message.error("Blank User cant be searched");
-        }
-        else {
-            axios.get(`https://aip-v1.ts.r.appspot.com/api/users/?username=${searchkey}`)
-                .then(response => {
-                    if (response.status == 200) {
-
-                        let searcheduser = response.data.users[0].user_id;
-                        if (this.state.user_owned == searcheduser) {
-                            message.error("User Cannot Same as Login User");
-                        }
-                        else {
-
-                            message.success("User Found!");
-                            this.setState({
-                                user_owes: searcheduser
-
-                            })
-                        }
-                    }
-
-                })
-                .catch((e) => {
-                    message.error("User Doesnot Exist! Please try again.....");
-                    console.log(e)
-                })
-        }
+            })
     }
+    onoptionChange(e){
 
-    onSearchKeyChange(e) {
-        if (e.target.value == "") {
-            this.setState({
-                searchKey: []
-            })
-        }
-        else {
-            this.setState({
-                searchKey: e.target.value
-            })
-        }
-
+        this.setState({
+            user_owes:e,
+        })
     }
 
     onChangeRadio(e) {
 
         if (e.target.value == "Owned") {
             this.setState({
+                proof:0,
                 user_owes: this.state.user_owes,
                 user_owned: this.state.user_owned
             })
         }
         else if (e.target.value == "Owes") {
             this.setState({
+                proof:1,
                 user_owes: this.state.user_owned,
                 user_owned: this.state.user_owes
             })
         }
-    }
-
-    onChangeProof(e) {
-        this.setState({
-            proof: e.target.value
-        })
     }
 
     onChangeQty(e, Itemname) {
@@ -154,10 +131,7 @@ class AddFriend extends React.Component {
                 })
             }
         });
-
-        if (user_owes == "") {
-            message.error("Please search the user before adding.!");
-        } else {
+  
             if (newRewardsEnum.length == 0) {
                 message.error("You have to choose at least one favour first");
             } else {
@@ -214,39 +188,33 @@ class AddFriend extends React.Component {
                         console.log(e)
                     })
             }
-        }
+        
 
 
     }
 
 
     render() {
+     
         let self = this;
         return (
             <div>
-                <p>Search the Username</p>
-                <Search
-                    placeholder="Search"
-                    onChange={this.onSearchKeyChange.bind(this)}
-                    onSearch={this.handleSearch.bind(this)}
-                    style={{ width: "30vh" }}
-                />
+               <Select
+                placeholder="Select user"
+                options={this.state.options}
+                onChange={this.onoptionChange.bind(this)}
+                style={{ width: "30vh" }}
+                >
+                </Select>
 
                 <hr />
-                <p>Choose Favour?</p>
+                <p>Add Favour?</p>
                 <div onChange={this.onChangeRadio.bind(this)}>
-                    <input type="radio" value="Owes" name="Favour" /> Owes <br />
-                    <input type="radio" value="Owned" name="Favour" /> Owned
+                    <input type="radio" value="Owes" name="Favour" /> I Owe <br />
+                    <input type="radio" value="Owned" name="Favour" /> I am owed
                 </div>
                 <hr />
-
-                <p>Select if proof is need or not?</p>
-                <div onChange={this.onChangeProof.bind(this)}>
-                    <input type="radio" value="1" name="Proof" /> Yes <br />
-                    <input type="radio" value="0" name="Proof" /> No
-            </div>
-                <hr />
-                <p>Select the Favour OWed or Owned</p>
+                <p>Select Rewards</p>
                 <div className="addRewards">
                     <div className="addRewards-rewardsOption">
                         <ul>

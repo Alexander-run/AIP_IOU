@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, message } from 'antd';
-import "../Transaction/Transaction.css";
+import "./Transaction.css";
 import { MinusOutlined, UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
 import axios from 'axios';
@@ -299,7 +299,7 @@ class Transaction extends React.Component {
 
                     </div>
                     <Modal
-                        title="Add A Bill"
+                        title="Add Transaction"
                         footer={[]}
                         visible={this.state.addFrendVisible}
                         onOk={this.handleAddFrendSubmit}
@@ -308,7 +308,7 @@ class Transaction extends React.Component {
                     </Modal>
                 </div>
                 <div className="middle-dash">
-                    <h1>Your Transaction History</h1>
+                    <h1>Your's Favours History</h1>
                     <div className="middle-dash-header">
                         <div className="aggregates">
                             <div className={color}>
@@ -317,12 +317,12 @@ class Transaction extends React.Component {
                             </div>
 
                             <div className="aggregate-type red">
-                                <h3>Total you owe</h3>
+                                <h3>Favours Owing</h3>
                                 <h4>{this.state.SumOfOwes}</h4>
                             </div>
 
                             <div className="aggregate-type green">
-                                <h3>Total owned</h3>
+                                <h3>Favours Owed</h3>
                                 <h4>{this.state.SumOfOwed}</h4>
                             </div>
                         </div>

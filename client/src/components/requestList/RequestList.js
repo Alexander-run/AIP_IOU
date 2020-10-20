@@ -388,8 +388,8 @@ class RequestList extends React.Component{
                                             <div className="requestList-item-header">{item.title}</div>
                                             <div className="requestList-item-body">
                                                 <ul>
-                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
-                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                    <li><UserOutlined />Poster:{" "}{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{" "}{item.added_datetime.split("T")[0]}</li>
                                                 </ul>
                                             </div>
                                             <div className="requestList-item-status-open">{item.status}</div>
@@ -404,8 +404,8 @@ class RequestList extends React.Component{
                                             <div className="requestList-item-header">{item.title}</div>
                                             <div className="requestList-item-body">
                                                 <ul>
-                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
-                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                    <li><UserOutlined />Poster:{" "}{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{" "}{item.added_datetime.split("T")[0]}</li>
                                                 </ul>
                                             </div>
                                             <div className="requestList-item-status-closed">{item.status}</div>
@@ -420,8 +420,8 @@ class RequestList extends React.Component{
                                             <div className="requestList-item-header">{item.title}</div>
                                             <div className="requestList-item-body">
                                                 <ul>
-                                                    <li><UserOutlined />Poster:{item.username}</li>                                            
-                                                    <li><CalendarOutlined />Post Date:{item.added_datetime.split("T")[0]}</li>
+                                                    <li><UserOutlined />Poster:{" "}{item.username}</li>                                            
+                                                    <li><CalendarOutlined />Post Date:{" "}{item.added_datetime.split("T")[0]}</li>
                                                 </ul>
                                             </div>
                                             <div className="requestList-item-status-assigned">{item.status}</div>

@@ -1,0 +1,36 @@
+.completePost{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+.completePost-submit:hover{
+    cursor: pointer;
+    border: 1px solid #3f7db6;
+    background: #3f7db6;
+    color: white;
+}
+.completePost-submit{
+    transition: 0.3s;
+
+    border: 1px solid #3f7db6;
+    color: grey;
+    text-align: center;
+    font-size: 16pt;
+    width: 150px;
+    height: 5vh;
+    border-radius: 10px;
+}
+
+.completePost-image{
+    height: 150px;
+    width: 150px;
+    text-align: center;
+    line-height: 100px;
+    margin: auto;
+}
+
+.completePost-image:hover{
+    cursor: pointer;
+}
