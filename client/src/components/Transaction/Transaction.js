@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, message } from 'antd';
+import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions } from 'antd';
 import "./Transaction.css";
-import { MinusOutlined, UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
+import { UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
 import axios from 'axios';
 import cookie from 'react-cookies';
@@ -32,8 +32,10 @@ class Transaction extends React.Component {
             userTransaction: [],
             message: "",
             proof: false,
-            transactionID:"",
-            uploadprof:false
+            transactionID: "",
+            uploadprof: false,
+            displayUploadProof:"none",
+           
 
 
 
@@ -176,16 +178,6 @@ class Transaction extends React.Component {
             .then(response => {
                 if (response.status == 200) {
                     responseData = response.data.transactions;
-                    console.log("Transaciton id" + response.data.transactions[0].transaction_id);
-                    console.log("Transaciton proof" + response.data.transactions[0].proof);
-
-                    if (response.data.transactions[0].proof == true) {
-                        this.setState({
-                            proof: true,
-                            transactionID: response.data.transactions[0].transaction_id
-                        })
-                        console.log("Uplod owes"+this.state.transactionID);
-                    }
 
                     this.setState({
                         allOwesTransaction: responseData
@@ -200,15 +192,6 @@ class Transaction extends React.Component {
             .then(response => {
                 if (response.status == 200) {
                     responseData = response.data.transactions;
-                    console.log("Transaciton id" + response.data.transactions[0].transaction_id);
-                    console.log("Transaciton proof" + response.data.transactions[0].proof);
-                    if (response.data.transactions[0].proof == true) {
-                        this.setState({
-                            proof: true,
-                            transactionID: response.data.transactions[0].transaction_id
-                        })
-                        console.log("Uplod Owe"+this.state.transactionID);
-                    }
 
                     this.setState({
                         allOWedTransaction: responseData
@@ -224,6 +207,38 @@ class Transaction extends React.Component {
 
 
     }
+
+    onpanelChange(item) {
+
+        this.setState({
+            displayUploadProof:"none",
+        })
+
+      axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction/${item.transaction_id}`)
+      .then(response =>{
+          if(response.status == 200){
+                if(response.data.transactions[0].proof==true){
+                   this.setState({
+                    displayUploadProof:"block"
+                   })
+                }
+                else{
+                    this.setState({
+                        displayUploadProof:"none"
+                       })
+                }
+          }
+      })
+
+
+
+        this.setState({
+            transactionID:item.transaction_id
+        })
+
+    }
+   
+
     callback(key) {
         if (key == 1) {
             console.log("Owes Selected");
@@ -237,24 +252,24 @@ class Transaction extends React.Component {
     handleCancel() {
         this.setState({
             addFrendVisible: false,
-            uploadprof:false
+            uploadprof: false
 
         })
         this.forceUpdate();
     }
-    showUploadModal(){
-            this.setState({
-                uploadprof:true
-            })
-     
-        
+    showUploadModal() {
+        this.setState({
+            uploadprof: true
+        })
+
+
     }
     handleAddFrend() {
         this.setState({
             addFrendVisible: true
         })
 
-      
+
     }
 
 
@@ -263,9 +278,10 @@ class Transaction extends React.Component {
         let statusmessage = "";
         let totalOwes = 0;
         let totalOwed = 0;
-        let message="";
-        if(this.state.proof==false){
-            message="tre";
+        let message = "";
+        let display = this.state.displayUploadProof;
+        if (this.state.proof == false) {
+            message = "tre";
         }
         if (this.state.userTransaction.length == 0) {
             statusmessage = "No user";
@@ -342,36 +358,28 @@ class Transaction extends React.Component {
                                 {this.state.allOwesTransaction.map(function (item) {
 
                                     return (
-                                      
+                                        
+
                                         <div>
-                                            <Collapse>
+                                            <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
-                                                <Button type="primary" onClick={self.showUploadModal.bind(self)}> <CloudUploadOutlined/> Complete it</Button>
-                                                    <PageHeader
-                                                        ghost={false}
-                                                        title="Your Rewards">
-                                                           {item.rewards.map(function (element) {
+                                                <Descriptions title="Favour Info" bordered>
+                                                <Descriptions.Item >
+                                                            <Button type="primary"  onClick={self.showUploadModal.bind(self)} style={{display:display}}><CloudUploadOutlined />Uplood Proof</Button>
+                                                        </Descriptions.Item> 
+                                                    <Descriptions.Item label="Rewards">
+                                                        {item.rewards.map(function (element) {
                                                             return (
-
-
-                                                                <div className="site-page-header-ghost-wrapper">
-
-                                                                    <Space split={<Divider type="vertical" />}>
-                                                                        <Typography>{element.reward_name}={element.qty},&nbsp;
-
-                                                                        </Typography>
-                                                                    </Space>
+                                                                    <p>
+                                                                    {element.reward_name}:{element.qty}
                                                                     <p hidden>total:{totalOwes = totalOwes + element.qty}</p>
-
-                                                                </div>
-
-
+                                                                    </p>
                                                             )
 
-
                                                         })}
-                                                    </PageHeader>
-
+                                                          </Descriptions.Item>
+                                                
+                                                </Descriptions>
 
                                                 </Panel>
 
@@ -387,34 +395,27 @@ class Transaction extends React.Component {
                                     return (
 
                                         <div>
-                                            <Collapse>
+                                            <Collapse onChange={self.onpanelChange.bind(self,item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
-                                                <Button type="primary" onClick={self.showUploadModal.bind(self)} style={{ marginTop: 40 }}><CloudUploadOutlined/>Complete it</Button>
-                                                    <PageHeader
-                                                        ghost={false}
-                                                        title="Your Rewards">
-                                                       
+                                                    <Descriptions title="Favour Info" bordered>
+                                                         <Descriptions.Item>
+                                                            <Button type="primary" onClick={self.showUploadModal.bind(self)} style={{ marginTop: 40 }}><CloudUploadOutlined />Uplood Proof</Button>
+                                                        </Descriptions.Item>                                                       
+                                                        <Descriptions.Item label="Rewards">
                                                         {item.rewards.map(function (element) {
                                                             return (
-
-
-                                                                <div className="site-page-header-ghost-wrapper">
-
-                                                                    <Space split={<Divider type="vertical" />}>
-                                                                        <Typography>{element.reward_name}={element.qty},&nbsp;
-                                                                        
-                                                                       </Typography>
-                                                                    </Space>
+                                                                    <p>
+                                                                    {element.reward_name}:{element.qty}
                                                                     <p hidden>total:{totalOwed = totalOwed + element.qty}</p>
-                                                                </div>
-
-
+                                                                    </p>
                                                             )
 
                                                         })}
-                                                    </PageHeader>
+                                                          </Descriptions.Item>
+                                                        
 
 
+                                                    </Descriptions>
                                                 </Panel>
 
                                             </Collapse>
@@ -434,9 +435,9 @@ class Transaction extends React.Component {
                     footer={[]}
                     visible={this.state.uploadprof}
                     onCancel={this.handleCancel.bind(this)}>
-                        <UploadProof
-                            transactionID={this.state.transactionID}/>
-                </Modal>             
+                    <UploadProof
+                        transactionID={this.state.transactionID} />
+                </Modal>
 
             </div>
 

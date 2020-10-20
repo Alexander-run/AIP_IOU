@@ -1,6 +1,7 @@
 
   .middle-dash {
-    box-shadow: 1px 1px 6px 1px gray;
+    box-shadow: 1px 1px 20px 1px lightslategrey;
+    width: 80vh;
   }
 
   .left-nav {
@@ -93,7 +94,7 @@
 
   .friends-index {
     color: #999;
-    width: 152px;
+    width: 200px;
   }
   
   .friends-index header {
@@ -107,13 +108,13 @@
 
   .friends-index-body-left{
     overflow-y: auto;
-    height: 85vh;
+    height: 90vh;
   }
    
   .friends-index-item {
     color: black;
     height: 25px;
-    font-size: 12px;
+    font-size: 15px;
     border-left: 0px ridge #fff;
     list-style: none;
   }
@@ -146,4 +147,5 @@
 }
 .ul,li,ol{
   list-style: none;
+  font-size: 15px;
 }
