@@ -30,7 +30,9 @@
 }
 .start-header img{
     height: 7vh;
-
+}
+.start-header img:hover{
+    cursor: pointer;
 }
 .start-header-addRequestButton{
     margin: auto 2vh;

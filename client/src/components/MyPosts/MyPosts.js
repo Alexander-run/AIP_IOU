@@ -86,13 +86,14 @@ class MyPosts extends React.Component{
                     this.setState({
                         allPosts:responseData
                     })
+                    if(responseData!=[]){
+                        this.timerStart();
+                    }
                 })
                 .catch((e) => {
                     console.log(e)
                 })
             },1000);  
-        
-            this.timerStart();
         }else{
             this.setState({
                 displayButton:"none"
