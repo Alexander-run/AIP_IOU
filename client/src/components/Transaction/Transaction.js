@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions, Image } from 'antd';
+import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions, Image, message } from 'antd';
 import "./Transaction.css";
 import { UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
@@ -8,8 +8,10 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import UploadProof from '../TransacationProof/UploadProof';
 
+
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
+let timer = undefined;
 
 
 class Transaction extends React.Component {
@@ -41,7 +43,28 @@ class Transaction extends React.Component {
         }
     }
 
+  
+    timerStart = () =>  {
+        timer = setInterval(() => {
+        
+            axios.get('https://aip-v1.ts.r.appspot.com/api/users')
+            .then(response => {
+                
+                if(response.status == 200){
+                    message
+                    .loading('Loading...', 1)
+                    
+                }
+            })
+            .catch((e) => {
+                console.log(e)
+            });
+        },10000);  
+    }
+
+
     componentDidMount() {
+        this.timerStart();
         let userID = cookie.load("user_id");
 
         //get Total Favour Qty

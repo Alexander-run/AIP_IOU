@@ -166,7 +166,7 @@ class AddFriend extends React.Component {
                 }
             });
 
-            if (user_owes == user_owned) {
+            if (user_owes == user_owned || user_owned==user_owes) {
                 message.error('User Cannot be the same');
             }
             else {

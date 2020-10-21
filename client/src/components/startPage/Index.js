@@ -207,6 +207,7 @@ class StartPage extends React.Component {
             leaderBoardButtonStyle: {},
             myPostsButtonStyle:{},
             showRequestList: "none",
+            showMyPosts: "none",
             showLeaderBoard: "none",
             showDashboard: "none",
 
