@@ -26,47 +26,51 @@ class UploadProof extends React.Component{
   }
   handleUpload = () => {
       const {image} = this.state;
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      uploadTask.on('state_changed', 
-      (snapshot) => {
-        // progrss function ....
-        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        this.setState({progress});
-      }, 
-      (error) => {
-           // error function ....
-        console.log(error);
-      }, 
-    () => {
-        // complete function ....
-        storage.ref('images').child(image.name).getDownloadURL().then(url => {
-            console.log(url);
-            console.log("transaction id"+this.state.transaction_id)
-           
-          let transactionURLID = this.state.transaction_id;
-          let data = {
-            "transaction_id":transactionURLID,
-            "proof":1,
-            "image_url":url
-          }
-          axios.put("https://aip-v1.ts.r.appspot.com/api/favours/transaction",data)
-          .then(response =>{
-            let resMessage = response.data.message;
-            message.success(resMessage);
-            setTimeout(() => {
-              window.location.reload();
-           },2000);  
+      if(image == null){
+        message.error("Please select one image first");
+      }else{
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+          // progrss function ....
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          this.setState({progress});
+        }, 
+        (error) => {
+              // error function ....
+          console.log(error);
+        }, 
+        () => {
+          // complete function ....
+          storage.ref('images').child(image.name).getDownloadURL().then(url => {
+              console.log(url);
+              console.log("transaction id"+this.state.transaction_id)
+              
+            let transactionURLID = this.state.transaction_id;
+            let data = {
+              "transaction_id":transactionURLID,
+              "proof":1,
+              "image_url":url
+            }
+            axios.put("https://aip-v1.ts.r.appspot.com/api/favours/transaction",data)
+            .then(response =>{
+              let resMessage = response.data.message;
+              message.success(resMessage);
+              setTimeout(() => {
+                window.location.reload();
+              },2000);  
+            })
+            .catch((e) => {
+              console.log(e);
+              message.error("Error, Please try again");
           })
-          .catch((e) => {
-            console.log(e);
-            message.error("Error, Please try again");
-        })
-        
-          this.setState({url});
+          
+            this.setState({url});
 
 
-        })
-    });
+          })
+        });
+      }
   }
   render() {
     

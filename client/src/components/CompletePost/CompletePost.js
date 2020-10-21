@@ -30,47 +30,51 @@ handleChange = e => {
 
 handleUpload = () => {
   const {image} = this.state;
-  const uploadTask = storage.ref(`images/${image.name}`).put(image);
-  uploadTask.on('state_changed', 
-  (snapshot) => {
-    // progrss function ....
-    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-    this.setState({progress});
-  }, 
-  (error) => {
-       // error function ....
-    console.log(error);
-  }, 
-() => {
-    // complete function ....
-    storage.ref('images').child(image.name).getDownloadURL().then(url => {
-        console.log(url);      
-      let post_id = this.state.post_id;
-      let user_id = cookie.load("user_id");
-      let data = {   
-        "post_id": post_id,
-        "user_id": user_id,
-        "proof": 1,
-        "image_url":url
-    }
-      axios.put("https://aip-v1.ts.r.appspot.com/api/posts/apply_rewards",data)
-      .then(response =>{
-        let resMessage = response.data.message;
-        message.success(resMessage);
-        setTimeout(() => {
-          window.location.reload();
-       },2000);  
+  if(image == null){
+    message.error("Please select one image firstly");
+  }else{
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on('state_changed', 
+    (snapshot) => {
+      // progrss function ....
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      this.setState({progress});
+    }, 
+    (error) => {
+          // error function ....
+      console.log(error);
+    }, 
+    () => {
+      // complete function ....
+      storage.ref('images').child(image.name).getDownloadURL().then(url => {
+          console.log(url);      
+        let post_id = this.state.post_id;
+        let user_id = cookie.load("user_id");
+        let data = {   
+          "post_id": post_id,
+          "user_id": user_id,
+          "proof": 1,
+          "image_url":url
+      }
+        axios.put("https://aip-v1.ts.r.appspot.com/api/posts/apply_rewards",data)
+        .then(response =>{
+          let resMessage = response.data.message;
+          message.success(resMessage);
+          setTimeout(() => {
+            window.location.reload();
+          },2000);  
+        })
+        .catch((e) => {
+          console.log(e);
+          message.error("Error, Please try again");
       })
-      .catch((e) => {
-        console.log(e);
-        message.error("Error, Please try again");
-    })
-    
-      this.setState({url});
+      
+        this.setState({url});
 
 
-    })
-});
+      })
+    });
+  }
 }
 
   render() {

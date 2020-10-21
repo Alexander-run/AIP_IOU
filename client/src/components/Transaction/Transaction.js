@@ -50,11 +50,6 @@ class Transaction extends React.Component {
             axios.get('https://aip-v1.ts.r.appspot.com/api/users')
             .then(response => {
                 
-                if(response.status == 200){
-                    message
-                    .loading('Loading...', 1)
-                    
-                }
             })
             .catch((e) => {
                 console.log(e)
