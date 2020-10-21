@@ -212,6 +212,9 @@ class StartPage extends React.Component {
 
         });
     }
+    handleReload(){
+        window.location.reload();
+    }
 
 
 
@@ -222,7 +225,7 @@ class StartPage extends React.Component {
             <div className="start">
                 <div className="start-header">
                     <div className="start-header-left">
-                        <img src={logo}></img>
+                        <img src={logo} onClick={this.handleReload.bind(this)}></img>
                         <div
                             className="start-header-addRequestButton"
                             style={self.state.showAddRewardButton}

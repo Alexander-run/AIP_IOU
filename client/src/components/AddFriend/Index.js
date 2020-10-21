@@ -180,9 +180,9 @@ class AddFriend extends React.Component {
                         message
                         .loading('Transaction is Getting Added...', 2.5)
                         .then(() => message.success(responseMessage, 2));
-                        setTimeout(() => {
-                            window.location.reload();
-                        },2500);    
+                        // setTimeout(() => {
+                        //     window.location.reload();
+                        // },2500);    
                     })
                     .catch((e) => {
                         console.log(e)
@@ -195,7 +195,7 @@ class AddFriend extends React.Component {
 
 
     render() {
-     
+        const {parentCall} = this.props;
         let self = this;
         return (
             <div>
@@ -269,7 +269,13 @@ class AddFriend extends React.Component {
                 </div>
 
 
-                <Button type="primary" onClick={this.addFavour.bind(this)}>Add Favour</Button>
+                <Button type="primary" 
+                onClick = {() => {
+                    this.addFavour(); 
+                    this.componentDidMount();
+                    parentCall();
+                }}
+                >Add Favour</Button>
 
             </div>
 

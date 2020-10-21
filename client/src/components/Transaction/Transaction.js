@@ -250,6 +250,12 @@ class Transaction extends React.Component {
 
 
     }
+    handleCompleteAddFavour=()=>{
+        this.setState({
+            addFrendVisible: false
+        });
+        this.componentDidMount();
+    }
 
 
     render() {
@@ -296,7 +302,7 @@ class Transaction extends React.Component {
                         visible={this.state.addFrendVisible}
                         onOk={this.handleAddFrendSubmit}
                         onCancel={this.handleCancel.bind(this)}>
-                        <AddFrend />
+                        <AddFrend parentCall={this.handleCompleteAddFavour}/>
                     </Modal>
                 </div>
                 <div className="middle-dash">
