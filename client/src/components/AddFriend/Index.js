@@ -8,7 +8,7 @@ import cookie from 'react-cookies';
 
 
 const { Search } = Input;
-const  userOption=[];
+const userOption = [];
 
 class AddFriend extends React.Component {
 
@@ -20,8 +20,8 @@ class AddFriend extends React.Component {
             proof: 0,
             user_owned: '',
             rewardsEnum: [],
-            options:[],
-            userSelectId:''
+            options: [],
+            userSelectId: ''
         };
     }
 
@@ -57,7 +57,7 @@ class AddFriend extends React.Component {
             .catch((e) => {
                 console.log(e)
             })
-           
+
 
     }
 
@@ -70,14 +70,14 @@ class AddFriend extends React.Component {
                     "label": users.first_name + " " + users.last_name
                 }))
 
-                this.setState({options: selectOptions})
+                this.setState({ options: selectOptions })
 
             })
     }
-    onoptionChange(e){
+    onoptionChange(e) {
 
         this.setState({
-            user_owes:e,
+            user_owes: e,
         })
     }
 
@@ -85,14 +85,14 @@ class AddFriend extends React.Component {
 
         if (e.target.value == "Owned") {
             this.setState({
-                proof:0,
+                proof: 0,
                 user_owes: this.state.user_owes,
                 user_owned: this.state.user_owned
             })
         }
         else if (e.target.value == "Owes") {
             this.setState({
-                proof:1,
+                proof: 1,
                 user_owes: this.state.user_owned,
                 user_owned: this.state.user_owes
             })
@@ -106,7 +106,7 @@ class AddFriend extends React.Component {
                 item.qty = e;
             }
         });
-      
+
         this.setState({
             rewardsEnum: rewardsEnum
         });
@@ -131,42 +131,45 @@ class AddFriend extends React.Component {
                 })
             }
         });
-  
-            if (newRewardsEnum.length == 0) {
-                message.error("You have to choose at least one favour first");
-            } else {
-                newRewardsEnum.forEach(item => {
-                    switch (item.name) {
-                        case "chocolate":
-                            item.name = "Chocolate";
-                            break;
-                        case "coffee":
-                            item.name = "Coffee"
-                            break;
-                        case "mint":
-                            item.name = "Mint"
-                            break;
-                        case "cupcake":
-                            item.name = "Cupcake"
-                            break;
-                        case "pizza":
-                            item.name = "Pizza"
-                            break;
+        if (newRewardsEnum.length == 0) {
+            message.error("You have to choose at least one favour first");
+        } else {
+            newRewardsEnum.forEach(item => {
+                switch (item.name) {
+                    case "chocolate":
+                        item.name = "Chocolate";
+                        break;
+                    case "coffee":
+                        item.name = "Coffee"
+                        break;
+                    case "mint":
+                        item.name = "Mint"
+                        break;
+                    case "cupcake":
+                        item.name = "Cupcake"
+                        break;
+                    case "pizza":
+                        item.name = "Pizza"
+                        break;
+                }
+            });
+            newRewardsEnum.forEach(currentfavor => {
+                let ItemChanged = false;
+                rewards.forEach(oldFavour => {
+                    if (currentfavor.name == oldFavour.name) {
+                        oldFavour.qty += currentfavor.qty
+                        ItemChanged = true;
                     }
                 });
-                newRewardsEnum.forEach(currentfavor => {
-                    let ItemChanged = false;
-                    rewards.forEach(oldFavour => {
-                        if (currentfavor.name == oldFavour.name) {
-                            oldFavour.qty += currentfavor.qty
-                            ItemChanged = true;
-                        }
-                    });
-                    if (ItemChanged == false) {
-                        rewards = rewards.concat(currentfavor);
-                    }
-                });
+                if (ItemChanged == false) {
+                    rewards = rewards.concat(currentfavor);
+                }
+            });
 
+            if (user_owes == user_owned) {
+                message.error('User Cannot be the same');
+            }
+            else {
                 let data = {
                     "user_owes": user_owes,
                     "user_owed": user_owned,
@@ -176,34 +179,39 @@ class AddFriend extends React.Component {
 
                 axios.post('https://aip-v1.ts.r.appspot.com/api/favours/add_transaction', data)
                     .then(response => {
-                        responseMessage = response.data.message;
-                        message
-                        .loading('Transaction is Getting Added...', 2.5)
-                        .then(() => message.success(responseMessage, 2));
-                        // setTimeout(() => {
-                        //     window.location.reload();
-                        // },2500);    
+                      
+                            responseMessage = response.data.message;
+                            message
+                                .loading('Transaction is Getting Added...', 2.5)
+                                .then(() => message.success(responseMessage, 2));
+                        
+                        
+
+
                     })
                     .catch((e) => {
                         console.log(e)
                     })
             }
-        
+
+
+        }
+
 
 
     }
 
 
     render() {
-        const {parentCall} = this.props;
+        const { parentCall } = this.props;
         let self = this;
         return (
             <div>
-               <Select
-                placeholder="Select user"
-                options={this.state.options}
-                onChange={this.onoptionChange.bind(this)}
-                style={{ width: "30vh" }}
+                <Select
+                    placeholder="Select user"
+                    options={this.state.options}
+                    onChange={this.onoptionChange.bind(this)}
+                    style={{ width: "30vh" }}
                 >
                 </Select>
 
@@ -269,12 +277,12 @@ class AddFriend extends React.Component {
                 </div>
 
 
-                <Button type="primary" 
-                onClick = {() => {
-                    this.addFavour(); 
-                    this.componentDidMount();
-                    parentCall();
-                }}
+                <Button type="primary"
+                    onClick={() => {
+                        this.addFavour();
+                        this.componentDidMount();
+                        parentCall();
+                    }}
                 >Add Favour</Button>
 
             </div>

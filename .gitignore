@@ -26,3 +26,6 @@ client/debug.log
 client/debug.log
 client/debug.log
 *.log
+*.json
+*.log
+client/debug.log
