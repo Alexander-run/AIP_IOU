@@ -46,9 +46,9 @@ class LoginPage extends React.Component{
             }
         }
         if(username == ""){
-            message.error("Username can not be null");
+            message.error("Username can not be empty");
         }else if(password == ""){
-            message.error("Password can not be null");
+            message.error("Password can not be empty");
         }else{
             // http request for user account validation
             axios.post('https://aip-v1.ts.r.appspot.com/api/users/login',data)
@@ -56,9 +56,9 @@ class LoginPage extends React.Component{
                 let userInfo = res.data.users; 
                 // set cookie to store logged userID for use in other component
                 cookie.save("user_id",userInfo.user_id,{path:"/"});
-                message
-                    .loading('Details Verification', 1)
-                    .then(() => message.success('Login Details Success Verified, will return to main page in 2 seconds', 2));
+                // message
+                //     .loading('Details Verified', 1)
+                //     .then(() => message.success('Login Successful, returning to main-page', 2));
                 this.setState({login:true});
                 setTimeout(() => {
                     window.location.reload();
@@ -67,7 +67,7 @@ class LoginPage extends React.Component{
             .catch((e) => {
                 console.log(e);
                 this.setState({
-                    hintMessage:"The username or password you entered does not match any account, please try again or sign up for an account"
+                    hintMessage:"The username or password you entered does not match any account, please try again or create an account"
                 });
             })
         }        

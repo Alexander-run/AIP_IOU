@@ -22,6 +22,14 @@ class RequestList extends React.Component{
             login:false,
             displayButton:false,
 
+            rewardButtonStyle:{
+                chocolate:{},
+                coffee:{},
+                cupcake:{},
+                mint:{},
+                pizza:{},
+            },
+            rewardButtonChecked:"",
             allPosts: [],
             displayPosts:[],
             loadMoreIndex: 1,
@@ -317,6 +325,217 @@ class RequestList extends React.Component{
                 allPosts:posts
             })
         })
+        .then(()=>{
+            let rewardButtonChecked = this.state.rewardButtonChecked;
+            switch(rewardType){
+                case "Chocolate":
+                    if(rewardButtonChecked==="Chocolate"){
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:""
+                        })
+                        let responseData = [];
+                        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+                        .then(response => {
+                            
+                            // receive response Data
+                            responseData=response.data.post;
+
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts:responseData
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e)
+                        });
+                        this.timerStart();
+                    }else{
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{border:"1px solid"},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:"Chocolate"
+                        })
+                    }
+                    break;
+                case "Coffee":
+                    if(rewardButtonChecked==="Coffee"){
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:""
+                        })
+                        let responseData = [];
+                        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+                        .then(response => {
+                            
+                            // receive response Data
+                            responseData=response.data.post;
+
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts:responseData
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e)
+                        });
+                        this.timerStart();
+                    }else{
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{border:"1px solid"},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:"Coffee"
+                        })
+                    }
+                    break;
+                case "Cupcake":
+                    if(rewardButtonChecked==="Cupcake"){
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:""
+                        })
+                        let responseData = [];
+                        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+                        .then(response => {
+                            
+                            // receive response Data
+                            responseData=response.data.post;
+
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts:responseData
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e)
+                        });
+                        this.timerStart();
+                    }else{
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{border:"1px solid"},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:"Cupcake"
+                        })
+                    }
+                    break;
+                case "Mint":
+                    if(rewardButtonChecked==="Mint"){
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:""
+                        })
+                        let responseData = [];
+                        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+                        .then(response => {
+                            
+                            // receive response Data
+                            responseData=response.data.post;
+
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts:responseData
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e)
+                        });
+                        this.timerStart();
+                    }else{
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{border:"1px solid"},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:"Mint"
+                        })
+                    }
+                    break;
+                case "Pizza":
+                    if(rewardButtonChecked==="Pizza"){
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{},
+                            },
+                            rewardButtonChecked:""
+                        })
+                        let responseData = [];
+                        axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+                        .then(response => {
+                            
+                            // receive response Data
+                            responseData=response.data.post;
+
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts:responseData
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e)
+                        });
+                        this.timerStart();
+                    }else{
+                        this.setState({
+                            rewardButtonStyle:{
+                                chocolate:{},
+                                coffee:{},
+                                cupcake:{},
+                                mint:{},
+                                pizza:{border:"1px solid"},
+                            },
+                            rewardButtonChecked:"Pizza"
+                        })
+                    }
+                    break;
+            }
+            console.log(this.state.rewardButtonChecked);
+        })
         .catch((e) => {
             console.log(e)
         })    
@@ -364,15 +583,20 @@ class RequestList extends React.Component{
                     <div className="requestList-header-rewardList"> 
                         Search by rewards:                       
                         <Popover content={"Chocolate"}><GiChocolateBar  className="requestList-header-rewardList-item"
-                                         onClick={(ev)=>{self.handleSearchReward(ev,"Chocolate")}}/></Popover>
+                                         onClick={(ev)=>{self.handleSearchReward(ev,"Chocolate")}}
+                                         style={this.state.rewardButtonStyle.chocolate}/></Popover>
                         <Popover content={"Coffee"}><FaCoffee   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"Coffee")}}/></Popover>
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Coffee")}}
+                                    style={this.state.rewardButtonStyle.coffee}/></Popover>
                         <Popover content={"Cupcake"}><GiCupcake   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"Cupcake")}}/></Popover>
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Cupcake")}}
+                                    style={this.state.rewardButtonStyle.cupcake}/></Popover>
                         <Popover content={"Mint"}><FaLeaf   className="requestList-header-rewardList-item"
-                                    onClick={(ev)=>{self.handleSearchReward(ev,"Mint")}}/></Popover>
+                                    onClick={(ev)=>{self.handleSearchReward(ev,"Mint")}}
+                                    style={this.state.rewardButtonStyle.mint}/></Popover>
                         <Popover content={"Pizza"}><FaPizzaSlice   className="requestList-header-rewardList-item"
-                                        onClick={(ev)=>{self.handleSearchReward(ev,"Pizza")}}/></Popover>
+                                        onClick={(ev)=>{self.handleSearchReward(ev,"Pizza")}}
+                                        style={this.state.rewardButtonStyle.pizza}/></Popover>
                     </div>
                 </div>
                 <div className="requestList-body">
@@ -489,12 +713,12 @@ class RequestList extends React.Component{
                             <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayNewAddRewardButton}}>Add Rewards</Button>
                             <Button type="primary" onClick={this.showAddRewardsModal.bind(this)} style={{display:this.state.displayAddRewardButton}}>Edit Rewards</Button>
                             <Button type="primary" onClick={this.handleSignAPost.bind(this)} style={{display:this.state.displaySignPost}}>Make an Offer</Button>
-                            <Button type="primary" onClick={this.showUploadModal.bind(this)} style={{display:this.state.displayUploadProof}}>Complete it</Button>
+                            <Button type="primary" onClick={this.showUploadModal.bind(this)} style={{display:this.state.displayUploadProof}}>Complete</Button>
                         </div>
                     </div>
                 </div>
                 <Modal
-                    title="Select the rewards you want to add to this public request"
+                    title="Select the rewards you want to add to this public post"
                     footer={[]}
                     visible={this.state.addRewardsVisible}
                     onCancel={this.handleCancel.bind(this)}>
@@ -502,7 +726,7 @@ class RequestList extends React.Component{
                             postID={this.state.particularPost_Post[0].post_id}/>
                 </Modal>                 
                 <Modal
-                    title="Select and upload the proof image"
+                    title="Select and upload proof of completion"
                     footer={[]}
                     visible={this.state.uploadVisible}
                     onCancel={this.handleCancel.bind(this)}>

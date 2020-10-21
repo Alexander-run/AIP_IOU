@@ -14,6 +14,7 @@ import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
 import MyPosts from '../MyPosts/MyPosts';
 import cookie from 'react-cookies';
+import Party from '../Party/party';
 
 
 class StartPage extends React.Component {
@@ -30,6 +31,7 @@ class StartPage extends React.Component {
             showRequestList: "block",
             showMypostButton: "none",
             showDashboard: "none",
+            showParty:"none",
             showLeaderBoard: "none",
             showMyPosts: "none",
             loginStatus: false,
@@ -40,6 +42,7 @@ class StartPage extends React.Component {
             leaderBoardButtonStyle: {},            
             showAddRewardButton:{display:"none"},
             dashboardButtonStyle: { display: "none" },
+            myPartyButtonStyle: {display:"none"},
             myPostsButtonStyle: { display: "none" }
         };
     }
@@ -65,6 +68,7 @@ class StartPage extends React.Component {
                 dashboardButtonStyle: { display: "block" },
                 myPostsButtonStyle: { display: "block" },
                 showAddRewardButton:{display:"block"},
+                myPartyButtonStyle: {display:"block"},
                 showLoginButtons: "none",
                 showLogoutButtons: "block"
             })
@@ -74,6 +78,7 @@ class StartPage extends React.Component {
                 dashboardButtonStyle: { display: "none" },
                 myPostsButtonStyle: { display: "none" },
                 showAddRewardButton:{display:"none"},
+                myPartyButtonStyle: {display:"none"},
                 showLoginButtons: "block",
                 showLogoutButtons: "none"
             })
@@ -126,7 +131,9 @@ class StartPage extends React.Component {
             myPostsButtonStyle: { display: `${this.state.myPostsButtonStyle.display}` },
             showLeaderBoard: "none",
             showDashboard: "none",
-            showMyPosts: "none"
+            showMyPosts: "none",
+            showParty:"none",
+            myPartyButtonStyle:{}
         });
     }
     displayLeaderBoard() {
@@ -143,7 +150,9 @@ class StartPage extends React.Component {
             dashboardButtonStyle: { display: `${this.state.dashboardButtonStyle.display}` },
             showRequestList: "none",
             showDashboard: "none",
-            showMyPosts: "none"
+            showMyPosts: "none",
+            showParty:"none",
+            myPartyButtonStyle:{}
         });
     }
     displayMyPosts() {
@@ -160,7 +169,9 @@ class StartPage extends React.Component {
             dashboardButtonStyle: { display: `${this.state.dashboardButtonStyle.display}` },
             showRequestList: "none",
             showLeaderBoard: "none",
-            showDashboard: "none"
+            showDashboard: "none",
+            showParty:"none",
+            myPartyButtonStyle:{}
         });
     }
     displayDashboardList() {
@@ -177,9 +188,33 @@ class StartPage extends React.Component {
             browseButtonStyle: {},
             showLeaderBoard: "none",
             showRequestList: "none",
-            showMyPosts: "none"
+            showMyPosts: "none",
+            showParty:"none",
+            myPartyButtonStyle:{}
         });
     }
+    displayPartyDetecing(){
+        this.setState({
+            myPartyButtonStyle: {
+                marginTop: "2px",
+                borderBottom: "2px solid #008FB4",
+                cursor: "pointer",
+                color: "#008FB4",
+            },
+            showParty:"block",
+            browseButtonStyle: {},
+            dashboardButtonStyle:{},
+            leaderBoardButtonStyle: {},
+            myPostsButtonStyle:{},
+            showRequestList: "none",
+            showLeaderBoard: "none",
+            showDashboard: "none",
+
+        });
+    }
+
+
+
 
     render() {
         let self = this;
@@ -211,6 +246,9 @@ class StartPage extends React.Component {
                                 style={self.state.dashboardButtonStyle}
                                 onClick={self.displayDashboardList.bind(self)}
                             >Favours History</button>
+                            <button style={self.state.myPartyButtonStyle} onClick={self.displayPartyDetecing.bind(self)}>
+                                Party
+                            </button>
                         </div>
                     </div>
                     <div className="start-header-right" style={{ display: self.state.showLoginButtons }}>
@@ -243,10 +281,11 @@ class StartPage extends React.Component {
                     <div style={{ display: self.state.showLeaderBoard }}><LeaderBoard /></div>
                     <div style={{ display: self.state.showMyPosts }}><MyPosts userID={self.state.userID} /></div>
                     <div style={{ display: self.state.showDashboard }}><Transaction /></div>
+                    <div style={{display:self.state.showParty}}><Party/></div>
                 </div>
 
                 <Modal
-                    title="Create your Request"
+                    title="Create a post"
                     footer={[]}
                     visible={self.state.addRequestVisible}
                     onOk={self.handleAddRequestSubmit}

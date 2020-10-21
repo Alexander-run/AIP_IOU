@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions } from 'antd';
+import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions, Image } from 'antd';
 import "./Transaction.css";
 import { UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
@@ -33,9 +33,8 @@ class Transaction extends React.Component {
             message: "",
             proof: false,
             transactionID: "",
-            uploadprof: false,
-            displayUploadProof:"none",
-           
+            uploadprof: false
+
 
 
 
@@ -211,33 +210,13 @@ class Transaction extends React.Component {
     onpanelChange(item) {
 
         this.setState({
-            displayUploadProof:"none",
+            transactionID: item.transaction_id
+
         })
 
-      axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction/${item.transaction_id}`)
-      .then(response =>{
-          if(response.status == 200){
-                if(response.data.transactions[0].proof==true){
-                   this.setState({
-                    displayUploadProof:"block"
-                   })
-                }
-                else{
-                    this.setState({
-                        displayUploadProof:"none"
-                       })
-                }
-          }
-      })
-
-
-
-        this.setState({
-            transactionID:item.transaction_id
-        })
 
     }
-   
+
 
     callback(key) {
         if (key == 1) {
@@ -278,11 +257,8 @@ class Transaction extends React.Component {
         let statusmessage = "";
         let totalOwes = 0;
         let totalOwed = 0;
-        let message = "";
         let display = this.state.displayUploadProof;
-        if (this.state.proof == false) {
-            message = "tre";
-        }
+
         if (this.state.userTransaction.length == 0) {
             statusmessage = "No user";
         }
@@ -358,28 +334,41 @@ class Transaction extends React.Component {
                                 {this.state.allOwesTransaction.map(function (item) {
 
                                     return (
-                                        
-
                                         <div>
+
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
-                                                <Descriptions title="Favour Info" bordered>
-                                                <Descriptions.Item >
-                                                            <Button type="primary"  onClick={self.showUploadModal.bind(self)} style={{display:display}}><CloudUploadOutlined />Uplood Proof</Button>
-                                                        </Descriptions.Item> 
-                                                    <Descriptions.Item label="Rewards">
-                                                        {item.rewards.map(function (element) {
-                                                            return (
-                                                                    <p>
-                                                                    {element.reward_name}:{element.qty}
-                                                                    <p hidden>total:{totalOwes = totalOwes + element.qty}</p>
-                                                                    </p>
-                                                            )
+                                                    <Descriptions title="Favour Info" bordered>
+                                                    <Descriptions.Item>
+                                                            {item.proof ? <Image
+      width={100}
+      src="http://localhost:5000/file/1.png"
+    /> : <Image
+    width={100}
+    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+  />}
+                                                        </Descriptions.Item>
+                                                        <Descriptions.Item>
+                                                            {item.proof ? <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
 
-                                                        })}
-                                                          </Descriptions.Item>
-                                                
-                                                </Descriptions>
+                                                        </Descriptions.Item>
+                                                      
+
+
+                                                        <Descriptions.Item label="Rewards">
+
+                                                            {item.rewards.map(function (element) {
+                                                                return (
+                                                                    <p>
+                                                                        {element.reward_name}:{element.qty}
+                                                                        <p hidden>total:{totalOwes = totalOwes + element.qty}</p>
+                                                                    </p>
+                                                                )
+
+                                                            })}
+                                                        </Descriptions.Item>
+
+                                                    </Descriptions>
 
                                                 </Panel>
 
@@ -395,24 +384,25 @@ class Transaction extends React.Component {
                                     return (
 
                                         <div>
-                                            <Collapse onChange={self.onpanelChange.bind(self,item)}>
+                                            <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
                                                     <Descriptions title="Favour Info" bordered>
-                                                         <Descriptions.Item>
-                                                            <Button type="primary" onClick={self.showUploadModal.bind(self)} style={{ marginTop: 40 }}><CloudUploadOutlined />Uplood Proof</Button>
-                                                        </Descriptions.Item>                                                       
+                                                        <Descriptions.Item>
+                                                        {item.proof ? <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
+                                                        </Descriptions.Item>
                                                         <Descriptions.Item label="Rewards">
-                                                        {item.rewards.map(function (element) {
-                                                            return (
+                                                            {item.rewards.map(function (element) {
+                                                                return (
                                                                     <p>
-                                                                    {element.reward_name}:{element.qty}
-                                                                    <p hidden>total:{totalOwed = totalOwed + element.qty}</p>
-                                                                    </p>
-                                                            )
+                                                                        {element.reward_name}:{element.qty}
 
-                                                        })}
-                                                          </Descriptions.Item>
-                                                        
+                                                                        <p hidden>total:{totalOwed = totalOwed + element.qty}</p>
+                                                                    </p>
+                                                                )
+
+                                                            })}
+                                                        </Descriptions.Item>
+
 
 
                                                     </Descriptions>
@@ -431,7 +421,7 @@ class Transaction extends React.Component {
                     </div>
                 </div>
                 <Modal
-                    title="Select and upload the proof image"
+                    title="Select and upload proof of completion"
                     footer={[]}
                     visible={this.state.uploadprof}
                     onCancel={this.handleCancel.bind(this)}>

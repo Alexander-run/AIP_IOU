@@ -14,7 +14,13 @@ class SignupPage extends React.Component{
             surname:'',
             emailaddress:'',
             username:'',
-            password:''
+            password:'',
+            reEnterpassword:''
+        }
+    }
+    onKeyUp(e){
+        if(e.keyCode === 13) {
+            this.handleSignup();
         }
     }
 
@@ -43,6 +49,11 @@ class SignupPage extends React.Component{
             password:e.target.value,
         })
     }
+    onchangereEnterPassword(e){
+        this.setState({
+            reEnterpassword:e.target.value,
+        })
+    }
     handleSignup(){
         let resMessage;
         // HTTP post request to API (create a new post)
@@ -58,25 +69,27 @@ class SignupPage extends React.Component{
         console.log(data);
         // check input information
         if(!/^[0-9a-zA-Z]{1,12}$/.test(data.user.username)){
-            message.error("Please check your Username. Username can only contain 1-12 number and letters");
+            message.error("Please check your Username. Usernames can only contain 1-12 numbers and letters");
         }
-        else if(!/^[0-9a-zA-Z]{1,100}$/.test(data.user.password)){
-            message.error("Please check your Password. Password can only containnumber and letters");
+        else if(!/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$/.test(data.user.password)){
+            message.error("Passwords should contain at least 1 number and should be longer than 8 characters");
         }
         else if(!/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data.user.email)){
             message.error("Please check your Email Address");
         }
         else if(data.user.first_name == ""){
-            message.error("First name can not be null");
+            message.error("First name can not be empty");
         }
         else if(data.user.last_name == ""){
-            message.error("Surname can not be null");
+            message.error("Surname can not be empty");
+        }else if(this.state.password != this.state.reEnterpassword){
+            message.error("Passwords do not match!")
         }
         else{
             // HTTP request
             axios.post('https://aip-v1.ts.r.appspot.com/api/users',data)
             .then(response => {
-                message.success("Sign Up Success");
+                message.success("Sign Up Successful");
             })
             .then(() =>{
                 const username = this.state.username;
@@ -103,7 +116,7 @@ class SignupPage extends React.Component{
                 })
             })
             .catch((e) => {
-                message.error("Username has been used, please try another one");
+                message.error("Username is unavailable, please try another one");
                 console.log(e)
             })
         }       
@@ -115,6 +128,7 @@ class SignupPage extends React.Component{
                 <div className="signup-fullname">
                     <div className="signup-firstname">
                         <input 
+                            onKeyUp={this.onKeyUp.bind(this)}
                             type="text" 
                             placeholder="First name"
                             autoFocus='autofocus'
@@ -123,6 +137,7 @@ class SignupPage extends React.Component{
                     </div>
                     <div className="signup-surname">
                         <input 
+                            onKeyUp={this.onKeyUp.bind(this)}
                             type="text" 
                             placeholder="Surname"
                             value={this.state.surname}
@@ -131,6 +146,7 @@ class SignupPage extends React.Component{
                 </div> 
                 <div className="signup-emailaddress">
                     <input
+                        onKeyUp={this.onKeyUp.bind(this)}
                         type="email" 
                         placeholder="Email Address"
                         value={this.state.emailaddress}
@@ -138,6 +154,7 @@ class SignupPage extends React.Component{
                 </div> 
                 <div className="signup-username">
                     <input 
+                        onKeyUp={this.onKeyUp.bind(this)}
                         type="text" 
                         placeholder="User name"
                         value={this.state.username}
@@ -145,11 +162,20 @@ class SignupPage extends React.Component{
                 </div>
                 <div className="signup-password">
                     <input 
+                        onKeyUp={this.onKeyUp.bind(this)}
                         type="password" 
                         placeholder="Password"
                         value={this.state.password}
                         onChange={this.onchangePassword.bind(this)}/>
-                </div>    
+                </div>  
+                <div className="signup-password">
+                    <input 
+                        onKeyUp={this.onKeyUp.bind(this)}
+                        type="password" 
+                        placeholder="Re-enter Password"
+                        value={this.state.reEnterpassword}
+                        onChange={this.onchangereEnterPassword.bind(this)}/>
+                </div>   
                 <button type="primary" onClick={this.handleSignup.bind(this)}>Sign up</button>
             </div>            
         );
