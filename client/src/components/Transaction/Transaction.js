@@ -339,21 +339,15 @@ class Transaction extends React.Component {
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
                                                     <Descriptions title="Favour Info" bordered>
-                                                    <Descriptions.Item>
-                                                            {item.proof ? <Image
-      width={100}
-      src="http://localhost:5000/file/1.png"
-    /> : <Image
-    width={100}
-    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-  />}
-                                                        </Descriptions.Item>
+
+                                                        {item.image_url ? <Descriptions.Item> <Image
+                                                            width={100}
+                                                            src={item.image_url}
+                                                        /> </Descriptions.Item> : null}
+
                                                         <Descriptions.Item>
-                                                            {item.proof ? <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
-
+                                                            {item.proof ? <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
                                                         </Descriptions.Item>
-                                                      
-
 
                                                         <Descriptions.Item label="Rewards">
 
@@ -387,8 +381,13 @@ class Transaction extends React.Component {
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp.split("T")[0]}>
                                                     <Descriptions title="Favour Info" bordered>
+                                                    {item.image_url ? <Descriptions.Item> <Image
+                                                            width={100}
+                                                            src={item.image_url}
+                                                        /> </Descriptions.Item> : null}
+
                                                         <Descriptions.Item>
-                                                        {item.proof ? <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
+                                                            {item.proof ? <Button type="primary" disabled onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button> : <Button type="primary" onClick={self.showUploadModal.bind(self)}>  <CloudUploadOutlined />Uplood Proof</Button>}
                                                         </Descriptions.Item>
                                                         <Descriptions.Item label="Rewards">
                                                             {item.rewards.map(function (element) {
