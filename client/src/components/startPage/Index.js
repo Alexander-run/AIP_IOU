@@ -43,7 +43,7 @@ class StartPage extends React.Component {
             showAddRewardButton:{display:"none"},
             dashboardButtonStyle: { display: "none" },
             myPartyButtonStyle: {display:"none"},
-            myPostsButtonStyle: { display: "none" }
+            myPostsButtonStyle: { display: "none" },
         };
     }
 
@@ -133,7 +133,7 @@ class StartPage extends React.Component {
             showDashboard: "none",
             showMyPosts: "none",
             showParty:"none",
-            myPartyButtonStyle:{}
+            myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
     displayLeaderBoard() {
@@ -152,7 +152,7 @@ class StartPage extends React.Component {
             showDashboard: "none",
             showMyPosts: "none",
             showParty:"none",
-            myPartyButtonStyle:{}
+            myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
     displayMyPosts() {
@@ -171,7 +171,7 @@ class StartPage extends React.Component {
             showLeaderBoard: "none",
             showDashboard: "none",
             showParty:"none",
-            myPartyButtonStyle:{}
+            myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
     displayDashboardList() {
@@ -190,7 +190,7 @@ class StartPage extends React.Component {
             showRequestList: "none",
             showMyPosts: "none",
             showParty:"none",
-            myPartyButtonStyle:{}
+            myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
     displayPartyDetecing(){
@@ -250,7 +250,9 @@ class StartPage extends React.Component {
                                 style={self.state.dashboardButtonStyle}
                                 onClick={self.displayDashboardList.bind(self)}
                             >Favours History</button>
-                            <button style={self.state.myPartyButtonStyle} onClick={self.displayPartyDetecing.bind(self)}>
+                            <button 
+                                style={self.state.myPartyButtonStyle}
+                                onClick={self.displayPartyDetecing.bind(self)}>
                                 Party
                             </button>
                         </div>

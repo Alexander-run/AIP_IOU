@@ -298,6 +298,21 @@ class RequestList extends React.Component{
             })
             clearInterval(timer);
         }else{
+            let responseData = [];
+            axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
+            .then(response => {
+                
+                // receive response Data
+                responseData=response.data.post;
+
+                // Parse Data into local states
+                this.setState({
+                    allPosts:responseData
+                })
+            })
+            .catch((e) => {
+                console.log(e)
+            });
             this.timerStart();
         }
         
