@@ -208,7 +208,7 @@ class Transaction extends React.Component {
     }
 
     onpanelChange(item) {
-
+        console.log("id"+item.transaction_id);
         this.setState({
             transactionID: item.transaction_id
 
@@ -343,7 +343,7 @@ class Transaction extends React.Component {
                                         <div>
 
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
-                                                <Panel header={item.timestamp.split("T")[0]}>
+                                                <Panel header={item.timestamp}>
                                                     <Descriptions title="Favour Info" bordered>
 
                                                         {item.image_url ? <Descriptions.Item> <Image
@@ -385,7 +385,7 @@ class Transaction extends React.Component {
 
                                         <div>
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
-                                                <Panel header={item.timestamp.split("T")[0]}>
+                                                <Panel header={item.timestamp}>
                                                     <Descriptions title="Favour Info" bordered>
                                                     {item.image_url ? <Descriptions.Item> <Image
                                                             width={100}
