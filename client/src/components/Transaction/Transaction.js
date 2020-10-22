@@ -46,20 +46,111 @@ class Transaction extends React.Component {
   
     timerStart = () =>  {
         timer = setInterval(() => {
+            let userID = cookie.load("user_id");
+
+        //get Total Favour Qty
         
-            axios.get('https://aip-v1.ts.r.appspot.com/api/users')
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/users/${userID}`)
             .then(response => {
-                
+                this.setState({
+                    totalFavourQty: ""
+                });
+                let qty = response.data.users[0].favour_qty
+                this.setState({
+                    totalFavourQty: qty
+                })
             })
             .catch((e) => {
                 console.log(e)
-            });
-        },10000);  
+            })
+
+        let rewards = [];
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards/`)
+            .then(response => {
+                rewards = response.data;
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+        this.setState({
+            RewardsEnumnation: rewards
+        });
+
+        let favourOwes;
+        let favourOwned;
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/?user_id=${userID}`)
+            .then(response => {
+                favourOwes = response.data.favours_owes;
+                favourOwned = response.data.favours_owed;
+                // parse data into local states
+                this.setState({
+                    favourOwes: favourOwes,
+                    favourOwned: favourOwned
+                });
+
+            })
+
+
+
+        
+
+        axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/?user_id=${userID}`)
+            .then(response => {
+                if (response.data.favours_owes != null) {
+                    this.setState({
+                        userTransaction: []
+                    });
+                    for (let i = 0; i < response.data.favours_owes.length; i++) {
+                        let username = response.data.favours_owes[i].username;
+                        let userid = response.data.favours_owes[i].user_id;
+                        let qty = response.data.favours_owes[i].favour_qty;
+                        let userTransaction = this.state.userTransaction;
+                        let userdetails = {
+                            "userid": userid,
+                            "username": username,
+                            "FavourQty": qty,
+                            "FavourType": "Owes"
+
+                        };
+                        this.setState({
+                            userTransaction: userTransaction.concat(userdetails)
+                        })
+                    }
+                }
+
+                if (response.data.favours_owed != null) {
+
+                    for (let i = 0; i < response.data.favours_owed.length; i++) {
+                        let username = response.data.favours_owed[i].username;
+                        let userid = response.data.favours_owed[i].user_id;
+                        let qty = response.data.favours_owed[i].favour_qty;
+                        let userTransaction = this.state.userTransaction;
+                        let userdetails = {
+                            "userid": userid,
+                            "username": username,
+                            "FavourQty": qty,
+                            "FavourType": "Owed"
+
+                        };
+                        this.setState({
+                            userTransaction: userTransaction.concat(userdetails)
+                        })
+
+                    }
+                }
+
+
+
+
+            })
+            
+        },2000);  
+        
     }
 
 
     componentDidMount() {
-        this.timerStart();
+        
         let userID = cookie.load("user_id");
 
         //get Total Favour Qty
@@ -157,6 +248,7 @@ class Transaction extends React.Component {
 
 
             })
+            this.timerStart();
 
     }
     handleUserSelect(item) {
