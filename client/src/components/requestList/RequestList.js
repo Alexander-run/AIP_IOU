@@ -168,32 +168,43 @@ class RequestList extends React.Component{
                 displayNewAddRewardButton:"none"
             });
             let loggedUserID=cookie.load("user_id");
-            if(this.state.particularPost_Post[0].added_by === loggedUserID){
+            if(this.state.particularPost_Post[0].status == "Closed"){
                 this.setState({
-                    displayAddRewardButton:"block"
+                    displayAddRewardButton:"none",
+                    displaySignPost:"none",
+                    displayUploadProof:"none",
+                    displayNewAddRewardButton:"none"
                 });
-            }else if(this.state.particularPost_Post[0].offer_by == null){
-                let existAdder = false;
-                this.state.particularPost_Rewards.forEach(item => {
-                    let adderID = item.user_id;
-                    if(adderID === loggedUserID){
-                        this.setState({
-                            displayAddRewardButton:"block"
-                        });
-                        existAdder = true;
-                    }
-                });
-                if(!existAdder){
+            }
+            else if(this.state.particularPost_Post[0].status == "Assigned"){
+                if(this.state.particularPost_Post[0].offer_by === loggedUserID){
                     this.setState({
-                        displaySignPost:"block",
-                        displayNewAddRewardButton:"block"
+                        displayUploadProof:"block",
                     });
                 }
-            }else if(this.state.particularPost_Post[0].offer_by === loggedUserID
-                    && this.state.particularPost_Post[0].status != "Closed"){
-                this.setState({
-                    displayUploadProof:"block",
-                });
+            }else if(this.state.particularPost_Post[0].status == "Open"){
+                if(this.state.particularPost_Post[0].added_by === loggedUserID){
+                    this.setState({
+                        displayAddRewardButton:"block"
+                    });
+                }else if(this.state.particularPost_Post[0].offer_by == null){
+                    let existAdder = false;
+                    this.state.particularPost_Rewards.forEach(item => {
+                        let adderID = item.user_id;
+                        if(adderID === loggedUserID){
+                            this.setState({
+                                displayAddRewardButton:"block"
+                            });
+                            existAdder = true;
+                        }
+                    });
+                    if(!existAdder){
+                        this.setState({
+                            displaySignPost:"block",
+                            displayNewAddRewardButton:"block"
+                        });
+                    }
+                }
             }
         })
         
