@@ -15,19 +15,9 @@ class AddRewards extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // Function states
             postID:this.props.postID,
             rewards: {},            
-            // [{
-            //     user_id: ""
-            //     rewards:[
-            //         {
-            //             reward_name:"",qty:int
-            //         },
-            //         {
-            //             reward_name:"",qty:int
-            //         }
-            //     ]
-            // }]
             rewardsEnum:[],
         }        
     }
@@ -48,7 +38,7 @@ class AddRewards extends React.Component{
             this.setState({
                 rewards:particularPost_Rewards
             });
-
+            // pull rewardsEnum and parse into API JSON format and initialize with null array
             axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards`)
             .then(response =>{
                 responseData = response.data;
@@ -85,6 +75,8 @@ class AddRewards extends React.Component{
                 });
             })        
             .then(() => {
+
+            // change the displayed rewards as the current users existing rewards
                 let rewards = this.state.rewards;
                 let user_id = cookie.load("user_id");
                 rewards.forEach(item => {
@@ -112,7 +104,7 @@ class AddRewards extends React.Component{
             console.log(e);
         }) 
     }
-
+    // Change rewards as user click the + or - button
     onChangeRewards(ev,action,rewardType){
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
@@ -132,7 +124,7 @@ class AddRewards extends React.Component{
         });
     }
 
-
+    // When user click submit, call this function to send request to API 
     handleAddRewards(ev, operationType){
         let rewardsEnum = this.state.rewardsEnum;
         let newRewards=[];
@@ -167,7 +159,6 @@ class AddRewards extends React.Component{
         }
         
     }
-
     render(){
         let self = this;
         return(

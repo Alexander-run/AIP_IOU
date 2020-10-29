@@ -14,6 +14,7 @@ class AddRequest extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // Function states
             title:'',
             description:'',
             rewardsEnum:[]
@@ -26,7 +27,7 @@ class AddRequest extends React.Component{
             rewardsEnum:[]
         });
 
-        // pull rewardsEnum
+        // pull rewardsEnum and parse into API JSON format and initialize with null array
         let responseData;
         axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards`)
         .then(response =>{
@@ -44,36 +45,21 @@ class AddRequest extends React.Component{
             console.log(e)
         })
     }
-
+    // store title from user input to component state
     changeTitle(e){
         this.setState({
             title:e.target.value,
         });
     }
+    // store description from user input to component state
     changeDescription(e){
         this.setState({
             description:e.target.value,
         })
     }
-
+    // store rewards enum
     onChangeRewards(e,Itemname){
-        // let newCount = 0;
-        // let rewardsEnum = this.state.rewardsEnum;
-        // rewardsEnum.forEach(item => {
-        //     if(item.name == rewardType){
-        //         if(action =='add'){
-        //             item.qty += 1;
-        //         }
-        //         else{
-        //             if(item.qty > 0){
-        //                 item.qty -= 1;
-        //             }                    
-        //         }
-        //     }
-        // });
-        // this.setState({
-        //     rewardsEnum:rewardsEnum
-        // });   
+        
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
             if (item.name == Itemname) {
@@ -100,6 +86,7 @@ class AddRequest extends React.Component{
                 })
             }
         });
+        // for reward name integration
         newRewardsEnum.forEach(item => {
             switch(item.name){
                 case "chocolate":
@@ -119,9 +106,9 @@ class AddRequest extends React.Component{
                     break;         
             }
         });
-        // HTTP post request to API (create a new post)
+        // HTTP post request to API 
         let userID = cookie.load("user_id");
-        let data = {
+        let data = {  // API request data in body
             "post" : {
                 // get logged in userID from cookie 
                 "added_by": userID,
@@ -130,6 +117,7 @@ class AddRequest extends React.Component{
             },
             "reward" : newRewardsEnum
         };
+        // input validation check
         if(data.post.title == ""){
             message.error("Title can not be null");
         }else if(data.post.title.length >20){

@@ -17,9 +17,15 @@ class MyPosts extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // UI states
             login:false,
             displayButton:false,
+            addRewardsVisible:false,
+            uploadVisible:false,
+            displayBodyRight:"none",
+            displayAddRewardButton:"none",
 
+            // Function states
             allPosts: [],
             particularPost_Post:[{
                 "post_id": "",
@@ -36,11 +42,7 @@ class MyPosts extends React.Component{
             particularPost_Signer:"",
             particularPost_adders:[],
             RewardsEnumnation:[],
-            addRewardsVisible:false,
-            uploadVisible:false,
-
-            displayBodyRight:"none",
-            displayAddRewardButton:"none",
+            
         }
     }
     // Timer for refresh the post list
@@ -113,7 +115,7 @@ class MyPosts extends React.Component{
             RewardsEnumnation:rewards
         });
     }
-
+    // When user click a particular Post in the left list, fetch the details and display on the right
     handleItemSelect(item){
         let particularPost_Post;
         let particularPost_Rewards;
@@ -129,7 +131,7 @@ class MyPosts extends React.Component{
                 particularPost_Rewards:particularPost_Rewards
             });
             
-            // decide which button to show in the detail page
+            // UI logic: decide which button to show in the detail page
             this.setState({
                 displayAddRewardButton:"none",
             });
@@ -141,7 +143,7 @@ class MyPosts extends React.Component{
         })
         
         .then( () => {
-            // find the post man
+            // find the post user name
             let posterName;
             let posterID = this.state.particularPost_Post[0].added_by;
             axios.get(`https://aip-v1.ts.r.appspot.com/api/users/${posterID}`)
@@ -157,23 +159,13 @@ class MyPosts extends React.Component{
             })                       
         })
         .then(()=>{
-            // find people who add rewards
+            // find people who add rewards 
             // clear old particularPost_adders
             this.setState({
                 particularPost_adders:[]
             });
             let rewards = this.state.particularPost_Rewards
-            // [{
-            //     user_id: ""
-            //     rewards:[
-            //         {
-            //             reward_name:"",qty:int
-            //         },
-            //         {
-            //             reward_name:"",qty:int
-            //         }
-            //     ]
-            // }]
+            // Parse and store all users who have added rewards and the certain count of their rewards
             rewards.forEach(item => {
                 let adderID = item.user_id;
                 let adderRewards = item.rewards;
@@ -214,6 +206,7 @@ class MyPosts extends React.Component{
                 })
             }
         })
+        // no error occurs, then display the detail page frame
         .then(() =>{
             this.setState({
                 displayBodyRight:"block"
@@ -224,12 +217,13 @@ class MyPosts extends React.Component{
         })
         
     }
-    
+    // UI logic
     showAddRewardsModal(){
         this.setState({
             addRewardsVisible:true
         });
     }
+    // UI logic
     handleCancel(){
         this.setState({
             addRewardsVisible:false,
@@ -237,7 +231,9 @@ class MyPosts extends React.Component{
         });
         window.location.reload();
     }
+    // When user click make an offer button, means he wants to do this job, call this function to send request to API
     handleSignAPost(){        
+        // prepare data in request body
         let post_id = this.state.particularPost_Post[0].post_id;
         let user_id = cookie.load("user_id");
         let data = {   
@@ -257,6 +253,7 @@ class MyPosts extends React.Component{
             console.log(e)
         })
     }
+    // UI logic
     showUploadModal(){
         this.setState({
             uploadVisible:true

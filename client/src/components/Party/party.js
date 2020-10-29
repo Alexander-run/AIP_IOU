@@ -1,6 +1,5 @@
+// This component implement the party detection function
 import React from 'react';
-
-
 import axios from 'axios';
 import cookie from 'react-cookies';
 import { Badge, Descriptions } from 'antd';
@@ -11,6 +10,7 @@ class Party extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            // Function states
             cycleDetection:false,
             cycleInfo:[]
         }
@@ -22,7 +22,7 @@ class Party extends React.Component{
         this.setState({
             cycleInfo:[]
         })
-        
+        // Fetch the party detection result from backend API
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/cycle-detection/${userID}`)
         .then(response =>{
             if(response.status == 200){
@@ -30,7 +30,7 @@ class Party extends React.Component{
                 this.setState({
                     cycleDetection:true,
                 })
-
+                // format the response data into local states
                 for(let i=0;i<response.data.favours.length;i++){
                     let userowes = response.data.favours[i].user_owes;
                     let userowed = response.data.favours[i].user_owed;

@@ -19,20 +19,30 @@ class RequestList extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // UI states
             login:false,
             displayButton:false,
-
+            rewardButtonChecked:"",
             rewardButtonStyle:{
                 chocolate:{},
                 coffee:{},
                 cupcake:{},
                 mint:{},
                 pizza:{},
-            },
-            rewardButtonChecked:"",
+            },  
+            addRewardsVisible:false,
+            uploadVisible:false,
+            displayBodyRight:"none",
+            displayAddRewardButton:"none",
+            displaySignPost:"none",
+            displayUploadProof:"none",
+            displayNewAddRewardButton:"none",
+            // UI states end
+
+            // Function states
             allPosts: [],
             displayPosts:[],
-            loadMoreIndex: 1,
+            // loadMoreIndex: 1,
             particularPost_Post:[{
                 "post_id": "",
                 "added_by": "",
@@ -49,15 +59,7 @@ class RequestList extends React.Component{
             particularPost_Signer:"",
             particularPost_adders:[],
             RewardsEnumnation:[],
-            addRewardsVisible:false,
-            uploadVisible:false,
-
-            displayBodyRight:"none",
-            displayAddRewardButton:"none",
-            displaySignPost:"none",
-            displayUploadProof:"none",
-            displayNewAddRewardButton:"none"
-
+            // Function states end
         }
     }
     // Timer for refresh the post list
@@ -83,14 +85,15 @@ class RequestList extends React.Component{
 
     componentDidMount(){
 
-        // get loadmoreIndex
-        let loadMoreIndex;
-        if(!cookie.load("loadMoreIndex")){
-            cookie.save("loadMoreIndex",5,{path:"/"});
-            loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
-        }else{
-            loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
-        }
+        // // get loadmoreIndex
+        // let loadMoreIndex;
+        // if(!cookie.load("loadMoreIndex")){
+        //     cookie.save("loadMoreIndex",5,{path:"/"});
+        //     loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+        // }else{
+        //     loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+        // }
+
         // get all posts 
         let responseData = [];
         axios.get('https://aip-v1.ts.r.appspot.com/api/posts')
@@ -104,14 +107,14 @@ class RequestList extends React.Component{
             this.setState({
                 allPosts:responseData
             })
-            let i;
-            for (i=0;i<loadMoreIndex;i++){
-                if(responseData[i]){
-                    this.setState({
-                        displayPosts:this.state.displayPosts.concat(responseData[i])
-                    });
-                }
-            }
+            // let i;
+            // for (i=0;i<loadMoreIndex;i++){
+            //     if(responseData[i]){
+            //         this.setState({
+            //             displayPosts:this.state.displayPosts.concat(responseData[i])
+            //         });
+            //     }
+            // }
         })
         .catch((e) => {
             console.log(e)
@@ -144,7 +147,7 @@ class RequestList extends React.Component{
             RewardsEnumnation:rewards
         });
     }
-
+    // Display a post on the right page when user click a particular post item in the left list
     handleItemSelect(item){
         let particularPost_Post;
         let particularPost_Rewards;
@@ -160,7 +163,8 @@ class RequestList extends React.Component{
                 particularPost_Rewards:particularPost_Rewards
             });
             
-            // decide which button to show in the detail page
+            // UI logic: decide which button to show in the detail page
+            // depends on 1. post status 2. logged user authentication
             this.setState({
                 displayAddRewardButton:"none",
                 displaySignPost:"none",
@@ -207,7 +211,7 @@ class RequestList extends React.Component{
                 }
             }
         })
-        
+        // fetch the post man name
         .then( () => {
             // find the post man
             let posterName;
@@ -271,6 +275,7 @@ class RequestList extends React.Component{
                 })
             }
         })
+        // if no errors occur, then display the detail page
         .then(() =>{
             this.setState({
                 displayBodyRight:"block"
@@ -282,18 +287,20 @@ class RequestList extends React.Component{
         
     }
     
-    onLoadMore(){       
-        let loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
-        loadMoreIndex +=5;
-        cookie.save("loadMoreIndex",loadMoreIndex,{path:"/"});   
-        window.location.reload();     
-    }
+    // onLoadMore(){       
+    //     let loadMoreIndex = parseInt(cookie.load("loadMoreIndex"));
+    //     loadMoreIndex +=5;
+    //     cookie.save("loadMoreIndex",loadMoreIndex,{path:"/"});   
+    //     window.location.reload();     
+    // }
 
+    // UI logic
     showAddRewardsModal(){
         this.setState({
             addRewardsVisible:true
         });
     }
+    // UI logic
     handleCancel(){
         this.setState({
             addRewardsVisible:false,
@@ -302,6 +309,9 @@ class RequestList extends React.Component{
         window.location.reload();
     }
 
+    // search function: when user input search keyword
+    // if input values, store the keyword in component state
+    // otherwise if the input is deleted to empty, then return to all posts list
     onSearchKeyChange(e){
         if(e.target.value){
             this.setState({
@@ -328,6 +338,7 @@ class RequestList extends React.Component{
         }
         
     }
+    // when click search button or press enter, call this function to send request to API and stop intervally refreshing of the whole list
     handleSearch(){
         clearInterval(timer);
         axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?keyword=${this.state.searchKey}`)
@@ -341,6 +352,7 @@ class RequestList extends React.Component{
             console.log(e)
         })    
     }
+    // when user click the reward icon, call this function to send request to API to fetch particular posts which contains the chosen reward
     handleSearchReward(ev,rewardType){
         let reward = rewardType;
         clearInterval(timer);
@@ -351,8 +363,13 @@ class RequestList extends React.Component{
                 allPosts:posts
             })
         })
+    // UI logic, to show which reward is selected. Tell user the displayed list is related to which reward or not
         .then(()=>{
             let rewardButtonChecked = this.state.rewardButtonChecked;
+
+            // following have 7 situations, each has same logic:
+            // if user click a checked icon, means clear the reward selection, so return to displaying all posts list
+            // else show border on the chosen icon to highlight it
             switch(rewardType){
                 case "Chocolate":
                     if(rewardButtonChecked==="Chocolate"){
@@ -560,14 +577,14 @@ class RequestList extends React.Component{
                     }
                     break;
             }
-            console.log(this.state.rewardButtonChecked);
         })
         .catch((e) => {
             console.log(e)
         })    
     }
-
+    // when user wants to sign this post
     handleSignAPost(){        
+        // prepare data used in request body
         let post_id = this.state.particularPost_Post[0].post_id;
         let user_id = cookie.load("user_id");
         let data = {   
@@ -587,6 +604,7 @@ class RequestList extends React.Component{
             console.log(e)
         })
     }
+    // UI logic
     showUploadModal(){
         this.setState({
             uploadVisible:true

@@ -12,21 +12,17 @@ class LeaderBoard extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // UI change states
             profitButtonStyle:"primary",
             debtButtonStyle:"default",
             profit:true,
+
+            // Function states
             leaderBoardItems: []
-            // [    
-            //     {
-            //         "user_id": "8eff921e-cd56-4146-b902-d8d0438b0ae0",
-            //         "username": "Vraj Mehta",
-            //         "favour_qty": 18
-            //     }
-            // ]
         };
     }
 
-    // Timer for refresh the post list
+    // Timer for refreshing the list
     timerStart(displayProfit)  {
         
         timer = setInterval(() => {
@@ -43,7 +39,7 @@ class LeaderBoard extends React.Component{
         },5000); 
     }
 
-    // API used to retrieve the leaders
+    // API used to retrieve the leaders from backend
     componentDidMount(){
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/leaderboard?high_favours=1&order=DESC`)
         .then(response => {
@@ -58,7 +54,8 @@ class LeaderBoard extends React.Component{
         // start timer for refreshing
         this.timerStart(1);        
     }
-
+    // when user click buttons to exchange between profit rank and debt rank, use this function to 
+    // change UI and fetch leaders list from backend
     onChangeDisplay(e,displayProfit){
         if(displayProfit === 1){
             this.setState({
@@ -103,32 +100,6 @@ class LeaderBoard extends React.Component{
                     <Button type={this.state.profitButtonStyle} onClick={(e) => self.onChangeDisplay(e,1)}>Profit</Button>
                     <Button type={this.state.debtButtonStyle} onClick={(e) => self.onChangeDisplay(e,0)}>Debt</Button>
                 </div>
-                {/* <div className="leaderBoard-topthree">
-                {this.state.leaderBoardItems.map((item,index) => {
-                   if(index === 1){
-                       let id = "top"+(index+1);
-                       return(
-                           <div id={id}>
-                               item.username
-                           </div>
-                       )
-                   }
-                })}
-                {this.state.leaderBoardItems.map((item,index) => {
-                   if(index === 0){
-                       return(
-                           item.username
-                       )
-                   }
-                })}
-                {this.state.leaderBoardItems.map((item,index) => {
-                   if(index === 2){
-                       return(
-                           item.username
-                       )
-                   }
-                })}
-                </div> */}
                 {this.state.leaderBoardItems.map((item,index) => {
                     let id = "item"+(index+1);
                     let img = item.username.substr(0,1);

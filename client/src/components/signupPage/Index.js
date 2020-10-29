@@ -10,6 +10,7 @@ class SignupPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // function states
             firstname:'',
             surname:'',
             emailaddress:'',
@@ -18,12 +19,13 @@ class SignupPage extends React.Component{
             reEnterpassword:''
         }
     }
+    // add pressing enter event to handle sign action
     onKeyUp(e){
         if(e.keyCode === 13) {
             this.handleSignup();
         }
     }
-
+    // store user input into component states
     onchangeFirstname(e){
         this.setState({
             firstname:e.target.value,
@@ -54,9 +56,13 @@ class SignupPage extends React.Component{
             reEnterpassword:e.target.value,
         })
     }
+    // store user input into component states
+    // end
+    
+    // when user click sign up button
     handleSignup(){
         let resMessage;
-        // HTTP post request to API (create a new post)
+        // prepare data for request body
         let data = {
             "user":{
                 "first_name":`${this.state.firstname}`,
@@ -67,7 +73,10 @@ class SignupPage extends React.Component{
             }
         };        
         console.log(data);
-        // check input information
+        // check input validation
+        // username is a 1-12 length string with numbers and letters only
+        // password must longer than 8 characters and contain at least 1 number
+        // email format check
         if(!/^[0-9a-zA-Z]{1,12}$/.test(data.user.username)){
             message.error("Please check your Username. Usernames can only contain 1-12 numbers and letters");
         }
@@ -85,12 +94,14 @@ class SignupPage extends React.Component{
         }else if(this.state.password != this.state.reEnterpassword){
             message.error("Passwords do not match!")
         }
+        // if validation passed
         else{
-            // HTTP request
+            // HTTP request to add a user in the backend
             axios.post('https://aip-v1.ts.r.appspot.com/api/users',data)
             .then(response => {
                 message.success("Sign Up Successful");
             })
+            // after successfully sign up, directly log in 
             .then(() =>{
                 const username = this.state.username;
                 const password = this.state.password;

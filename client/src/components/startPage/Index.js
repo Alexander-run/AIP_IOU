@@ -22,6 +22,9 @@ class StartPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
+            // UI logic  states
+            username:"",
             loginModalVisible: false,
             signupModalVisible: false,
             addRequestVisible: false,
@@ -35,15 +38,14 @@ class StartPage extends React.Component {
             showLeaderBoard: "none",
             showMyPosts: "none",
             loginStatus: false,
-            userID: null,
-            username:"",
-
+            userID: null,                    
             browseButtonStyle: {},
             leaderBoardButtonStyle: {},            
             showAddRewardButton:{display:"none"},
             dashboardButtonStyle: { display: "none" },
             myPartyButtonStyle: {display:"none"},
-            myPostsButtonStyle: { display: "none" },
+            myPostsButtonStyle: { display: "none" }
+            // UI logic  states end
         };
     }
 
@@ -62,6 +64,7 @@ class StartPage extends React.Component {
         .catch((e) => {
             console.log(e)
         })
+        // if user log in
         // hide login button and sign up button, show personal home button
         if (userID) {
             this.setState({
@@ -73,6 +76,7 @@ class StartPage extends React.Component {
                 showLogoutButtons: "block"
             })
         }
+        // else if no user currently log in 
         else {
             this.setState({
                 dashboardButtonStyle: { display: "none" },
@@ -85,23 +89,26 @@ class StartPage extends React.Component {
         }
 
     }
-
+    // when user wants to sign a new account, show sign up component in a modal
     handleSignUpClick() {
         this.setState({
             signupModalVisible: true
         })
     }
+    // when user wants to log in, show log in component in a modal
     handleLoginClick() {
         this.setState({
             loginModalVisible: true
         })
     }
+    // when user wants to log out, show log out component in a modal
     handleLogoutClick() {
         this.setState({
             logoutModalVisible: true
 
         })
     }
+    // UI logic
     handleCancel() {
         this.setState({
             signupModalVisible: false,
@@ -111,12 +118,13 @@ class StartPage extends React.Component {
         })
         this.forceUpdate();
     }
+    // when user wants to create a new post, show addRequest component in a modal
     handleAddRequest() {
         this.setState({
             addRequestVisible: true
         })
     }
-
+    // UI logic, for top navigation buttons
     displayRequestsList() {
         this.setState({
             browseButtonStyle: {
@@ -136,6 +144,7 @@ class StartPage extends React.Component {
             myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
+    // UI logic, for top navigation buttons
     displayLeaderBoard() {
         this.setState({
             leaderBoardButtonStyle: {
@@ -155,6 +164,7 @@ class StartPage extends React.Component {
             myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
+    // UI logic, for top navigation buttons
     displayMyPosts() {
         this.setState({
             myPostsButtonStyle: {
@@ -174,6 +184,7 @@ class StartPage extends React.Component {
             myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
+    // UI logic, for top navigation buttons
     displayDashboardList() {
         this.setState({
             dashboardButtonStyle: {
@@ -193,6 +204,7 @@ class StartPage extends React.Component {
             myPartyButtonStyle:{display: `${this.state.myPartyButtonStyle.display}`}
         });
     }
+    // UI logic, for top navigation buttons
     displayPartyDetecing(){
         this.setState({
             myPartyButtonStyle: {
@@ -213,6 +225,7 @@ class StartPage extends React.Component {
 
         });
     }
+    // UI logic, when user click the application logo, reload the page to return to the start page from any position
     handleReload(){
         window.location.reload();
     }

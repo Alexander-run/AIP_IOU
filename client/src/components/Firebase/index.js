@@ -1,3 +1,4 @@
+// For uploading images functions
 import firebase from "firebase/app";
 import "firebase/storage";
 

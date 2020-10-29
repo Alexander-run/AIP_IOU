@@ -15,6 +15,7 @@ class AddFriend extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // Function states
             user_owes: '',
             searchKey: '',
             proof: 0,
@@ -26,6 +27,7 @@ class AddFriend extends React.Component {
     }
 
     componentDidMount() {
+        // initialize users list
         this.handleoptions();
 
         this.setState({
@@ -60,7 +62,7 @@ class AddFriend extends React.Component {
 
 
     }
-
+    // Get all users and store into options list
     async handleoptions() {
         axios.get(`https://aip-v1.ts.r.appspot.com/api/users/`)
             .then(response => {
@@ -74,13 +76,14 @@ class AddFriend extends React.Component {
 
             })
     }
+    // update the selected user
     onoptionChange(e) {
 
         this.setState({
             user_owes: e,
         })
     }
-
+    // update the user selection of "I owes" or "I am owed"
     onChangeRadio(e) {
 
         if (e.target.value == "Owned") {
@@ -98,7 +101,7 @@ class AddFriend extends React.Component {
             })
         }
     }
-
+    // update the selected rewards
     onChangeQty(e, Itemname) {
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
@@ -111,7 +114,8 @@ class AddFriend extends React.Component {
             rewardsEnum: rewardsEnum
         });
     }
-
+    // handle user action of submit a transaction with another user
+    // based on user input
     addFavour() {
         const user_owes = this.state.user_owes;
         const user_owned = this.state.user_owned;
@@ -165,18 +169,19 @@ class AddFriend extends React.Component {
                     rewards = rewards.concat(currentfavor);
                 }
             });
-
+            // logic validation
             if (user_owes == user_owned || user_owned==user_owes) {
                 message.error('User Cannot be the same');
             }
             else {
+                // prepare data in request body
                 let data = {
                     "user_owes": user_owes,
                     "user_owed": user_owned,
                     "proof": proof,
                     "reward": rewards
                 }
-
+                
                 axios.post('https://aip-v1.ts.r.appspot.com/api/favours/add_transaction', data)
                     .then(response => {
                       

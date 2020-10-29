@@ -1,3 +1,7 @@
+// This component is not in use, but for backup need
+// This could be used for applying React-Router to reestablish the front-end structure
+
+
 import React from 'react';
 import { Link, Router, Route } from 'react-router';
 import './Dashboard.css';
@@ -19,6 +23,7 @@ class Dashboard extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            // UI states
             addRequestVisible:false,
             logoutModalVisible:false,
             showLogoutButtons:"block",
@@ -26,12 +31,14 @@ class Dashboard extends React.Component{
             showDashboard:"block",
             showLeaderBoard:"none",
             showMyPosts:"none",
-            logoutStatus: false,
-            userID: null,
-
             browseButtonStyle:{},
             browseButtonStyle1:{},
-            leaderBoardButtonStyle:{}
+            leaderBoardButtonStyle:{},
+
+            // Function states
+            logoutStatus: false,
+            userID: null,
+            
         };
     }
 
@@ -47,19 +54,20 @@ class Dashboard extends React.Component{
         //         })
         //     })
         // // API end
-        if(this.state.loginStatus){
-            // hide login button and sign up button, show personal home button
+        // if(this.state.loginStatus){
+        //     // hide login button and sign up button, show personal home button
             
-        }
+        // }
             
     }
-
+    // UI logic controll
     handleLogoutClick(){
         this.setState({
               logoutModalVisible:true
 
        })
    }
+   // UI logic controll
    handleCancel(){
         this.setState({
             addRequestVisible:false,
@@ -67,12 +75,13 @@ class Dashboard extends React.Component{
         })
         this.forceUpdate();
    }
+   // UI logic controll
    handleAddRequest(){
         this.setState({
             addRequestVisible:true
         })
    }
-
+   // UI logic controll
    displayDashboardList(){
     this.setState({
          dashboardButtonStyle:{
@@ -90,7 +99,7 @@ class Dashboard extends React.Component{
          showMyPosts:"none"
     });
 }
-
+    // UI logic controll
    displayRequestsList(){
        this.setState({
             browseButtonStyle:{
@@ -108,7 +117,7 @@ class Dashboard extends React.Component{
             showMyPosts:"none"
        });
    }
-
+   // UI logic controll
    displayLeaderBoard(){
     this.setState({
         leaderBoardButtonStyle:{

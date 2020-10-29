@@ -11,40 +11,47 @@ class LoginPage extends React.Component{
         super(props);
         this.state={
             login:false,
+
+            // Function states
             userName: '',
             password:'',
+
+            // UI states
             hintMessage:''
         }
     }
-
+    // Add Enter press event to handle login action
     onKeyUp(e){
         if(e.keyCode === 13) {
             this.login();
         }
     }
-
+    // store user name from user input into component state
     changeUserName(e){
         this.setState({
             userName:e.target.value,
             hintMessage:''
         });
     }
+    // store password from user input into component state
     changePassword(e){
         this.setState({
             password:e.target.value,
             hintMessage:''
         })
     }
-    
+    // handle login action when user click button or press Enter key
     login(){        
         let username = this.state.userName;
         const password = this.state.password;
+        // data needed in request body
         let data = {
             "user":{
                 "username": username,
                 "password": password
             }
         }
+        // user input validation check
         if(username == ""){
             message.error("Username can not be empty");
         }else if(password == ""){
@@ -54,11 +61,8 @@ class LoginPage extends React.Component{
             axios.post('https://aip-v1.ts.r.appspot.com/api/users/login',data)
             .then(res => {
                 let userInfo = res.data.users; 
-                // set cookie to store logged userID for use in other component
+                // set cookie to store logged userID for future use in other components
                 cookie.save("user_id",userInfo.user_id,{path:"/"});
-                // message
-                //     .loading('Details Verified', 1)
-                //     .then(() => message.success('Login Successful, returning to main-page', 2));
                 this.setState({login:true});
                 setTimeout(() => {
                     window.location.reload();
@@ -66,6 +70,7 @@ class LoginPage extends React.Component{
             })
             .catch((e) => {
                 console.log(e);
+                // if error replied, display hint message on UI
                 this.setState({
                     hintMessage:"The username or password you entered does not match any account, please try again or create an account"
                 });

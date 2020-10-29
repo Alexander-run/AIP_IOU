@@ -8,6 +8,7 @@ class UploadProof extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      // Function states
       image: null,
       url: '',
       progress: 0,
@@ -18,12 +19,14 @@ class UploadProof extends React.Component{
       .bind(this);
       this.handleUpload = this.handleUpload.bind(this);
   }
+  // store image into local states
   handleChange = e => {
     if (e.target.files[0]) {
       const image = e.target.files[0];
       this.setState(() => ({image}));
     }
   }
+  // handle uploading action 
   handleUpload = () => {
       const {image} = this.state;
       if(image == null){
