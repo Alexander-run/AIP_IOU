@@ -5,10 +5,13 @@ for react application, there are two authors, Jay and Alex(yu), you may see a ro
 ## Project description
 
 This is a React-application for our assignment 2 front-end. 
-The highest level component is called "StartPage". And you may find five navigation buttons directing to 5 subcomponents of "RequestList", "LeaderBoard", "MyPosts", "Transaction", "Part".
-In the main components we implement many modals to display or hide components of "LoginPage", "LogoutPage", "SignupPage", "AddRequest", "AddRewards", "CompletePost".
+The highest level component is called "StartPage". And you may find five navigation buttons directing to 5 subcomponents of "RequestList", "LeaderBoard", "MyPosts", "Transaction", "Party".
+In the main components we implement many modals to display or hide components of "LoginPage", "LogoutPage", "SignupPage", "AddRequest", "AddRewards", "CompletePost", "Add Transaction".
 Globally we store the userID into React-cookies when user log in.
 We have used some simple modules from "Ant Design" which is an open source repository for react apps.
+
+## Third Party Software
+In this application we are using Third party software Firebase to upload image and store its replica url in our database. 
 
 ## How to run this react-app
 If you want to run this react-app in development mode, please go into directory '/client' and (use 'npm install' to install outsourced packages) then use command 'npm start'.
