@@ -2,7 +2,17 @@
 
 for react application, there are two authors, Jay and Alex(yu), you may see a root editor, that is also done by Alex.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project description
+
+This is a React-application for our assignment 2 front-end. 
+The highest level component is called "StartPage". And you may find five navigation buttons directing to 5 subcomponents of "RequestList", "LeaderBoard", "MyPosts", "Transaction", "Part".
+In the main components we implement many modals to display or hide components of "LoginPage", "LogoutPage", "SignupPage", "AddRequest", "AddRewards", "CompletePost".
+Globally we store the userID into React-cookies when user log in.
+We have used some simple modules from "Ant Design" which is an open source repository for react apps.
+
+## How to run this react-app
+If you want to run this react-app in development mode, please go into directory '/client' and (use 'npm install' to install outsourced packages) then use command 'npm start'.
+Then Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Available Scripts
 
