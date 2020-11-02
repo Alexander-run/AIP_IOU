@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, Router, Route } from 'react-router';
 import './Index.css';
 import logo from '../../assert/utslogo.png'
-import { Button, Layout, Modal, Avatar } from 'antd';
+import { Button, Modal, Avatar } from 'antd';
 import SignupPage from '../signupPage/Index';
 import LoginPage from '../loginPage/Index';
 import LeaderBoard from "../leaderBoard/LeaderBoard";
@@ -10,7 +9,6 @@ import RequestList from "../requestList/RequestList";
 import AddRequest from "../AddRequest/Index";
 import Transaction from '../Transaction/Transaction';
 import LogoutPage from '../LogoutPage/Index';
-import Sider from 'antd/lib/layout/Sider';
 import axios from 'axios';
 import MyPosts from '../MyPosts/MyPosts';
 import cookie from 'react-cookies';
@@ -239,7 +237,7 @@ class StartPage extends React.Component {
             <div className="start">
                 <div className="start-header">
                     <div className="start-header-left">
-                        <img src={logo} onClick={this.handleReload.bind(this)}></img>
+                        <img alt="Logo" src={logo} onClick={this.handleReload.bind(this)}></img>
                         <div
                             className="start-header-addRequestButton"
                             style={self.state.showAddRewardButton}

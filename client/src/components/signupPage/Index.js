@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import "./index.css";
 import {message} from 'antd';
 import axios from 'axios';
@@ -61,7 +61,6 @@ class SignupPage extends React.Component{
     
     // when user click sign up button
     handleSignup(){
-        let resMessage;
         // prepare data for request body
         let data = {
             "user":{
@@ -86,12 +85,12 @@ class SignupPage extends React.Component{
         else if(!/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data.user.email)){
             message.error("Please check your Email Address");
         }
-        else if(data.user.first_name == ""){
+        else if(data.user.first_name === ""){
             message.error("First name can not be empty");
         }
-        else if(data.user.last_name == ""){
+        else if(data.user.last_name === ""){
             message.error("Surname can not be empty");
-        }else if(this.state.password != this.state.reEnterpassword){
+        }else if(this.state.password !== this.state.reEnterpassword){
             message.error("Passwords do not match!")
         }
         // if validation passed

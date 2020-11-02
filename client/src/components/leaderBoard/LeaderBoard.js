@@ -1,6 +1,6 @@
 import React from 'react';
 import './LeaderBoard.css';
-import {Button, Progress} from 'antd';
+import {Button} from 'antd';
 import {HeartFilled, HeartTwoTone} from '@ant-design/icons';
 import axios from 'axios';
 
@@ -102,15 +102,11 @@ class LeaderBoard extends React.Component{
                 </div>
                 {this.state.leaderBoardItems.map((item,index) => {
                     let id = "item"+(index+1);
-                    let img = item.username.substr(0,1);
                     return (
                         <div id={id} className="leaderBoard-item">
                             <div className="leaderBoard-item-rank">
                                 {index+1}
                             </div>
-                            {/* <div className="leaderBoard-item-img">
-                                {img}
-                            </div> */}
                             <div className="leaderBoard-item-name">
                                 {item.username}
                             </div>

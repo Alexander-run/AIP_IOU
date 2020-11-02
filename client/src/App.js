@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
 import StartPage from './components/startPage/Index';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import SignupPage from './components/signupPage/Index';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'antd/dist/antd.css';
-import LoginPage from './components/loginPage/Index';
 import Dashboard from './components/Dashboard/Dashboard';
 import Transaction from './components/Transaction/Transaction';
 
@@ -33,8 +31,7 @@ class App extends React.Component{
         <BrowserRouter>          
           <div>          
               <Switch>      
-                {/* <Route path='/signupPage' component={SignupPage}/>
-                <Route path='/login' component={LoginPage}/> */}
+              <Route path='/Dashboard/' component={Dashboard}/>
                 <Route path='/Transaction/' component={Transaction}/>
                 <Route path='/' component={StartPage}/>
               </Switch>           

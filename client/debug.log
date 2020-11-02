@@ -32,3 +32,6 @@
 >>>>>>> 7dcf793657a350ddf04d6dd24966406e91b52460
 [1022/044313.491:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1022/113359.908:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
+[1102/192212.215:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1102/195542.827:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1102/200241.929:ERROR:crash_report_database_win.cc(457)] unexpected header

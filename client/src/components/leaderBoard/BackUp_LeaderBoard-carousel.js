@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import './LeaderBoard.css';
-import {Progress, Carousel } from 'antd';
+import { Carousel } from 'antd';
 import axios from 'axios';
 
 class LeaderBoard extends React.Component{

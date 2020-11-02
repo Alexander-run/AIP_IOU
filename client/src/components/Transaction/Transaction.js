@@ -1,6 +1,7 @@
-import React from 'react';
+//This component is for favours history
 
-import { Button, Modal, Collapse, Space, Divider, Typography, PageHeader, Tabs, Descriptions, Image, message } from 'antd';
+import React from 'react';
+import { Button, Modal, Collapse, Tabs, Descriptions, Image } from 'antd';
 import "./Transaction.css";
 import { UserOutlined, PlusOutlined, CloudUploadOutlined } from '@ant-design/icons'
 import AddFrend from "../AddFriend/Index";
@@ -11,8 +12,6 @@ import UploadProof from '../TransacationProof/UploadProof';
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
-let timer = undefined;
-
 
 class Transaction extends React.Component {
 
@@ -43,9 +42,6 @@ class Transaction extends React.Component {
         }
     }
 
-
-
-
     componentDidMount() {
        
         let userID = cookie.load("user_id");
@@ -54,6 +50,7 @@ class Transaction extends React.Component {
         this.setState({
             totalFavourQty: ""
         });
+        //will retrive the quanity of total favours of login user
         axios.get(`https://aip-v1.ts.r.appspot.com/api/users/${userID}`)
             .then(response => {
                 let qty = response.data.users[0].favour_qty
@@ -65,6 +62,7 @@ class Transaction extends React.Component {
                 console.log(e)
             })
 
+            
         let rewards = [];
         axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards/`)
             .then(response => {
@@ -115,7 +113,6 @@ class Transaction extends React.Component {
                         this.setState({
                             userTransaction: userTransaction.concat(userdetails)
                         })
-                        console.log(this.state.userTransaction);
                     }
                 }
 
@@ -136,7 +133,6 @@ class Transaction extends React.Component {
                         this.setState({
                             userTransaction: userTransaction.concat(userdetails)
                         })
-                        console.log(this.state.userTransaction);
 
                     }
                 }
@@ -160,7 +156,7 @@ class Transaction extends React.Component {
             allOWedTransaction: [],
             allOwesTransaction: []
         })
-        if (type == "Owes") {
+        if (type === "Owes") {
 
             let FavourQt = item.FavourQty;
             this.setState({
@@ -181,7 +177,7 @@ class Transaction extends React.Component {
 
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction?user_owes=${user2}&user_owed=${user1}`)
             .then(response => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     responseData = response.data.transactions;
 
                     this.setState({
@@ -195,7 +191,7 @@ class Transaction extends React.Component {
 
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction?user_owes=${user1}&user_owed=${user2}`)
             .then(response => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     responseData = response.data.transactions;
 
                     this.setState({
@@ -214,23 +210,11 @@ class Transaction extends React.Component {
     }
 
     onpanelChange(item) {
-        console.log("id"+item.transaction_id);
         this.setState({
             transactionID: item.transaction_id
 
         })
 
-
-    }
-
-
-    callback(key) {
-        if (key == 1) {
-            console.log("Owes Selected");
-        }
-        else if (key == 2) {
-            console.log("Owed Selected");
-        }
 
     }
 
@@ -269,9 +253,8 @@ class Transaction extends React.Component {
         let statusmessage = "";
         let totalOwes = 0;
         let totalOwed = 0;
-        let display = this.state.displayUploadProof;
 
-        if (this.state.userTransaction.length == 0) {
+        if (this.state.userTransaction.length === 0) {
             statusmessage = "No user";
         }
         let color = "aggregate-type orange";

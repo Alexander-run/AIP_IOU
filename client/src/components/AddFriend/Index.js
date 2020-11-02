@@ -1,14 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, message, Input, InputNumber, Select } from 'antd';
+import { Button, message, InputNumber, Select } from 'antd';
 import { FaCoffee } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake } from 'react-icons/gi';
 import { FaLeaf, FaPizzaSlice } from 'react-icons/fa';
 import cookie from 'react-cookies';
-
-
-const { Search } = Input;
-const userOption = [];
 
 class AddFriend extends React.Component {
 
@@ -86,14 +82,14 @@ class AddFriend extends React.Component {
     // update the user selection of "I owes" or "I am owed"
     onChangeRadio(e) {
 
-        if (e.target.value == "Owned") {
+        if (e.target.value === "Owned") {
             this.setState({
                 proof: 0,
                 user_owes: this.state.user_owes,
                 user_owned: this.state.user_owned
             })
         }
-        else if (e.target.value == "Owes") {
+        else if (e.target.value === "Owes") {
             this.setState({
                 proof: 1,
                 user_owes: this.state.user_owned,
@@ -105,7 +101,7 @@ class AddFriend extends React.Component {
     onChangeQty(e, Itemname) {
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
-            if (item.name == Itemname) {
+            if (item.name === Itemname) {
                 item.qty = e;
             }
         });
@@ -135,7 +131,7 @@ class AddFriend extends React.Component {
                 })
             }
         });
-        if (newRewardsEnum.length == 0) {
+        if (newRewardsEnum.length === 0) {
             message.error("You have to choose at least one favour first");
         } else {
             newRewardsEnum.forEach(item => {
@@ -155,22 +151,24 @@ class AddFriend extends React.Component {
                     case "pizza":
                         item.name = "Pizza"
                         break;
+                    default:
+                      message.error("No Rewards is selected");
                 }
             });
             newRewardsEnum.forEach(currentfavor => {
                 let ItemChanged = false;
                 rewards.forEach(oldFavour => {
-                    if (currentfavor.name == oldFavour.name) {
+                    if (currentfavor.name === oldFavour.name) {
                         oldFavour.qty += currentfavor.qty
                         ItemChanged = true;
                     }
                 });
-                if (ItemChanged == false) {
+                if (ItemChanged === false) {
                     rewards = rewards.concat(currentfavor);
                 }
             });
             // logic validation
-            if (user_owes == user_owned || user_owned==user_owes) {
+            if (user_owes === user_owned || user_owned === user_owes) {
                 message.error('User Cannot be the same');
             }
             else {
@@ -181,16 +179,16 @@ class AddFriend extends React.Component {
                     "proof": proof,
                     "reward": rewards
                 }
-                
+
                 axios.post('https://aip-v1.ts.r.appspot.com/api/favours/add_transaction', data)
                     .then(response => {
-                      
-                            responseMessage = response.data.message;
-                            message
-                                .loading('Transaction is Getting Added...', 2.5)
-                                .then(() => message.success(responseMessage, 2));
-                        
-                        
+
+                        responseMessage = response.data.message;
+                        message
+                            .loading('Transaction is Getting Added...', 2.5)
+                            .then(() => message.success(responseMessage, 2));
+
+
 
 
                     })
@@ -275,6 +273,12 @@ class AddFriend extends React.Component {
                                                 <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeQty(e, itemName)} />
                                             </li>
                                         )
+                                    default:
+                                        return(
+                                            <li>
+                                                
+                                            </li>
+                                        )    
                                 }
                             })}
                         </ul>

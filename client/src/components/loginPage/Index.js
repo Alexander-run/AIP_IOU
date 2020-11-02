@@ -1,6 +1,6 @@
 import React from 'react';
 import "./index.css";
-import { Button, message,Spin } from 'antd';
+import { Button, message } from 'antd';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
@@ -52,9 +52,9 @@ class LoginPage extends React.Component{
             }
         }
         // user input validation check
-        if(username == ""){
+        if(username === ""){
             message.error("Username can not be empty");
-        }else if(password == ""){
+        }else if(password === ""){
             message.error("Password can not be empty");
         }else{
             // http request for user account validation
