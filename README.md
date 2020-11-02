@@ -86,3 +86,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ## Home Page
 ![alt tag](https://user-images.githubusercontent.com/62229082/97869581-d9eca880-1d65-11eb-94c9-d8115d3eab7a.png)
+
+## User Page
+![alt tag](https://user-images.githubusercontent.com/62229082/97870255-d60d5600-1d66-11eb-9f51-00188db3f01d.png)
