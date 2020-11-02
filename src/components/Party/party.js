@@ -25,7 +25,7 @@ class Party extends React.Component{
         // Fetch the party detection result from backend API
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/cycle-detection/${userID}`)
         .then(response =>{
-            if(response.status === 200){
+            if(response.status == 200){
 
                 this.setState({
                     cycleDetection:true,
@@ -49,7 +49,7 @@ class Party extends React.Component{
 
 
             }
-            else if(response.status === 404)
+            else if(response.status == 404)
             {
                 this.setState({
                     cycleDetection:false,

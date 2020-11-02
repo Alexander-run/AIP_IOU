@@ -135,7 +135,7 @@ class AddRewards extends React.Component {
             }
         });
         // check if the addList is null
-        if (newRewards.length == 0) {
+        if (newRewards.length === 0) {
             message.error("You have to add at least one reward first");
         } else {
             let userID = cookie.load("user_id");

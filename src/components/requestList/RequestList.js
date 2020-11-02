@@ -568,6 +568,8 @@ class RequestList extends React.Component {
                             })
                         }
                         break;
+                    default:
+                        message.error("No Rewards Matched");
                 }
             })
             .catch((e) => {
@@ -638,7 +640,6 @@ class RequestList extends React.Component {
                 <div className="requestList-body">
                     <div className="requestList-body-left">
                         {this.state.allPosts.map(function (item) {
-                            // {this.state.displayPosts.map(function(item){
                             switch (item.status) {
                                 case "Open":
                                     return (
@@ -719,7 +720,7 @@ class RequestList extends React.Component {
                                     popContentIndex++;
                                     return (
                                         <Dropdown overlay={popContent[popContentIndex - 1]} trigger={['click']}>
-                                            <a>{item.name} <DownOutlined /></a>
+                                             <a href={item.name}>{item.name}<DownOutlined /></a>
                                         </Dropdown>
                                     )
                                 })}

@@ -43,7 +43,7 @@ class Transaction extends React.Component {
     }
 
     componentDidMount() {
-       
+
         let userID = cookie.load("user_id");
 
         //get Total Favour Qty
@@ -62,7 +62,7 @@ class Transaction extends React.Component {
                 console.log(e)
             })
 
-            
+
         let rewards = [];
         axios.get(`https://aip-v1.ts.r.appspot.com/api/rewards/`)
             .then(response => {
@@ -75,6 +75,7 @@ class Transaction extends React.Component {
             RewardsEnumnation: rewards
         });
 
+        //Will retrive the all favours Owes and Owed between login and other users
         let favourOwes;
         let favourOwned;
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/?user_id=${userID}`)
@@ -90,13 +91,14 @@ class Transaction extends React.Component {
             })
 
 
-
+        //Will store the one to one user transaction details
         this.setState({
             userTransaction: []
         });
 
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/?user_id=${userID}`)
             .then(response => {
+                //Will retrive only users whom the login user Owe
                 if (response.data.favours_owes != null) {
                     for (let i = 0; i < response.data.favours_owes.length; i++) {
                         let username = response.data.favours_owes[i].username;
@@ -115,7 +117,7 @@ class Transaction extends React.Component {
                         })
                     }
                 }
-
+                //Will retrive only users whom Owened to the login user
                 if (response.data.favours_owed != null) {
 
                     for (let i = 0; i < response.data.favours_owed.length; i++) {
@@ -143,6 +145,7 @@ class Transaction extends React.Component {
             })
 
     }
+    //This method will display one to one user transaction on selection
     handleUserSelect(item) {
         let username = item.username;
         let user1 = item.userid;
@@ -174,7 +177,7 @@ class Transaction extends React.Component {
             });
         }
 
-
+        // For login(user1) owes users2
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction?user_owes=${user2}&user_owed=${user1}`)
             .then(response => {
                 if (response.status === 200) {
@@ -189,6 +192,7 @@ class Transaction extends React.Component {
                 console.log(e);
             })
 
+        // For users2 owes login(user1) 
         axios.get(`https://aip-v1.ts.r.appspot.com/api/favours/transaction?user_owes=${user1}&user_owed=${user2}`)
             .then(response => {
                 if (response.status === 200) {
@@ -209,6 +213,7 @@ class Transaction extends React.Component {
 
     }
 
+    //To toggle between Owes & Owed Transactions
     onpanelChange(item) {
         this.setState({
             transactionID: item.transaction_id
@@ -226,6 +231,7 @@ class Transaction extends React.Component {
         })
         this.forceUpdate();
     }
+    //to open modal menu to upload image
     showUploadModal() {
         this.setState({
             uploadprof: true
@@ -233,6 +239,7 @@ class Transaction extends React.Component {
 
 
     }
+    //to call add transaction page using modal
     handleAddFrend() {
         this.setState({
             addFrendVisible: true
@@ -240,7 +247,8 @@ class Transaction extends React.Component {
 
 
     }
-    handleCompleteAddFavour=()=>{
+    //to add the transaction from transaction page
+    handleCompleteAddFavour = () => {
         this.setState({
             addFrendVisible: false
         });
@@ -291,7 +299,7 @@ class Transaction extends React.Component {
                         visible={this.state.addFrendVisible}
                         onOk={this.handleAddFrendSubmit}
                         onCancel={this.handleCancel.bind(this)}>
-                        <AddFrend parentCall={this.handleCompleteAddFavour}/>
+                        <AddFrend parentCall={this.handleCompleteAddFavour} />
                     </Modal>
                 </div>
                 <div className="middle-dash">
@@ -376,7 +384,7 @@ class Transaction extends React.Component {
                                             <Collapse onChange={self.onpanelChange.bind(self, item)}>
                                                 <Panel header={item.timestamp}>
                                                     <Descriptions title="Favour Info" bordered>
-                                                    {item.image_url ? <Descriptions.Item> <Image
+                                                        {item.image_url ? <Descriptions.Item> <Image
                                                             width={100}
                                                             src={item.image_url}
                                                         /> </Descriptions.Item> : null}

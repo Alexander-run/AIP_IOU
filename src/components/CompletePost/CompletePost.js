@@ -21,7 +21,7 @@ class CompletePost extends React.Component {
       .bind(this);
     this.handleUpload = this.handleUpload.bind(this);
   }
-  //on change of image selection windows pop up
+// store image into local states
   handleChange = e => {
     if (e.target.files[0]) {
       const image = e.target.files[0];

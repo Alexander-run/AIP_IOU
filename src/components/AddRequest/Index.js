@@ -60,7 +60,7 @@ class AddRequest extends React.Component {
 
         let rewardsEnum = this.state.rewardsEnum;
         rewardsEnum.forEach(item => {
-            if (item.name == Itemname) {
+            if (item.name === Itemname) {
                 item.qty = e;
             }
         });
@@ -102,6 +102,8 @@ class AddRequest extends React.Component {
                 case "pizza":
                     item.name = "Pizza"
                     break;
+                default:
+                    message.error("No Rewards Matched");
             }
         });
         // HTTP post request to API 
@@ -116,13 +118,13 @@ class AddRequest extends React.Component {
             "reward": newRewardsEnum
         };
         // input validation check
-        if (data.post.title == "") {
+        if (data.post.title === "") {
             message.error("Title can not be null");
         } else if (data.post.title.length > 20) {
             message.error("Title are limited within 24 characters");
-        } else if (data.post.description == "") {
+        } else if (data.post.description === "") {
             message.error("description can not be null");
-        } else if (data.reward.length == 0) {
+        } else if (data.reward.length === 0) {
             message.error("you have to add at least one reward");
         } else {
             // HTTP request
@@ -204,6 +206,12 @@ class AddRequest extends React.Component {
                                         <li>
                                             <span><FaPizzaSlice /> {itemName}</span>
                                             <InputNumber defaultValue={0} min={0} onChange={(e) => self.onChangeRewards(e, itemName)} />
+                                        </li>
+                                    )
+                                default:
+                                    return(
+                                        <li>
+                                            {"No Rewards Matched"}
                                         </li>
                                     )
                             }

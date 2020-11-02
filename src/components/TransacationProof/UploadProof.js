@@ -26,7 +26,7 @@ class UploadProof extends React.Component{
       this.setState(() => ({image}));
     }
   }
-  // handle uploading action 
+ //uploading the image to firebase account
   handleUpload = () => {
       const {image} = this.state;
       if(image == null){

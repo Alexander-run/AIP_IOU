@@ -77,18 +77,21 @@ class MyPosts extends React.Component {
             setTimeout(() => {
                 axios.get(`https://aip-v1.ts.r.appspot.com/api/posts?user_id=${userID}`)
                     .then(response => {
-                        message
-                            .loading('Loading.....', 0.5);
-                        // receive response Data
-                        responseData = response.data.post;
+                        if (response.status === 200) {
+                            message
+                                .loading('Loading.....', 0.5);
+                            // receive response Data
+                            responseData = response.data.post;
 
-                        // Parse Data into local states
-                        this.setState({
-                            allPosts: responseData
-                        })
-                        if (responseData !== []) {
-                            this.timerStart();
+                            // Parse Data into local states
+                            this.setState({
+                                allPosts: responseData
+                            })
+                            if (responseData !== []) {
+                                this.timerStart();
+                            }
                         }
+
                     })
                     .catch((e) => {
                         console.log(e)
@@ -298,7 +301,7 @@ class MyPosts extends React.Component {
                                             <div className="requestList-item-status-closed">{item.status}</div>
                                         </div>
                                     )
-                                 
+
                                 case "Assigned":
                                     return (
                                         <div
@@ -314,7 +317,7 @@ class MyPosts extends React.Component {
                                             <div className="requestList-item-status-assigned">{item.status}</div>
                                         </div>
                                     )
-                                    
+
 
                             }
                         })}
